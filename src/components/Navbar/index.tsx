@@ -21,8 +21,8 @@ export default function Navbar() {
     <div
       className={`
       navbar ${
-        !atTop ? "stuck" : ""
-      } h-16 flex px-5 border-black border-b-gray-200 bg-[rgba(255,255,255,.75)]
+        !atTop ? "stuck " : ""
+      }h-16 flex px-5 border-black border-b-gray-200 bg-[rgba(255,255,255,.75)]
       w-full transition-all justify-between md:px-40 lg:px-80 sticky top-0`.trim()}
     >
       <h1 className="self-center text-2xl">Tekxchange</h1>
