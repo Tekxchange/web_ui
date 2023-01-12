@@ -16,7 +16,7 @@ const MenuItem = React.forwardRef<HTMLButtonElement, IMenuItemProps>(
         ref={ref}
         {...buttonProps}
         className={`
-        hover:bg-gray-100 w-full h-full px-2 py-1
+        hover:bg-gray-100 w-full h-full px-2 py-1 active:shadow-lg-inner active:shadow-gray-400
       `.trim()}
       >
         {buttonText}

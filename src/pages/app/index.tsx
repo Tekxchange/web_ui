@@ -1,3 +1,7 @@
 export default function MainApp() {
-  return <></>;
+  return (
+    <>
+      <h1>Hello World</h1>
+    </>
+  );
 }
