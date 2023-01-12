@@ -1,5 +1,6 @@
 import Button, { ButtonColor } from "../../components/Button";
 import { NavLink } from "react-router-dom";
+import Card from "./card";
 
 export default function MarketingPage() {
   return (
@@ -30,20 +31,37 @@ export default function MarketingPage() {
         id="details"
         className="app-height w-full flex flex-col justify-center items-center bg-gradient-to-b from-gray-100 to-white"
       >
-        <ul className="w-full">
-          <li className="bg-blue-400 w-fit px-2 py-4 mb-8 rounded-md shadow-md md:ml-20 mr-auto">
-            Advanced Search Feature: Find exactly what you're looking for with
-            our powerful search tool.
-          </li>
-          <li className="bg-blue-400 w-fit px-2 py-4 mb-8 rounded-md shadow-md md:mr-20 ml-auto">
-            Geolocation Search: Narrow your search results to a specific area or
-            location.
-          </li>
-          <li className="bg-blue-400 w-fit px-2 py-4 mb-8 rounded-md shadow-md md:ml-20 mr-auto">
-            Filter by User Rating: Search for products and services with high
-            ratings from other users.
-          </li>
-        </ul>
+        <div
+          className={`
+        grid grid-cols-1 gap-5 px-2 md:grid-cols-2 md:gap-10 lg:gap-20
+
+        `.trim()}
+        >
+          <Card
+            titleText="Advanced Search Feature:"
+            subtitleText="Find exactly what you're looking for with our powerful search tool."
+          />
+          <Card
+            titleText="Filter by User Rating:"
+            subtitleText="Search for products and services with high ratings from other users."
+          />
+          <Card
+            titleText="Geolocation Search:"
+            subtitleText="Narrow your search results to a specific area or location."
+          />
+          <Card
+            titleText="Price Filter:"
+            subtitleText="Set a price range for your search results to find deals that fit your budget."
+          />
+          <Card
+            titleText="Advanced Search History:"
+            subtitleText="Keep track of your previous search history for quick access to previous results."
+          />
+          <Card
+            titleText="Save Favorite:"
+            subtitleText="Save your favorite products and services for easy access later."
+          />
+        </div>
       </section>
     </div>
   );

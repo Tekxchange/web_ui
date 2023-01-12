@@ -9,7 +9,7 @@ export enum ButtonColor {
 }
 
 const buttonColorMap: Record<ButtonColor, string> = {
-  [ButtonColor.None]: "bg-transparent hover:bg-transparent text-blue-700",
+  [ButtonColor.None]: "bg-transparent hover:bg-gray-100 text-blue-700 hover:shadow-none",
   [ButtonColor.Red]: "bg-red-400 hover:bg-red-300 text-black",
   [ButtonColor.Green]: "bg-green-400 hover:bg-green-300 text-black",
   [ButtonColor.Blue]: "bg-blue-300 hover:bg-blue-200 text-black",
