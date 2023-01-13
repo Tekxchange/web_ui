@@ -27,8 +27,6 @@ export default function Navbar() {
         "h-16",
         "flex",
         "px-5",
-        "border-black",
-        "border-b-gray-200",
         "z-50",
         "bg-[rgba(255,255,255,.75)]",
         "w-full",
