@@ -6,12 +6,12 @@ import { classes } from "../../../utils";
 
 export default function Map() {
   return (
-    <div className={classes("h-full", "w-full", "z-50")}>
+    <div className={classes("h-full", "w-full")}>
       <MapContainer
         center={[51.505, -0.09]}
         zoom={13}
         scrollWheelZoom={false}
-        className={classes("h-full", "w-full")}
+        className={classes("h-full", "w-full", 'z-0')}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
