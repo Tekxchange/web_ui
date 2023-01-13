@@ -9,4 +9,9 @@ export default defineConfig({
     open: true,
   },
   clearScreen: true,
+  css: {
+    modules: {
+      localsConvention: 'camelCaseOnly'
+    }
+  }
 });

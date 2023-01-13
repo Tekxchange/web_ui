@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import DropdownMenu from "../DropdownMenu";
 import MenuItem from "../DropdownMenu/MenuItem";
-import "./navbar.less";
+import styles from "./navbar.module.less";
 
 export default function Navbar() {
   const [atTop, setAtTop] = useState(true);
@@ -21,9 +21,9 @@ export default function Navbar() {
   return (
     <div
       className={`
-      navbar ${
-        !atTop ? "stuck " : ""
-      }h-16 flex px-5 border-black border-b-gray-200 z-50 bg-[rgba(255,255,255,.75)]
+      ${styles.navbar} ${
+        !atTop ? styles.stuck : ""
+      } h-16 flex px-5 border-black border-b-gray-200 z-50 bg-[rgba(255,255,255,.75)]
       w-full transition-all justify-between md:px-40 lg:px-80 sticky top-0`.trim()}
     >
       <NavLink to="/" className="self-center text-2xl">
