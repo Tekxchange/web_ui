@@ -10,8 +10,14 @@ export default function Map() {
       <MapContainer
         center={[51.505, -0.09]}
         zoom={13}
-        scrollWheelZoom={false}
+        scrollWheelZoom
         className={classes("h-full", "w-full", 'z-0')}
+        zoomAnimation
+        touchZoom
+        bounceAtZoomLimits
+        boxZoom
+        minZoom={3}
+        maxZoom={18}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
