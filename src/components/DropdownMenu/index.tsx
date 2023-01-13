@@ -3,6 +3,7 @@ import { ChevronDoubleDownIcon } from "@heroicons/react/20/solid";
 
 import React, { useCallback, useEffect, useState } from "react";
 import Button, { ButtonColor } from "../Button";
+import { classes } from "../../utils";
 
 interface IDropdownProps extends React.PropsWithChildren {
   buttonText: string;
@@ -19,20 +20,33 @@ export default function DropdownMenu(props: IDropdownProps) {
         <span className={`flex box-border`}>
           <p>{buttonText}</p>
           <ChevronDoubleDownIcon
-            className={`w-5 h-5 self-center ml-1 transition-transform ${
-              isOpen ? "rotate-180" : ""
-            }`.trim()}
+            className={classes(
+              "w-5",
+              "h-5",
+              "self-center",
+              "ml-1",
+              "transition-transform",
+              isOpen && "rotate-180"
+            )}
           />
         </span>
       </Button>
       <div
-        className={`
-        absolute py-2 transition-all bg-white rounded
-        text-black translate-x-1/2 right-1/2 ${
-          styles.dropdownMenu
-        } flex min-w-full text-lg ${
-          isOpen ? styles.open : styles.closed
-        }`.trim()}
+        className={classes(
+          "absolute",
+          "py-2",
+          "transition-all",
+          "bg-white",
+          "rounded",
+          "text-black",
+          "translate-x-1/2",
+          "right-1/2",
+          styles.dropdownMenu,
+          isOpen ? styles.open : styles.closed,
+          "flex",
+          "min-w-full",
+          "text-lg"
+        )}
       >
         {children}
       </div>

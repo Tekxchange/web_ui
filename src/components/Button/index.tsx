@@ -79,11 +79,6 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
           "text-lg",
           "active:shadow-lg-inner"
         )}
-        // className={`
-        // ${buttonColorMap[buttonColor ?? ButtonColor.None]} ${
-        //   cta ? styles.cta : ""
-        // } py-1 px-2 rounded-md border-transparent hover:shadow-sm active:shadow-black transition-colors box-border border text-lg active:shadow-lg-inner
-        // `.trim()}
       >
         <>
           {buttonText && buttonText}

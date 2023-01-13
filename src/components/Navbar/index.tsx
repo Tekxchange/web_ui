@@ -23,7 +23,7 @@ export default function Navbar() {
     <div
       className={classes(
         styles.navbar,
-        !atTop ? styles.stuck : "",
+        !atTop && styles.stuck,
         "h-16",
         "flex",
         "px-5",
