@@ -21,6 +21,7 @@ export default function MarketingPage() {
               <Button
                 buttonColor={ButtonColor.Gold}
                 buttonText="Start Browsing Now"
+                cta
               />
             </NavLink>
           </span>

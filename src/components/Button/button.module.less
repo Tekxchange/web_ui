@@ -1,0 +1,17 @@
+@keyframes cta-highlight {
+  from {
+    transform: rotate(45deg) translate3d(0, 400%, 0);
+  }
+  to {
+    transform: rotate(45deg) translate3d(0, -400%, 0);
+  }
+}
+
+.cta {
+  @apply relative overflow-hidden;
+  &::after {
+    content: " ";
+    @apply w-full h-full absolute bg-white top-1/4 left-0 blur-xl;
+    animation: cta-highlight forwards infinite linear 2s;
+  }
+}
