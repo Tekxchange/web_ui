@@ -1,5 +1,6 @@
 import { ReactComponent as Spinner } from "../assets/spinner.svg";
+import { classes } from "../utils";
 
 export default function Loading() {
-  return <Spinner className="h-24 w-24" />;
+  return <Spinner className={classes("h-24", "w-24")} />;
 }
