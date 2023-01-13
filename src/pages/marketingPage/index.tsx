@@ -7,7 +7,8 @@ export default function MarketingPage() {
     <div className="flex justify-center flex-col">
       <section
         id="hero"
-        className="app-height w-full flex flex-col justify-center items-center relative bg-gradient-to-b from-white to-gray-100"
+        className="app-height w-full flex flex-col justify-center items-center
+        relative bg-gradient-to-b from-white to-gray-100"
       >
         <span className="bg-clip-text h-fit py-1 lg:py-3 text-transparent bg-gradient-to-br from-red-600 to-blue-600">
           <h2 className="text-4xl sm:text-6xl lg:text-8xl">
