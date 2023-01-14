@@ -32,32 +32,21 @@ export default function MainApp() {
     );
   }, []);
   return (
-    <div className={classes("app-height", "with-footer")}>
-      <div
-        className={classes(
-          "flex",
-          "justify-center",
-          "items-center",
-          "w-full",
-          "h-full"
-        )}
-      >
-        <section
-          className={classes(
-            "w-full",
-            "h-full",
-            "flex",
-            "justify-center",
-            "items-center",
-            "relative"
-          )}
-        >
-          <React.Suspense fallback={<Loading />}>
-            <Map latLong={latLong} />
-          </React.Suspense>
-          <ResultsBar />
-        </section>
-      </div>
-    </div>
+    <section
+      className={classes(
+        "app-height",
+        "with-footer",
+        "flex",
+        "justify-center",
+        "items-center",
+        "w-full",
+        "relative"
+      )}
+    >
+      <React.Suspense fallback={<Loading />}>
+        <Map latLong={latLong} />
+      </React.Suspense>
+      <ResultsBar />
+    </section>
   );
 }
