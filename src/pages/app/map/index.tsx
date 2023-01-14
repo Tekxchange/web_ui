@@ -1,23 +1,42 @@
+import { LatLng, Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.js";
+import { useEffect, useRef } from "react";
 
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { LatLong } from "..";
 import { classes } from "../../../utils";
 
-export default function Map() {
+interface IMapProps {
+  latLong: LatLong;
+}
+
+export default function Map(props: IMapProps) {
+  const { latLong } = props;
+
+  const mapRef = useRef<LeafletMap | null>(null);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const map = mapRef.current;
+
+    map.setView(new LatLng(latLong.latitude, latLong.longitude));
+  }, [latLong]);
+
   return (
     <div className={classes("h-full", "w-full")}>
       <MapContainer
-        center={[51.505, -0.09]}
+        center={[latLong.latitude, latLong.longitude]}
         zoom={13}
         scrollWheelZoom
-        className={classes("h-full", "w-full", 'z-0')}
+        className={classes("h-full", "w-full", "z-0")}
         zoomAnimation
         touchZoom
         bounceAtZoomLimits
         boxZoom
         minZoom={3}
         maxZoom={18}
+        ref={mapRef}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
