@@ -37,13 +37,24 @@ export default function ResultsBar() {
       >
         <Button
           buttonColor={ButtonColor.Blue}
-          onClick={() =>
-            setSidebarState({ ...sidebarState, opened: !opened })
-          }
+          aria-label="Open or close results"
+          onClick={() => setSidebarState({ ...sidebarState, opened: !opened })}
         >
-          <ChevronDoubleRightIcon
-            className={classes("w-5", "h-5", "transition-transform")}
-          />
+          <span
+            className={classes(
+              "flex",
+              "w-full",
+              "h-full",
+              "justify-center",
+              "items-center"
+            )}
+          >
+            <ChevronDoubleRightIcon
+              aria-details="Open or close the results from the map"
+              className={classes("w-5", "h-5", "transition-transform")}
+            />
+            {!opened && <p>Results</p>}
+          </span>
         </Button>
       </span>
     </>
