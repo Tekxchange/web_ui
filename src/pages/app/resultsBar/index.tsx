@@ -31,9 +31,9 @@ export default function ResultsBar() {
           "z-10",
           "absolute",
           "top-1/2",
-          "-translate-y-1/2",
           "transition-transform",
           "will-change-transform",
+          "origin-center",
           opened ? styles.iconOpen : styles.iconClosed
         )}
       >
