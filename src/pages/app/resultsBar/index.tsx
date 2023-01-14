@@ -22,6 +22,7 @@ export default function ResultsBar() {
           "-right-1/2",
           "z-10",
           "transition-transform",
+          "will-change-transform",
           opened ? styles.open : styles.closed
         )}
       ></div>
@@ -32,6 +33,7 @@ export default function ResultsBar() {
           "top-1/2",
           "-translate-y-1/2",
           "transition-transform",
+          "will-change-transform",
           opened ? styles.iconOpen : styles.iconClosed
         )}
       >
