@@ -1,4 +1,4 @@
-import { classes } from "../../utils";
+import { classes } from "@utils";
 
 export default function Footer() {
   return (

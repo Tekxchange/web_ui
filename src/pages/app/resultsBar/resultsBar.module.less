@@ -1,0 +1,20 @@
+.open {
+  @apply -translate-x-1/2;
+}
+
+.closed {
+  @apply translate-x-1/2;
+}
+
+.icon-open {
+  transform: translate3d(calc(-50vw + 100%), 0, 0);
+  svg {
+    @apply rotate-0;
+  }
+}
+.icon-closed {
+  transform: translate3d(calc(50vw - 100%), 0, 0);
+  svg {
+    @apply rotate-180;
+  }
+}

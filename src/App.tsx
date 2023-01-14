@@ -1,9 +1,9 @@
-import Navbar from "./components/Navbar";
+import Navbar from "@components/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MarketingPage from "./pages/marketingPage";
-import Footer from "./components/Footer";
+import Footer from "@components/Footer";
 import React from "react";
-import FullPageLoading from "./components/FullPageLoading";
+import FullPageLoading from "@components/FullPageLoading";
 
 const MainApp = React.lazy(() => import("./pages/app"));
 

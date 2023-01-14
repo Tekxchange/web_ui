@@ -1,5 +1,5 @@
-import { ReactComponent as Spinner } from "../../assets/spinner.svg";
-import { classes } from "../../utils";
+import { ReactComponent as Spinner } from "@assets/spinner.svg";
+import { classes } from "@utils";
 
 export default function FullPageLoading() {
   return (

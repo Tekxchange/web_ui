@@ -1,7 +1,7 @@
-import Button, { ButtonColor } from "../../components/Button";
+import Button, { ButtonColor } from "@components/Button";
 import { NavLink } from "react-router-dom";
 import Card from "./card";
-import { classes } from "../../utils";
+import { classes } from "@utils";
 
 export default function MarketingPage() {
   return (

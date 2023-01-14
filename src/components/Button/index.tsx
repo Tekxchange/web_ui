@@ -1,5 +1,5 @@
 import React from "react";
-import { classes } from "../../utils";
+import { classes } from "@utils";
 import styles from "./button.module.less";
 
 export enum ButtonColor {

@@ -1,9 +1,9 @@
 import styles from "./dropdownMenu.module.less";
 import { ChevronDoubleDownIcon } from "@heroicons/react/20/solid";
 
-import React, { useCallback, useEffect, useState } from "react";
-import Button, { ButtonColor } from "../Button";
-import { classes } from "../../utils";
+import React, { useState } from "react";
+import Button from "@components/Button";
+import { classes } from "@utils";
 
 interface IDropdownProps extends React.PropsWithChildren {
   buttonText: string;

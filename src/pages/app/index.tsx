@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Loading from "../../components/Loading";
-import { classes } from "../../utils";
+import Loading from "@components/Loading";
+import { classes } from "@utils";
+import ResultsBar from "./resultsBar";
 
 export interface LatLong {
   latitude: number;
@@ -47,12 +48,14 @@ export default function MainApp() {
             "h-full",
             "flex",
             "justify-center",
-            "items-center"
+            "items-center",
+            "relative"
           )}
         >
           <React.Suspense fallback={<Loading />}>
             <Map latLong={latLong} />
           </React.Suspense>
+          <ResultsBar />
         </section>
       </div>
     </div>

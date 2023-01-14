@@ -1,4 +1,4 @@
-import { classes } from "../../utils";
+import { classes } from "@utils";
 
 interface ICardProps {
   titleText: string;

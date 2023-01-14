@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { classes } from "../../utils";
-import DropdownMenu from "../DropdownMenu";
-import MenuItem from "../DropdownMenu/MenuItem";
+import { classes } from "@utils";
+import DropdownMenu from "@components/DropdownMenu";
+import MenuItem from "@components/DropdownMenu/MenuItem";
 import styles from "./navbar.module.less";
 
 export default function Navbar() {

@@ -14,7 +14,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "rootDir": ".",
+    "paths": {
+      "@atoms/*": ["./src/atoms/*"],
+      "@components/*": ["./src/components/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@utils": ["./src/utils/index.ts"]
+    }
   },
   "include": ["src", "svg.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

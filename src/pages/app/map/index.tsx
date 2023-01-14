@@ -3,9 +3,9 @@ import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.js";
 import { useEffect, useRef } from "react";
 
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import { LatLong } from "..";
-import { classes } from "../../../utils";
+import { classes } from "@utils";
 
 interface IMapProps {
   latLong: LatLong;
