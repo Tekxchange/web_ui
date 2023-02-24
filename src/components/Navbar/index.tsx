@@ -26,7 +26,7 @@ export default function Navbar() {
         ${styles.navbar} ${!atTop && styles.stuck}`}
     >
       <NavLink to="/" className={c`self-center text-2xl`}>
-        <h1>TheXchange</h1>
+        <h1>Tekxchange</h1>
       </NavLink>
       <div className={c`self-center`}>
         <DropdownMenu buttonText="Account">
