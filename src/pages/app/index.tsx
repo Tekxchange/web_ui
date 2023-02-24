@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loading from "@components/Loading";
-import { classes } from "@utils";
+import { c } from "@utils";
 import ResultsBar from "./resultsBar";
 
 export interface LatLong {
@@ -33,15 +33,8 @@ export default function MainApp() {
   }, []);
   return (
     <section
-      className={classes(
-        "app-height",
-        "with-footer",
-        "flex",
-        "justify-center",
-        "items-center",
-        "w-full",
-        "relative"
-      )}
+      className={c`app-height with-footer flex justify-center items-center
+        w-full relative`}
     >
       <React.Suspense fallback={<Loading />}>
         <Map latLong={latLong} />

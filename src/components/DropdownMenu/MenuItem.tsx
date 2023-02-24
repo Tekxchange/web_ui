@@ -1,5 +1,5 @@
 import React from "react";
-import { classes } from "@utils";
+import { c } from "@utils";
 
 export interface IMenuItemProps
   extends Omit<
@@ -16,15 +16,8 @@ const MenuItem = React.forwardRef<HTMLButtonElement, IMenuItemProps>(
       <button
         ref={ref}
         {...buttonProps}
-        className={classes(
-          "hover:bg-gray-100",
-          "w-full",
-          "h-full",
-          "px-2",
-          "py-1",
-          "active:shadow-lg-inner",
-          "active:shadow-gray-400"
-        )}
+        className={c`hover:bg-gray-100 w-full h-full px-2 py-1
+          active:shadow-lg-inner active:shadow-gray-400`}
       >
         {buttonText}
       </button>

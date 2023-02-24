@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 
 import { MapContainer, TileLayer } from "react-leaflet";
 import { LatLong } from "..";
-import { classes } from "@utils";
+import { c } from "@utils";
 
 interface IMapProps {
   latLong: LatLong;
@@ -24,12 +24,12 @@ export default function Map(props: IMapProps) {
   }, [latLong]);
 
   return (
-    <div className={classes("h-full", "w-full")}>
+    <div className={c`h-full w-full`}>
       <MapContainer
         center={[latLong.latitude, latLong.longitude]}
         zoom={13}
         scrollWheelZoom
-        className={classes("h-full", "w-full", "z-0")}
+        className={c`h-full w-full z-0`}
         zoomAnimation
         touchZoom
         bounceAtZoomLimits

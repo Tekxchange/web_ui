@@ -3,9 +3,28 @@
  * @param strings A list of classes to apply
  * @returns A single string joined with a space and all empty classes removed
  */
-export function classes(...strings: (string|undefined|null|false)[]) {
+function classes(
+  ...strings: (HTMLElement["className"] | undefined | null | false)[]
+) {
   return strings
-    .map((c) => (c || "").trim())
+    .map((c) => (c || "").trim().replaceAll(",", ""))
     .filter((c) => Boolean(c))
     .join(" ");
+}
+
+/**
+ * Helper function to reduce Tailwind clutter
+ * @example c`test test2 test3 test4 ${styles.style} ${state && "style-here"}`
+ * @returns The full className split by spaces
+ */
+export function c(
+  args: TemplateStringsArray,
+  ...params: (string | undefined | null | false)[]
+): string {
+  const classArray: string[] = [];
+  args.forEach((arg) => {
+    arg.split(/,|\s/).forEach((arg) => classArray.push(arg));
+  });
+  params.forEach((arg) => arg && classArray.push(arg));
+  return classes(...classArray);
 }
