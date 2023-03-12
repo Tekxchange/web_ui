@@ -81,7 +81,7 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
         `}
       >
         <>
-          {buttonText && buttonText}
+          {buttonText}
           {children}
         </>
       </button>
