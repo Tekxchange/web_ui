@@ -24,7 +24,7 @@ export default function Modal(props: IModalProps) {
       onClick={onClose}
     >
       <section
-        className={c`absolute bottom-1/2 right-1/2 rounded-md bg-white ${styles.enter} max-h-full`}
+        className={c`absolute w-max bottom-1/2 right-1/2 rounded-md bg-white ${styles.enter} max-h-full`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

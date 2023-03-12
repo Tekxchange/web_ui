@@ -1,5 +1,6 @@
 import { authSlice } from "@atoms/auth";
-import Button from "@components/Button";
+import styles from './authModal.module.less';
+import Button, { ButtonColor } from "@components/Button";
 import Modal, { IModalProps } from "@components/Modal";
 import { c } from "@utils";
 import { useState } from "react";
@@ -29,15 +30,39 @@ export default function AuthModal(props: IAuthProps) {
       {...modalProps}
       onClose={() => setAuthState({ ...authState, authModalOpen: false })}
     >
-      <div className={c`min-w-fit min-h-fit`}>
-        <section className={c`p-4 border-b-2`}>
-          <Button onClick={() => setCurrentAuthForm(AuthForm.Login)}>
+      <div className={c`min-h-fit p-2`}>
+        <section className={c`py-2 w-max border-b-2 ${styles.inlineButtons} overflow-x-auto`}>
+          <Button
+            onClick={() => setCurrentAuthForm(AuthForm.Login)}
+            buttonColor={
+              currentAuthForm === AuthForm.Login
+                ? ButtonColor.None
+                : ButtonColor.Blue
+            }
+            disabled={currentAuthForm === AuthForm.Login}
+          >
             Login
           </Button>
-          <Button onClick={() => setCurrentAuthForm(AuthForm.Register)}>
+          <Button
+            onClick={() => setCurrentAuthForm(AuthForm.Register)}
+            buttonColor={
+              currentAuthForm === AuthForm.Register
+                ? ButtonColor.None
+                : ButtonColor.Blue
+            }
+            disabled={currentAuthForm === AuthForm.Register}
+          >
             Register
           </Button>
-          <Button onClick={() => setCurrentAuthForm(AuthForm.ForgotPassword)}>
+          <Button
+            onClick={() => setCurrentAuthForm(AuthForm.ForgotPassword)}
+            buttonColor={
+              currentAuthForm === AuthForm.ForgotPassword
+                ? ButtonColor.None
+                : ButtonColor.Blue
+            }
+            disabled={currentAuthForm === AuthForm.ForgotPassword}
+          >
             Forgot Password
           </Button>
         </section>
