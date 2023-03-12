@@ -4,9 +4,12 @@ import { c } from "@utils";
 import DropdownMenu from "@components/DropdownMenu";
 import MenuItem from "@components/DropdownMenu/MenuItem";
 import styles from "./navbar.module.less";
+import { useRecoilState } from "recoil";
+import { authSlice } from "@atoms/auth";
 
 export default function Navbar() {
   const [atTop, setAtTop] = useState(true);
+  const [authState, setAuthState] = useRecoilState(authSlice);
 
   const onScroll = useCallback((evt: Event) => {
     if (window.scrollY > 0) setAtTop(false);
@@ -30,7 +33,10 @@ export default function Navbar() {
       </NavLink>
       <div className={c`self-center`}>
         <DropdownMenu buttonText="Account">
-          <MenuItem buttonText="Login" />
+          <MenuItem
+            buttonText="Login"
+            onClick={() => setAuthState({ ...authState, authModalOpen: true })}
+          />
         </DropdownMenu>
       </div>
     </div>
