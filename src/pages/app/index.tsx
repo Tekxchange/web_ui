@@ -34,7 +34,7 @@ export default function MainApp() {
   return (
     <section
       className={c`app-height with-footer flex justify-center items-center
-        w-full relative`}
+        w-full relative overflow-x-hidden`}
     >
       <React.Suspense fallback={<Loading />}>
         <Map latLong={latLong} />
