@@ -1,24 +1,23 @@
 import Button, { ButtonColor } from "@components/Button";
 import Input from "@components/Input";
 import { c, getProperty } from "@utils";
-import React, { useEffect, useMemo, useState } from "react";
-import { ErrorsOf } from "../../utils/types";
+import React, { useMemo, useState } from "react";
 import loginSchema, { ILoginSchema } from "./login.schema";
-import { ValidationError } from "yup";
+import useFormValidator from "../../utils/useFormValidator";
 
 const initialFormValues: ILoginSchema = {
   password: "",
   username: "",
 };
 
-const initialFormErrors: ErrorsOf<ILoginSchema> = {
-  password: "",
-  username: "",
-};
-
 export default function Login() {
   const [formValues, setFormValues] = useState<ILoginSchema>(initialFormValues);
-  const [formErrors, setFormErrors] = useState(initialFormErrors);
+
+  const { formErrors, onChange } = useFormValidator(
+    formValues,
+    setFormValues,
+    loginSchema
+  );
 
   const allowSubmit = useMemo(() => {
     for (const key in formErrors) {
@@ -32,22 +31,6 @@ export default function Login() {
 
   function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-  }
-
-  function onChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = evt.target;
-
-    const newFormValues = { ...formValues, [name]: value };
-    loginSchema
-      .validateAt(name, newFormValues, { abortEarly: false })
-      .then(() => {
-        setFormErrors({ ...formErrors, [name]: "" });
-      })
-      .catch((err: ValidationError) => {
-        setFormErrors({ ...formErrors, [name]: err.message });
-      });
-
-    setFormValues(newFormValues);
   }
 
   return (
