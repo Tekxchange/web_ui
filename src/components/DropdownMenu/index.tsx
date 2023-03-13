@@ -10,9 +10,22 @@ interface IDropdownProps extends React.PropsWithChildren {
 }
 
 export default function DropdownMenu(props: IDropdownProps) {
-  const { buttonText, children } = props;
+  const { buttonText, children: oldChildren } = props;
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const children = React.Children.map(oldChildren, (child) => {
+    if (React.isValidElement(child)) {
+      const oldOnClick = child.props["onClick"];
+      return React.cloneElement<any>(child, {
+        onClick: (evt: any) => {
+          setIsOpen(false);
+          oldOnClick?.(evt);
+        },
+      });
+    }
+    return child;
+  });
 
   return (
     <div className={c`relative box-border`}>
@@ -32,6 +45,7 @@ export default function DropdownMenu(props: IDropdownProps) {
         </span>
       </Button>
       <div
+        onBlur={() => setIsOpen(false)}
         className={c`
           absolute
           py-2
