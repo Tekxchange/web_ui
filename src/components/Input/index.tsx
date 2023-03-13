@@ -46,7 +46,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
 
   return (
     <div
-      className={c`relative mt-2 mb-2 border-2 rounded-md px-2 py-2 ${variation[currentVariation]} transition-colors`}
+      className={c`relative my-2 border-2 rounded-md px-2 py-2 ${variation[currentVariation]} transition-colors`}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
     >
@@ -66,7 +66,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
           else setIsEmpty(false);
           props.onChange?.(evt);
         }}
-        className={c`w-full h-full active:outline-none focus:outline-none`}
+        className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent`}
         {...inputProps}
       />
     </div>

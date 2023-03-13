@@ -58,15 +58,17 @@ interface IButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (props, ref) => {
-    const { buttonText, buttonColor, children, cta, ...buttonProps } = props;
+    const { buttonText, buttonColor, children, cta, disabled, ...buttonProps } =
+      props;
 
     return (
       <button
         ref={ref}
+        disabled={disabled}
         {...buttonProps}
         className={c`
           ${buttonColorMap[buttonColor ?? ButtonColor.None]}
-          ${cta ? styles.cta : ""}
+          ${cta && !disabled ? styles.cta : ""}
           py-1
           px-2
           rounded-md
@@ -78,6 +80,10 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
           border
           text-lg
           active:shadow-lg-inner
+          disabled:bg-slate-300
+          disabled:text-slate-100
+          disabled:hover:shadow-none
+          disabled:cursor-not-allowed
         `}
       >
         <>

@@ -31,7 +31,7 @@ export default function AuthModal(props: IAuthProps) {
       onClose={() => setAuthState({ ...authState, authModalOpen: false })}
     >
       <div className={c`min-h-fit p-2`}>
-        <section className={c`py-2 w-max border-b-2 ${styles.inlineButtons} overflow-x-auto`}>
+        <section className={c`pb-2 w-max border-b-2 ${styles.inlineButtons} overflow-x-auto`}>
           <Button
             onClick={() => setCurrentAuthForm(AuthForm.Login)}
             buttonColor={
