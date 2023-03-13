@@ -11,16 +11,16 @@ export interface IModalProps {
 export default function Modal(props: IModalProps) {
   const { children, onClose, open } = props;
 
-  useEffect(() => {
-    if (open) document.querySelector("html")!.style.overflowY = "hidden";
-    else document.querySelector("html")!.style.overflowY = "auto";
-  }, [open]);
+  // useEffect(() => {
+  //   if (open) document.querySelector("html")!.style.overflow = "hidden";
+  //   else document.querySelector("html")!.style.overflow = "auto";
+  // }, [open]);
 
   if (!open) return <></>;
 
   return (
     <div
-      className={c`fixed top-0 right-0 z-50 w-screen h-screen bg-black bg-opacity-50`}
+      className={c`fixed top-0 z-50 w-screen h-screen bg-black bg-opacity-50`}
       onClick={onClose}
     >
       <section
