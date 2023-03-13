@@ -34,13 +34,14 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
   );
 
   useEffect(() => {
-    if (Boolean(errorText)) setCurrentVariation(InputVariation.Error);
-
-    if (isFocused) {
-      setCurrentVariation(InputVariation.Active);
-    } else {
-      setCurrentVariation(InputVariation.Inactive);
+    if (Boolean(errorText)) {
+      setCurrentVariation(InputVariation.Error);
     }
+
+    if (isFocused) setCurrentVariation(InputVariation.Active);
+
+    if (!isFocused && !Boolean(errorText))
+      setCurrentVariation(InputVariation.Inactive);
   }, [isFocused, errorText]);
 
   return (

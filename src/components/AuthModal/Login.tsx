@@ -4,8 +4,8 @@ import { c } from "@utils";
 
 export default function Login() {
   return (
-    <form className={c`flex flex-col`}>
-      <Input id="username" label="Username" errorText="Shit" />
+    <form className={c`flex flex-col`} onSubmit={(e) => e.preventDefault()}>
+      <Input id="username" label="Username" />
       <Input id="password" label="Password" type="password" />
       <Button buttonText="Submit" cta buttonColor={ButtonColor.Gold} />
     </form>

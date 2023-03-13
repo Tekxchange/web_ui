@@ -11,10 +11,10 @@ export interface IModalProps {
 export default function Modal(props: IModalProps) {
   const { children, onClose, open } = props;
 
-  // useEffect(() => {
-  //   if (open) document.querySelector("html")!.style.overflow = "hidden";
-  //   else document.querySelector("html")!.style.overflow = "auto";
-  // }, [open]);
+  useEffect(() => {
+    if (open) document.querySelector("html")!.style.overflow = "hidden";
+    else document.querySelector("html")!.style.overflow = "auto";
+  }, [open]);
 
   if (!open) return <></>;
 
