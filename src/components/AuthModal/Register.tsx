@@ -8,13 +8,14 @@ import useFormValidator from "../../utils/useFormValidator";
 const initialFormValues: IRegisterSchema = {
   email: "",
   password: "",
+  confirmPassword: "",
   username: "",
 };
 
 export default function Register() {
   const [formValues, setFormValues] = useState(initialFormValues);
 
-  const { onChange } = useFormValidator(
+  const { onChange, formErrors } = useFormValidator(
     formValues,
     setFormValues,
     registerSchema
@@ -30,14 +31,22 @@ export default function Register() {
         id="username"
         label="Username"
         name="username"
+        errorText={formErrors.username}
         onChange={onChange}
       />
-      <Input id="email" label="Email" name="email" onChange={onChange} />
+      <Input
+        id="email"
+        label="Email"
+        name="email"
+        onChange={onChange}
+        errorText={formErrors.email}
+      />
       <Input
         id="password"
         label="Password"
         type="password"
         name="password"
+        errorText={formErrors.password}
         onChange={onChange}
       />
       <Input
@@ -45,6 +54,7 @@ export default function Register() {
         label="Confirm Password"
         type="password"
         name="confirmPassword"
+        errorText={formErrors.confirmPassword}
         onChange={onChange}
       />
       <div className={c`self-center mt-2`}>
