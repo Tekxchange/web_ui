@@ -28,3 +28,10 @@ export function c(
   params.forEach((arg) => arg && classArray.push(arg));
   return classes(...classArray);
 }
+
+export function getProperty<T extends object>(
+  obj: T,
+  key: string | number | symbol
+): key is keyof T {
+  return obj.hasOwnProperty(key);
+}
