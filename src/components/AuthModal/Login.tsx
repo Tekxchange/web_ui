@@ -69,12 +69,14 @@ export default function Login() {
         errorText={formErrors.password}
         onChange={onChange}
       />
-      <Button
-        buttonText="Submit"
-        cta
-        buttonColor={ButtonColor.Gold}
-        disabled={!allowSubmit}
-      />
+      <div className={c`self-center mt-2`}>
+        <Button
+          buttonText="Submit"
+          cta
+          buttonColor={ButtonColor.Gold}
+          disabled={!allowSubmit}
+        />
+      </div>
     </form>
   );
 }
