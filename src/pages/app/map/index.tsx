@@ -11,7 +11,6 @@ import { c } from "@utils";
 import { useSetRecoilState } from "recoil";
 import { searchSlice } from "@atoms/search";
 import Button, { ButtonColor } from "@components/Button";
-import Tooltip from "@components/Tooltip";
 
 interface IMapProps {
   latLong: LatLong;
@@ -84,13 +83,16 @@ function MapButtons() {
     >
       <section
         className={c`pointer-events-auto opacity-50 hover:opacity-100 top-full
-         p-1 rounded-md border-black border transition-all h-fit`}
+         p-1 rounded-md transition-all h-fit`}
       >
-        <Tooltip text="Go to current location">
-          <Button className={c`rounded-none h-full`} buttonColor={ButtonColor.Blue}>
-            <MapPinIcon className={c`w-7 h-7`}/>
-          </Button>
-        </Tooltip>
+        <Button
+          className={c`rounded-none h-full`}
+          buttonColor={ButtonColor.Blue}
+          data-tooltip-id="tooltip"
+          data-tooltip-content="Go to current location"
+        >
+          <MapPinIcon className={c`w-7 h-7`} />
+        </Button>
       </section>
     </div>
   );

@@ -7,6 +7,7 @@ import FullPageLoading from "@components/FullPageLoading";
 import { useRecoilState } from "recoil";
 import { authSlice } from "@atoms/auth";
 import AuthModal from "@components/AuthModal";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const MainApp = React.lazy(() => import("./pages/app"));
 
@@ -16,6 +17,7 @@ function App() {
   return (
     <>
       <Router>
+        <ReactTooltip id="tooltip" delayShow={1000} style={{zIndex: 1000}} />
         <Navbar />
         <AuthModal open={authModalOpen} />
         <Routes>

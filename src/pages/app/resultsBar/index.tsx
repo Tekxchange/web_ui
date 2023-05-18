@@ -31,15 +31,18 @@ export default function ResultsBar() {
           z-10
           absolute
           top-1/2
-          transition-transform
           will-change-transform
           origin-center
+          ${!opened && "opacity-50 hover:opacity-100"}
+          transition-all
           ${opened ? styles.iconOpen : styles.iconClosed}
         `}
       >
         <Button
           buttonColor={ButtonColor.Blue}
           aria-label="Open or close results"
+          data-tooltip-content="Open or close results"
+          data-tooltip-id="tooltip"
           onClick={() => setSidebarState({ ...sidebarState, opened: !opened })}
         >
           <span
