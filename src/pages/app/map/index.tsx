@@ -80,7 +80,7 @@ function MapEventListener() {
 function MapButtons() {
   return (
     <div
-      className={c`absolute flex w-full h-full bg-transparent z-50 pointer-events-none p-1 pt-20 pb-5 md:pb-0 justify-start items-end`}
+      className={c`absolute flex w-full h-full bg-transparent z-10 pointer-events-none p-1 pt-20 pb-5 md:pb-0 justify-start items-end`}
     >
       <section
         className={c`pointer-events-auto opacity-50 hover:opacity-100 top-full
