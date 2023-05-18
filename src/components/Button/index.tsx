@@ -44,10 +44,7 @@ const buttonColorMap: Record<ButtonColor, string> = {
 };
 
 interface IButtonProps
-  extends Omit<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    "ref" | "className"
-  > {
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "ref"> {
   buttonText?: string;
   buttonColor?: ButtonColor;
   /**
@@ -58,8 +55,15 @@ interface IButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (props, ref) => {
-    const { buttonText, buttonColor, children, cta, disabled, ...buttonProps } =
-      props;
+    const {
+      buttonText,
+      buttonColor,
+      children,
+      cta,
+      disabled,
+      className,
+      ...buttonProps
+    } = props;
 
     return (
       <button
@@ -67,6 +71,7 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
         disabled={disabled}
         {...buttonProps}
         className={c`
+          ${className}
           ${buttonColorMap[buttonColor ?? ButtonColor.None]}
           ${cta && !disabled ? styles.cta : ""}
           py-1
