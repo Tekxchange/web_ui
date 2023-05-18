@@ -10,7 +10,7 @@ type TooltipProps = {
 const Tooltip: React.FC<PropsWithChildren<TooltipProps>> = (props) => {
   const { delay, text, children } = props;
 
-  const [tooltipOpen, setTooltipOpen] = useState(true);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [delayTimeout, setDelayTimeout] = useState<number | null>(null);
 
   useInterval(() => {
@@ -32,7 +32,7 @@ const Tooltip: React.FC<PropsWithChildren<TooltipProps>> = (props) => {
       onMouseLeave={() => closeTooltip()}
       onTouchStart={() => openTooltip()}
       onTouchEnd={() => closeTooltip()}
-      className={c`relative h-full border-black border-2 flex overflow-visible`}
+      className={c`relative h-full flex overflow-visible`}
     >
       <div
         className={c`${
