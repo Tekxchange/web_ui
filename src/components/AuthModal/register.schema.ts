@@ -7,9 +7,17 @@ export interface IRegisterSchema {
   email: string;
 }
 
+const required = "This is a required field";
+
 export default yup.object<IRegisterSchema>().shape({
-  username: yup.string().required(),
-  password: yup.string().required(),
-  confirmPassword: yup.string().required().oneOf([yup.ref('password'), '']),
-  email: yup.string().email().required(),
+  username: yup.string().required(required),
+  password: yup.string().required(required),
+  confirmPassword: yup
+    .string()
+    .required(required)
+    .oneOf([yup.ref("password"), ""], "You passwords must match"),
+  email: yup
+    .string()
+    .email("Please enter a valid email address")
+    .required(required),
 });

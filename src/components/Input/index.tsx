@@ -59,7 +59,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
         htmlFor={id}
         className={c`absolute ${
           isFocused || !isEmpty ? styles.focused : styles.lostFocus
-        } transition-all will-change-transform pointer-events-none px-2`}
+        } transition-all will-change-transform pointer-events-none`}
       >
         {label}
       </label>
