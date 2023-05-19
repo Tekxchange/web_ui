@@ -15,7 +15,7 @@ export default function Footer() {
       >
         &copy; 2022-{new Date().getFullYear()} texchange.net
       </p>
-      <NavLink to={"/privacy"}>
+      <NavLink to={"/privacy"} target="_blank">
         <Button>Privacy Policy</Button>
       </NavLink>
     </footer>

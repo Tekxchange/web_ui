@@ -83,12 +83,15 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
           transition-colors
           box-border
           border
-          text-lg
+          text-sm
+          md:text-lg
           active:shadow-lg-inner
           disabled:bg-slate-300
           disabled:text-slate-100
           disabled:hover:shadow-none
           disabled:cursor-not-allowed
+          overflow-hidden
+          max-h-full
         `}
       >
         <>
