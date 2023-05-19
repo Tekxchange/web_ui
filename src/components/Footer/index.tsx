@@ -1,4 +1,6 @@
+import Button from "@components/Button";
 import { c } from "@utils";
+import { NavLink } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -13,6 +15,9 @@ export default function Footer() {
       >
         &copy; 2022-{new Date().getFullYear()} texchange.net
       </p>
+      <NavLink to={"/privacy"}>
+        <Button>Privacy Policy</Button>
+      </NavLink>
     </footer>
   );
 }

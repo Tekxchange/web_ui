@@ -10,6 +10,7 @@ import AuthModal from "@components/AuthModal";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const MainApp = React.lazy(() => import("./pages/app"));
+const PrivacyPage = React.lazy(() => import("./pages/privacy"));
 
 function App() {
   const [{ authModalOpen }] = useRecoilState(authSlice);
@@ -31,6 +32,14 @@ function App() {
             element={
               <React.Suspense fallback={<FullPageLoading />}>
                 <MainApp />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <React.Suspense fallback={<FullPageLoading />}>
+                <PrivacyPage />
               </React.Suspense>
             }
           />
