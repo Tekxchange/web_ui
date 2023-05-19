@@ -1,10 +1,13 @@
 .focused {
-    transform: translate(0, calc(100% / 2 + .5rem)) scale(.75);
+    transform: translateY(calc(100% / 2 + .75rem));
     position: relative;
     z-index: 50;
     background: white;
+    @apply text-slate-950 text-sm;
 }
 
 .lostFocus {
-    transform: translate(0, 0) scale(1);
+    transform: translateY(0);
+    background: transparent;
+    @apply text-slate-500 text-lg;
 }

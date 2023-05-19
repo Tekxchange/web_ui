@@ -17,7 +17,11 @@ function App() {
   return (
     <>
       <Router>
-        <ReactTooltip id="tooltip" delayShow={1000} style={{zIndex: 1000}} />
+        <ReactTooltip
+          id="tooltip"
+          delayShow={1000}
+          style={{ zIndex: 1000, opacity: 1 }}
+        />
         <Navbar />
         <AuthModal open={authModalOpen} />
         <Routes>

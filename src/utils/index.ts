@@ -35,3 +35,10 @@ export function getProperty<T extends object>(
 ): key is keyof T {
   return obj.hasOwnProperty(key);
 }
+
+export function capitalize(item?: string): string | undefined {
+  if (!item) return;
+
+  const first = item.charAt(0);
+  return `${first.toLocaleUpperCase()}${item.substring(1)}`;
+}

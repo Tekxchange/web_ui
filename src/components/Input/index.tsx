@@ -1,4 +1,4 @@
-import { c } from "@utils";
+import { c, capitalize } from "@utils";
 import React, { useEffect, useState } from "react";
 import styles from "./input.module.less";
 
@@ -49,12 +49,17 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
       className={c`relative my-2 border-2 rounded-md px-2 py-2 ${variation[currentVariation]} transition-colors`}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
+      data-tooltip-id="tooltip"
+      data-tooltip-variant="error"
+      data-tooltip-content={capitalize(errorText)}
+      data-tooltip-float
+      data-tooltip-delay-show={0}
     >
       <label
         htmlFor={id}
         className={c`absolute ${
           isFocused || !isEmpty ? styles.focused : styles.lostFocus
-        } cursor-text transition-transform text-slate-500`}
+        } transition-all will-change-transform pointer-events-none px-2`}
       >
         {label}
       </label>
