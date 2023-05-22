@@ -4,6 +4,9 @@ import { c, getProperty } from "@utils";
 import React, { useMemo, useState } from "react";
 import loginSchema, { ILoginSchema } from "./login.schema";
 import useFormValidator from "../../utils/useFormValidator";
+import api from "../../api";
+import { useSetRecoilState } from "recoil";
+import { authSlice } from "@atoms/auth";
 
 const initialFormValues: ILoginSchema = {
   password: "",
@@ -12,6 +15,7 @@ const initialFormValues: ILoginSchema = {
 
 export default function Login() {
   const [formValues, setFormValues] = useState<ILoginSchema>(initialFormValues);
+  const setAuth = useSetRecoilState(authSlice);
 
   const { formErrors, onChange } = useFormValidator(
     formValues,
@@ -29,8 +33,17 @@ export default function Login() {
     return true;
   }, [formErrors]);
 
-  function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
+    await api.authApi.login({
+      password: formValues.password,
+      username: formValues.username,
+    });
+    const user = await api.userApi.getSelfInfo();
+    setAuth({
+      authModalOpen: false,
+      user: { userId: user.id, username: user.username },
+    });
   }
 
   return (
