@@ -72,7 +72,7 @@ export class ApiClient {
   }
 
   private async refreshToken() {
-    const res = await this._axios.get<string>("/v1/auth/refresh");
+    const res = await this._axios.get<string>("/api/auth/refresh");
     this._jwt = res.data;
     localStorage.setItem("jwt", this._jwt);
     this.refreshInstance();
