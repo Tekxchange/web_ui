@@ -10,6 +10,7 @@ interface IInputProps
   label: string;
   id: string;
   errorText?: string;
+  fullWidth?: boolean;
 }
 
 enum InputVariation {
@@ -25,7 +26,7 @@ const variation: Record<InputVariation, string> = {
 };
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
-  const { label, id, errorText, onChange, ...inputProps } = props;
+  const { label, id, errorText, onChange, fullWidth, ...inputProps } = props;
 
   const [isFocused, setIsFocused] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);

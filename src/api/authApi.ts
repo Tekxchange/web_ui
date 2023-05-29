@@ -28,4 +28,10 @@ export default class AuthApi extends RestClient {
   async register(request: RegisterRequest) {
     await this.client.post("/api/auth/register", request);
   }
+
+  async logout() {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("refresh");
+    this.client.refreshInstance();
+  }
 }

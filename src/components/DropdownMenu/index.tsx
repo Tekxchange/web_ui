@@ -57,9 +57,10 @@ export default function DropdownMenu(props: IDropdownProps) {
           right-1/2
           ${styles.dropdownMenu}
           ${isOpen ? styles.open : styles.closed}
-          flex
+          text-sm
+          max-w-none
           min-w-full
-          text-lg
+          md:text-lg
         `}
       >
         {children}

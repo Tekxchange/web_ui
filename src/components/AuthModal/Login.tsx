@@ -7,6 +7,7 @@ import useFormValidator from "../../utils/useFormValidator";
 import api from "../../api";
 import { useSetRecoilState } from "recoil";
 import { authSlice } from "@atoms/auth";
+import { AxiosError } from "axios";
 
 const initialFormValues: ILoginSchema = {
   password: "",
@@ -16,6 +17,7 @@ const initialFormValues: ILoginSchema = {
 export default function Login() {
   const [formValues, setFormValues] = useState<ILoginSchema>(initialFormValues);
   const setAuth = useSetRecoilState(authSlice);
+  const [serverError, setServerError] = useState("");
 
   const { formErrors, onChange } = useFormValidator(
     formValues,
@@ -35,19 +37,32 @@ export default function Login() {
 
   async function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    await api.authApi.login({
-      password: formValues.password,
-      username: formValues.username,
-    });
-    const user = await api.userApi.getSelfInfo();
-    setAuth({
-      authModalOpen: false,
-      user: { userId: user.id, username: user.username },
-    });
+    try {
+      await api.authApi.login({
+        password: formValues.password,
+        username: formValues.username,
+      });
+      const user = await api.userApi.getSelfInfo();
+      setAuth({
+        authModalOpen: false,
+        user: { userId: user.id, username: user.username },
+      });
+    } catch (err) {
+      if (!(err instanceof AxiosError)) return;
+      setServerError(
+        err.response?.data?.error ||
+          "An unknown error has occurred, please try again"
+      );
+    }
   }
 
   return (
-    <form className={c`flex flex-col`} onSubmit={onSubmit}>
+    <form className={c`flex flex-col w-full`} onSubmit={onSubmit}>
+      {serverError && (
+        <div className={c`w-full text-center bg-red-400 mt-2 px-1`}>
+          <p>{serverError}</p>
+        </div>
+      )}
       <Input
         id="username"
         label="Username"

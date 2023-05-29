@@ -2,19 +2,31 @@ import { useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { c } from "@utils";
 import DropdownMenu from "@components/DropdownMenu";
-import MenuItem from "@components/DropdownMenu/MenuItem";
+import MenuItem, { IconPosition } from "@components/DropdownMenu/MenuItem";
 import styles from "./navbar.module.less";
 import { useRecoilState } from "recoil";
 import { authSlice } from "@atoms/auth";
+import Button, { ButtonColor } from "@components/Button";
+import {
+  Cog6ToothIcon,
+  ArrowLeftOnRectangleIcon,
+  InboxIcon
+} from "@heroicons/react/20/solid";
+import api from "../../api";
 
 export default function Navbar() {
   const [atTop, setAtTop] = useState(true);
-  const [authState, setAuthState] = useRecoilState(authSlice);
+  const [{ user }, setAuthState] = useRecoilState(authSlice);
 
-  const onScroll = useCallback((evt: Event) => {
+  const onScroll = useCallback(() => {
     if (window.scrollY > 0) setAtTop(false);
     else setAtTop(true);
   }, []);
+
+  async function logout() {
+    await api.authApi.logout();
+    setAuthState((state) => ({ ...state, user: null }));
+  }
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
@@ -32,12 +44,35 @@ export default function Navbar() {
         <h1>Tekxchange</h1>
       </NavLink>
       <div className={c`self-center`}>
-        <DropdownMenu buttonText="Account">
-          <MenuItem
-            buttonText="Login"
-            onClick={() => setAuthState({ ...authState, authModalOpen: true })}
+        {user ? (
+          <DropdownMenu buttonText="Account">
+            <MenuItem
+              buttonText="Messenger"
+              icon={InboxIcon}
+              iconPosition={IconPosition.Right}
+            />
+            <MenuItem
+              buttonText="Settings"
+              icon={Cog6ToothIcon}
+              iconPosition={IconPosition.Right}
+            />
+            <MenuItem
+              buttonText="Logout"
+              onClick={logout}
+              icon={ArrowLeftOnRectangleIcon}
+              iconPosition={IconPosition.Right}
+            />
+          </DropdownMenu>
+        ) : (
+          <Button
+            buttonText="Login / Register"
+            cta
+            buttonColor={ButtonColor.Gold}
+            onClick={() =>
+              setAuthState((state) => ({ ...state, authModalOpen: true }))
+            }
           />
-        </DropdownMenu>
+        )}
       </div>
     </div>
   );

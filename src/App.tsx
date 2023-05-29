@@ -2,18 +2,27 @@ import Navbar from "@components/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MarketingPage from "./pages/marketingPage";
 import Footer from "@components/Footer";
-import React from "react";
+import React, { useEffect } from "react";
 import FullPageLoading from "@components/FullPageLoading";
 import { useRecoilState } from "recoil";
 import { authSlice } from "@atoms/auth";
 import AuthModal from "@components/AuthModal";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import api from "./api";
 
 const MainApp = React.lazy(() => import("./pages/app"));
 const PrivacyPage = React.lazy(() => import("./pages/privacy"));
 
 function App() {
-  const [{ authModalOpen }] = useRecoilState(authSlice);
+  const [{ authModalOpen }, setAuthState] = useRecoilState(authSlice);
+
+  useEffect(() => {
+    api.userApi
+      .getSelfInfo()
+      .then((res) =>
+        setAuthState({ authModalOpen, user: { ...res, userId: res.id } })
+      );
+  }, []);
 
   return (
     <>

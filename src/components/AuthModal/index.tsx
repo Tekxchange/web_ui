@@ -1,5 +1,5 @@
 import { authSlice } from "@atoms/auth";
-import styles from './authModal.module.less';
+import styles from "./authModal.module.less";
 import Button, { ButtonColor } from "@components/Button";
 import Modal, { IModalProps } from "@components/Modal";
 import { c } from "@utils";
@@ -30,8 +30,10 @@ export default function AuthModal(props: IAuthProps) {
       {...modalProps}
       onClose={() => setAuthState({ ...authState, authModalOpen: false })}
     >
-      <div className={c`min-h-fit p-2`}>
-        <section className={c`pb-2 w-max border-b-2 ${styles.inlineButtons} overflow-x-auto`}>
+      <div className={c`min-h-fit p-2 w-full max-w-sm flex items-center flex-col`}>
+        <section
+          className={c`pb-2 w-full border-b-2 ${styles.inlineButtons} flex justify-center overflow-x-auto`}
+        >
           <Button
             onClick={() => setCurrentAuthForm(AuthForm.Login)}
             buttonColor={
@@ -66,7 +68,7 @@ export default function AuthModal(props: IAuthProps) {
             Forgot Password
           </Button>
         </section>
-        <section>
+        <section className={c`w-full`}>
           <AuthFormComponent currentAuthForm={currentAuthForm} />
         </section>
       </div>
