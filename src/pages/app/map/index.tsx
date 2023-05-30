@@ -40,8 +40,8 @@ export default function Map(props: IMapProps) {
         touchZoom
         bounceAtZoomLimits
         boxZoom
-        minZoom={3}
-        maxZoom={18}
+        minZoom={9}
+        maxZoom={16}
         ref={mapRef}
       >
         <TileLayer
