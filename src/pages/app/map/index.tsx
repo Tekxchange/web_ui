@@ -2,15 +2,14 @@ import { LatLng, Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.js";
 import { useEffect, useRef } from "react";
-import { Navigation2 } from "react-feather";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import { LatLong } from "..";
 import { c } from "@utils";
-import { useSetRecoilState } from "recoil";
-import { searchSlice } from "@atoms/search";
 import Button, { ButtonColor } from "@components/Button";
+import { useAppDispatch } from "@state/index";
+import { updateLocation } from "@state/search";
 
 interface IMapProps {
   latLong: LatLong;
@@ -55,20 +54,19 @@ export default function Map(props: IMapProps) {
 }
 
 function MapEventListener() {
-  const setSearch = useSetRecoilState(searchSlice);
+  const dispatch = useAppDispatch();
 
   useMapEvents({
     moveend: (e) => {
       const center: LatLng | undefined = e.target.getCenter?.();
 
       if (center) {
-        setSearch((v) => ({
-          ...v,
-          latLong: {
+        dispatch(
+          updateLocation({
             latitude: center.lat,
             longitude: center.lng,
-          },
-        }));
+          })
+        );
       }
     },
   });

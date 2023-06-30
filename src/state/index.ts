@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { reducer as authReducer } from "./auth";
 import { reducer as searchReducer } from "./search";
+import { reducer as resultsBarReducer } from "./resultsBar";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     search: searchReducer,
+    resultsBar: resultsBarReducer,
   },
 });
 
