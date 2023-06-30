@@ -7,6 +7,7 @@ import useFormValidator from "../../utils/useFormValidator";
 import api from "../../api";
 import { useAppDispatch } from "@state/index";
 import { getUserInfo, setAuthModalState } from "@state/auth";
+import { AxiosError } from "axios";
 
 const initialFormValues: IRegisterSchema = {
   email: "",
@@ -18,6 +19,7 @@ const initialFormValues: IRegisterSchema = {
 export default function Register() {
   const dispatch = useAppDispatch();
   const [formValues, setFormValues] = useState(initialFormValues);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const { onChange, formErrors } = useFormValidator(
     formValues,
@@ -28,14 +30,27 @@ export default function Register() {
   async function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
-    await api.authApi.register(formValues);
-    await api.authApi.login(formValues);
-    dispatch(getUserInfo());
-    dispatch(setAuthModalState(false));
+    try {
+      await api.authApi.register(formValues);
+      await api.authApi.login(formValues);
+      dispatch(getUserInfo());
+      dispatch(setAuthModalState(false));
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        setServerError(
+          err.response?.data?.error ?? "An unknown error has occurred"
+        );
+      }
+    }
   }
 
   return (
     <form className={c`flex flex-col`} onSubmit={onSubmit}>
+      {serverError && (
+        <div className={c`w-full text-center bg-red-400 mt-2 px-1`}>
+          <p>{serverError}</p>
+        </div>
+      )}
       <Input
         id="username"
         label="Username"

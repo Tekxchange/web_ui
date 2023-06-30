@@ -17,9 +17,7 @@ export default function useFormValidator<TValues extends object>(
   setFormValues: (newValues: TValues) => void,
   validator: Schema
 ) {
-  const [formErrors, setFormErrors] = useState<ErrorsOf<TValues>>(
-    valuesToErrors(formValues)
-  );
+  const [formErrors, setFormErrors] = useState(valuesToErrors(formValues));
 
   function onChange(evt: React.ChangeEvent<HTMLInputElement>) {
     evt.preventDefault();
