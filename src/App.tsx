@@ -4,24 +4,20 @@ import MarketingPage from "./pages/marketingPage";
 import Footer from "@components/Footer";
 import React, { useEffect } from "react";
 import FullPageLoading from "@components/FullPageLoading";
-import { useRecoilState } from "recoil";
-import { authSlice } from "@atoms/auth";
 import AuthModal from "@components/AuthModal";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import api from "./api";
+import { useAppDispatch, useAppSelector } from "./state";
+import { getUserInfo } from "@state/auth";
 
 const MainApp = React.lazy(() => import("./pages/app"));
 const PrivacyPage = React.lazy(() => import("./pages/privacy"));
 
 function App() {
-  const [{ authModalOpen }, setAuthState] = useRecoilState(authSlice);
+  const dispatch = useAppDispatch();
+  const { authModalOpen } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    api.userApi
-      .getSelfInfo()
-      .then((res) =>
-        setAuthState({ authModalOpen, user: { ...res, userId: res.id } })
-      );
+    dispatch(getUserInfo());
   }, []);
 
   return (

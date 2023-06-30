@@ -5,9 +5,9 @@ import React, { useMemo, useState } from "react";
 import loginSchema, { ILoginSchema } from "./login.schema";
 import useFormValidator from "../../utils/useFormValidator";
 import api from "../../api";
-import { useSetRecoilState } from "recoil";
-import { authSlice } from "@atoms/auth";
 import { AxiosError } from "axios";
+import { useAppDispatch } from "@state/index";
+import { getUserInfo, setAuthModalState } from "@state/auth";
 
 const initialFormValues: ILoginSchema = {
   password: "",
@@ -15,8 +15,8 @@ const initialFormValues: ILoginSchema = {
 };
 
 export default function Login() {
+  const dispatch = useAppDispatch();
   const [formValues, setFormValues] = useState<ILoginSchema>(initialFormValues);
-  const setAuth = useSetRecoilState(authSlice);
   const [serverError, setServerError] = useState("");
 
   const { formErrors, onChange } = useFormValidator(
@@ -42,11 +42,8 @@ export default function Login() {
         password: formValues.password,
         username: formValues.username,
       });
-      const user = await api.userApi.getSelfInfo();
-      setAuth({
-        authModalOpen: false,
-        user: { userId: user.id, username: user.username },
-      });
+      dispatch(getUserInfo());
+      dispatch(setAuthModalState(false));
     } catch (err) {
       if (!(err instanceof AxiosError)) return;
       setServerError(
