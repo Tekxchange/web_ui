@@ -20,7 +20,10 @@
       "@atoms/*": ["./src/atoms/*"],
       "@components/*": ["./src/components/*"],
       "@assets/*": ["./src/assets/*"],
-      "@utils": ["./src/utils/index.ts"]
+      "@utils": ["./src/utils/index.ts"],
+      "@api": ["./src/api/index.ts"],
+      "@api/*": ["./src/api/*"],
+      "@state/*": ["./src/state/*"]
     }
   },
   "include": ["src", "svg.d.ts"],

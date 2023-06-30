@@ -10,15 +10,17 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
+    "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
+    "fp-ts": "^2.16.0",
     "leaflet": "^1.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-leaflet": "^4.2.0",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.6.2",
     "react-tooltip": "^5.13.0",
-    "recoil": "^0.7.6",
     "usehooks-ts": "^2.9.1",
     "vite-plugin-ssr": "^0.4.69",
     "vite-tsconfig-paths": "^4.0.3",
@@ -34,7 +36,7 @@
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.9.3",
-    "vite": "^4.0.0",
+    "vite": "^4.3.9",
     "vite-plugin-svgr": "^2.4.0"
   }
 }

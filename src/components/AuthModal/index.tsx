@@ -1,13 +1,13 @@
-import { authSlice } from "@atoms/auth";
 import styles from "./authModal.module.less";
 import Button, { ButtonColor } from "@components/Button";
 import Modal, { IModalProps } from "@components/Modal";
 import { c } from "@utils";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
 import ForgotPassword from "./Forgot";
 import Login from "./Login";
 import Register from "./Register";
+import { useAppDispatch, useAppSelector } from "@state/index";
+import { setAuthModalState } from "@state/auth";
 
 export enum AuthForm {
   Login,
@@ -18,7 +18,7 @@ export enum AuthForm {
 interface IAuthProps extends Omit<IModalProps, "children" | "onClose"> {}
 
 export default function AuthModal(props: IAuthProps) {
-  const [authState, setAuthState] = useRecoilState(authSlice);
+  const dispatch = useAppDispatch();
   const [currentAuthForm, setCurrentAuthForm] = useState<AuthForm>(
     AuthForm.Login
   );
@@ -26,11 +26,10 @@ export default function AuthModal(props: IAuthProps) {
   const { ...modalProps } = props;
 
   return (
-    <Modal
-      {...modalProps}
-      onClose={() => setAuthState({ ...authState, authModalOpen: false })}
-    >
-      <div className={c`min-h-fit p-2 w-full max-w-sm flex items-center flex-col`}>
+    <Modal {...modalProps} onClose={() => dispatch(setAuthModalState(false))}>
+      <div
+        className={c`min-h-fit p-2 w-full max-w-sm flex items-center flex-col`}
+      >
         <section
           className={c`pb-2 w-full border-b-2 ${styles.inlineButtons} flex justify-center overflow-x-auto`}
         >

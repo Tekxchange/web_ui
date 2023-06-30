@@ -5,8 +5,8 @@ import React, { useState } from "react";
 import registerSchema, { IRegisterSchema } from "./register.schema";
 import useFormValidator from "../../utils/useFormValidator";
 import api from "../../api";
-import { useSetRecoilState } from "recoil";
-import { authSlice } from "@atoms/auth";
+import { useAppDispatch } from "@state/index";
+import { getUserInfo, setAuthModalState } from "@state/auth";
 
 const initialFormValues: IRegisterSchema = {
   email: "",
@@ -16,8 +16,8 @@ const initialFormValues: IRegisterSchema = {
 };
 
 export default function Register() {
+  const dispatch = useAppDispatch();
   const [formValues, setFormValues] = useState(initialFormValues);
-  const setAuthState = useSetRecoilState(authSlice);
 
   const { onChange, formErrors } = useFormValidator(
     formValues,
@@ -30,9 +30,8 @@ export default function Register() {
 
     await api.authApi.register(formValues);
     await api.authApi.login(formValues);
-    let self = await api.userApi.getSelfInfo();
-
-    setAuthState({ authModalOpen: false, user: { ...self, userId: self.id } });
+    dispatch(getUserInfo());
+    dispatch(setAuthModalState(false));
   }
 
   return (

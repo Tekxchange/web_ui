@@ -4,19 +4,20 @@ import { c } from "@utils";
 import DropdownMenu from "@components/DropdownMenu";
 import MenuItem, { IconPosition } from "@components/DropdownMenu/MenuItem";
 import styles from "./navbar.module.less";
-import { useRecoilState } from "recoil";
-import { authSlice } from "@atoms/auth";
 import Button, { ButtonColor } from "@components/Button";
 import {
   Cog6ToothIcon,
   ArrowLeftOnRectangleIcon,
-  InboxIcon
+  InboxIcon,
 } from "@heroicons/react/20/solid";
-import api from "../../api";
+import { useAppDispatch, useAppSelector } from "@state/index";
+import { setAuthModalState, logout as stateLogout } from "@state/auth";
+import { isSome } from "fp-ts/lib/Option";
 
 export default function Navbar() {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
   const [atTop, setAtTop] = useState(true);
-  const [{ user }, setAuthState] = useRecoilState(authSlice);
 
   const onScroll = useCallback(() => {
     if (window.scrollY > 0) setAtTop(false);
@@ -24,8 +25,7 @@ export default function Navbar() {
   }, []);
 
   async function logout() {
-    await api.authApi.logout();
-    setAuthState((state) => ({ ...state, user: null }));
+    dispatch(stateLogout());
   }
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Navbar() {
         <h1>Tekxchange</h1>
       </NavLink>
       <div className={c`self-center`}>
-        {user ? (
+        {isSome(user) ? (
           <DropdownMenu buttonText="Account">
             <MenuItem
               buttonText="Messenger"
@@ -68,9 +68,7 @@ export default function Navbar() {
             buttonText="Login / Register"
             cta
             buttonColor={ButtonColor.Gold}
-            onClick={() =>
-              setAuthState((state) => ({ ...state, authModalOpen: true }))
-            }
+            onClick={() => dispatch(setAuthModalState(true))}
           />
         )}
       </div>

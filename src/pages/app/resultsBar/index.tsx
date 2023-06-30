@@ -2,12 +2,12 @@ import Button, { ButtonColor } from "@components/Button";
 import { c } from "@utils";
 import styles from "./resultsBar.module.less";
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/solid";
-import { useRecoilState } from "recoil";
-import { resultsSidebarSlice } from "@atoms/resultsBar";
+import { useAppDispatch, useAppSelector } from "@state/index";
+import { setBarStatus } from "@state/resultsBar";
 
 export default function ResultsBar() {
-  const [sidebarState, setSidebarState] = useRecoilState(resultsSidebarSlice);
-  const { opened } = sidebarState;
+  const { opened } = useAppSelector((state) => state.resultsBar);
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function ResultsBar() {
           aria-label="Open or close results"
           data-tooltip-content="Open or close results"
           data-tooltip-id="tooltip"
-          onClick={() => setSidebarState({ ...sidebarState, opened: !opened })}
+          onClick={() => dispatch(setBarStatus(!opened))}
         >
           <span
             className={c`
