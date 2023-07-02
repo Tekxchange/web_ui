@@ -25,6 +25,28 @@ export const updateSearch = createAsyncThunk(
   async (filter: Partial<Filter>) => {}
 );
 
+export const gotoCurrentLocation = createAsyncThunk(
+  "search/gotoCurrentLocation",
+  async () => {
+    return new Promise<{ latitude: number; longitude: number }>((res, rej) => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          res({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+          });
+        },
+        () => {
+          alert(
+            "Unable to get current position. Either you have not given the site permissions, or your browser is not compatible."
+          );
+          res({ latitude: 0, longitude: 0 });
+        }
+      );
+    });
+  }
+);
+
 export function createSearchState(initialState: SearchState) {
   return createSlice({
     name: "searchSlice",
@@ -78,5 +100,5 @@ const state = createSearchState({
   results: none,
 });
 
-export const reducer =  state.reducer;
+export const reducer = state.reducer;
 export const { updateLocation, updatePrice, updateQuery } = state.actions;

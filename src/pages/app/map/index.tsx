@@ -10,6 +10,7 @@ import { c } from "@utils";
 import Button, { ButtonColor } from "@components/Button";
 import { useAppDispatch } from "@state/index";
 import { updateLocation } from "@state/search";
+import { getCurrentPosition } from "../../../utils/mapUtils";
 
 interface IMapProps {
   latLong: LatLong;
@@ -20,6 +21,12 @@ export default function Map(props: IMapProps) {
 
   const mapRef = useRef<LeafletMap | null>(null);
 
+  async function goToCurrentLocation() {
+    if (!mapRef.current) return;
+    const pos = await getCurrentPosition();
+    mapRef.current.setView(new LatLng(pos.latitude, pos.longitude));
+  }
+
   useEffect(() => {
     if (!mapRef.current) return;
     const map = mapRef.current;
@@ -29,7 +36,7 @@ export default function Map(props: IMapProps) {
 
   return (
     <div className={c`h-full w-full`}>
-      <MapButtons />
+      <MapButtons onCurrentLocationClicked={goToCurrentLocation} />
       <MapContainer
         center={[latLong.latitude, latLong.longitude]}
         zoom={13}
@@ -74,7 +81,11 @@ function MapEventListener() {
   return <></>;
 }
 
-function MapButtons() {
+interface MapButtonsProps {
+  onCurrentLocationClicked: (() => void) | (() => Promise<void>);
+}
+
+function MapButtons(props: MapButtonsProps) {
   return (
     <div
       className={c`absolute flex w-full h-full bg-transparent z-10 pointer-events-none p-1 pt-20 pb-5 md:pb-0 justify-start items-end`}
@@ -88,6 +99,7 @@ function MapButtons() {
           buttonColor={ButtonColor.Blue}
           data-tooltip-id="tooltip"
           data-tooltip-content="Go to current location"
+          onClick={props.onCurrentLocationClicked}
         >
           <MapPinIcon className={c`w-7 h-7`} />
         </Button>

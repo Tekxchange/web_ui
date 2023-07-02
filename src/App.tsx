@@ -11,6 +11,7 @@ import { getUserInfo } from "@state/auth";
 
 const MainApp = React.lazy(() => import("./pages/app"));
 const PrivacyPage = React.lazy(() => import("./pages/privacy"));
+const AccountPage = React.lazy(() => import("./pages/account"));
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,7 +27,8 @@ function App() {
         <ReactTooltip
           id="tooltip"
           delayShow={1000}
-          style={{ zIndex: 1000, opacity: 1 }}
+          positionStrategy="fixed"
+          style={{ zIndex: 1000 }}
         />
         <Navbar />
         <AuthModal open={authModalOpen} />
@@ -45,6 +47,14 @@ function App() {
             element={
               <React.Suspense fallback={<FullPageLoading />}>
                 <PrivacyPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/account/*"
+            element={
+              <React.Suspense fallback={<FullPageLoading />}>
+                <AccountPage />
               </React.Suspense>
             }
           />
