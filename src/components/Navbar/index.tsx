@@ -9,10 +9,10 @@ import {
   Cog6ToothIcon,
   ArrowLeftOnRectangleIcon,
   InboxIcon,
+  UserCircleIcon,
 } from "@heroicons/react/20/solid";
 import { useAppDispatch, useAppSelector } from "@state/index";
 import { setAuthModalState, logout as stateLogout } from "@state/auth";
-import { isSome } from "fp-ts/lib/Option";
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
@@ -44,17 +44,28 @@ export default function Navbar() {
         <h1>Tekxchange</h1>
       </NavLink>
       <div className={c`self-center`}>
-        {isSome(user) ? (
+        {user.isSome ? (
           <DropdownMenu buttonText="Account">
+            <MenuItem
+              buttonText="My Account"
+              icon={UserCircleIcon}
+              iconPosition={IconPosition.Right}
+              link
+              href="/account"
+            />
             <MenuItem
               buttonText="Messenger"
               icon={InboxIcon}
               iconPosition={IconPosition.Right}
+              link
+              href="/account/messenger"
             />
             <MenuItem
               buttonText="Settings"
               icon={Cog6ToothIcon}
               iconPosition={IconPosition.Right}
+              link
+              href="/account/settings"
             />
             <MenuItem
               buttonText="Logout"

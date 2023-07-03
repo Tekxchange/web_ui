@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Option, none, some } from "fp-ts/Option";
 import api from "@api";
 import { UserInfo } from "@api/userApi";
 import { LoginRequest } from "@api/authApi";
+import { Option, none, some } from "@utils/option";
 
 export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
   return await api.userApi.getSelfInfo();
@@ -34,7 +34,7 @@ export function createAuthState(initialState: AuthState) {
         state.authModalOpen = payload;
       },
       logout: (state) => {
-        state.user = none;
+        state.user = none();
         api.authApi.logout();
       },
     },
@@ -48,7 +48,7 @@ export function createAuthState(initialState: AuthState) {
       });
       builder.addCase(getUserInfo.rejected, (state) => {
         state.loading = false;
-        state.user = none;
+        state.user = none();
       });
     },
   });
@@ -56,7 +56,7 @@ export function createAuthState(initialState: AuthState) {
 
 const authState = createAuthState({
   loading: false,
-  user: none,
+  user: none(),
   authModalOpen: false,
 });
 

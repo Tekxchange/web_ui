@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { LatLong } from "../pages/app";
-import { Option, none } from "fp-ts/Option";
+import { Option, none } from "@utils/option";
 import api from "../api";
 
 export interface Filter {
@@ -18,6 +18,8 @@ export interface SearchState {
   filter: Filter;
   results: Option<Results>;
   loading: boolean;
+  gotInitialPosition: boolean;
+  mapZoomAmount: number;
 }
 
 export const updateSearch = createAsyncThunk(
@@ -59,6 +61,9 @@ export function createSearchState(initialState: SearchState) {
           longitude: payload.longitude,
         };
       },
+      updateZoom: (state, { payload }: PayloadAction<number>) => {
+        state.mapZoomAmount = payload;
+      },
       updateQuery: (state, { payload }: PayloadAction<Option<string>>) => {
         state.filter = {
           ...state.filter,
@@ -91,14 +96,17 @@ const state = createSearchState({
   filter: {
     latitude: 0,
     longitude: 0,
-    priceHigh: none,
-    priceLow: none,
-    query: none,
+    priceHigh: none(),
+    priceLow: none(),
+    query: none(),
     radius: 10,
   },
   loading: false,
-  results: none,
+  results: none(),
+  gotInitialPosition: false,
+  mapZoomAmount: 13,
 });
 
 export const reducer = state.reducer;
-export const { updateLocation, updatePrice, updateQuery } = state.actions;
+export const { updateLocation, updatePrice, updateQuery, updateZoom } =
+  state.actions;

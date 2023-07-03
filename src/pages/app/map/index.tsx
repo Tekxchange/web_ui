@@ -1,25 +1,24 @@
-import { LatLng, Map as LeafletMap } from "leaflet";
+import { LatLng, LeafletEvent, Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.js";
 import { useEffect, useRef } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
-import { LatLong } from "..";
 import { c } from "@utils";
 import Button, { ButtonColor } from "@components/Button";
-import { useAppDispatch } from "@state/index";
-import { updateLocation } from "@state/search";
+import { useAppDispatch, useAppSelector } from "@state/index";
+import { updateLocation, updateZoom } from "@state/search";
 import { getCurrentPosition } from "../../../utils/mapUtils";
+import { debounce } from "debounce";
 
-interface IMapProps {
-  latLong: LatLong;
-}
-
-export default function Map(props: IMapProps) {
-  const { latLong } = props;
-
+export default function Map() {
   const mapRef = useRef<LeafletMap | null>(null);
+  const dispatch = useAppDispatch();
+  const {
+    gotInitialPosition,
+    filter: { latitude, longitude },
+  } = useAppSelector((state) => state.search);
 
   async function goToCurrentLocation() {
     if (!mapRef.current) return;
@@ -28,17 +27,32 @@ export default function Map(props: IMapProps) {
   }
 
   useEffect(() => {
-    if (!mapRef.current) return;
     const map = mapRef.current;
+    if (!map) return;
 
-    map.setView(new LatLng(latLong.latitude, latLong.longitude));
-  }, [latLong]);
+    function zoomHandler() {
+      const amount = map?.getZoom();
+      console.log({ amount });
+      amount && dispatch(updateZoom(amount));
+    }
+
+    map.addEventListener("zoomend", zoomHandler);
+
+    if (gotInitialPosition) return;
+    (async () => {
+      await goToCurrentLocation();
+    })();
+
+    return () => {
+      map.removeEventListener("zoomend", zoomHandler);
+    };
+  }, []);
 
   return (
     <div className={c`h-full w-full`}>
       <MapButtons onCurrentLocationClicked={goToCurrentLocation} />
       <MapContainer
-        center={[latLong.latitude, latLong.longitude]}
+        center={[latitude, longitude]}
         zoom={13}
         scrollWheelZoom
         className={c`h-full w-full z-0`}
@@ -88,7 +102,8 @@ interface MapButtonsProps {
 function MapButtons(props: MapButtonsProps) {
   return (
     <div
-      className={c`absolute flex w-full h-full bg-transparent z-10 pointer-events-none p-1 pt-20 pb-5 md:pb-0 justify-start items-end`}
+      className={c`absolute flex w-full h-full bg-transparent z-10
+       pointer-events-none p-1 pt-20 pb-5 md:pb-0 justify-start items-end`}
     >
       <section
         className={c`pointer-events-auto opacity-50 hover:opacity-100 top-full

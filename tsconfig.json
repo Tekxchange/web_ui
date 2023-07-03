@@ -23,7 +23,8 @@
       "@utils": ["./src/utils/index.ts"],
       "@api": ["./src/api/index.ts"],
       "@api/*": ["./src/api/*"],
-      "@state/*": ["./src/state/*"]
+      "@state/*": ["./src/state/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src", "svg.d.ts"],
