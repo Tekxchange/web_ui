@@ -55,9 +55,10 @@ function App() {
             path="/account/*"
             element={
               <React.Suspense fallback={<FullPageLoading />}>
-                <ProtectedRoute>
-                  <AccountRoutes user={undefined as never} />
-                </ProtectedRoute>
+                <ProtectedRoute
+                  protectedElement={AccountRoutes}
+                  childProps={{}}
+                />
               </React.Suspense>
             }
           />

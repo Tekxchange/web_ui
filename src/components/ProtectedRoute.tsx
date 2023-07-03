@@ -9,14 +9,17 @@ export type WithAuth<T extends object = {}> = T & {
   readonly user: Some<UserInfo>;
 };
 
-interface ProtectedRouteProps extends React.PropsWithChildren {
+interface ProtectedRouteProps<Props extends object> {
   redirectTo?: string;
+  protectedElement: React.FC<WithAuth<Props>>;
+  childProps: Props;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+function ProtectedRoute<P extends object>({
   redirectTo,
-  children: vanillaChildren,
-}) => {
+  protectedElement: Protected,
+  childProps,
+}: ProtectedRouteProps<P>) {
   const { user, loading } = useAppSelector((state) => state.auth);
 
   if (loading && !user.isSome) {
@@ -27,12 +30,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to={redirectTo || "/"} />;
   }
 
-  const children = React.Children.map(vanillaChildren, (child) => {
-    if (!React.isValidElement(child)) return child;
-    return React.cloneElement(child as React.ReactElement<WithAuth>, { user });
-  });
-
-  return <>{children}</>;
-};
+  return (
+    <>
+      <Protected user={user} {...childProps} />
+    </>
+  );
+}
 
 export default ProtectedRoute;
