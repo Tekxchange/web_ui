@@ -1,9 +1,10 @@
-import { WithAuth } from "@components/ProtectedRoute";
+import { useProtectedAuth } from "@components/ProtectedRoute";
 
-const AccountPage: React.FC<WithAuth> = ({ user }) => {
+const AccountPage: React.FC = () => {
+  const user = useProtectedAuth();
   return (
     <>
-      <h1>Welcome, {user.value.username}</h1>
+      <h1>Welcome, {user.username}</h1>
     </>
   );
 };

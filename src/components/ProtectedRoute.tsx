@@ -1,18 +1,27 @@
 import { useAppDispatch, useAppSelector } from "@state/index";
-import React, { useEffect, useMemo } from "react";
+import React, { createContext, useContext, useEffect, useMemo } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import FullPageLoading from "./FullPageLoading";
 import { UserInfo } from "@api/userApi";
 import { Some } from "@utils/option";
 import { addHistory } from "@state/router";
 
-export type WithAuth<T extends object = {}> = T & {
-  readonly user: Some<UserInfo>;
-};
+const AuthContext = createContext<Some<UserInfo>>(undefined!);
+
+/**
+ * A protected hook which will always return a UserInfo object as long as the route is listed as protected via
+ * `<ProtectedRoute />`
+ * @returns The currently logged in user
+ */
+export function useProtectedAuth(): UserInfo {
+  const { value } = useContext(AuthContext);
+
+  return value;
+}
 
 type ProtectedRouteProps<Props extends object> = {
   redirectTo?: string;
-  protect: React.FC<WithAuth<Props>>;
+  protect: React.FC<Props>;
 } & Props;
 
 /**
@@ -55,7 +64,9 @@ function ProtectedRoute<P extends object>({
 
   return (
     <>
-      <Protected user={user} {...childProps} />
+      <AuthContext.Provider value={user}>
+        <Protected user={user} {...childProps} />
+      </AuthContext.Provider>
     </>
   );
 }

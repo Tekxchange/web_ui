@@ -1,15 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import store from "./state";
+import store, { RootState } from "./state";
 import App from "./App";
 import { debounce } from "debounce";
 import "./index.less";
 import { saveState } from "@state/utils";
+import { DeepPartial } from "@reduxjs/toolkit";
 
 store.subscribe(
   debounce(() => {
-    const { auth: _, ...toSave } = store.getState();
+    // Not serializing:
+    // Auth, search results
+    const {
+      auth: _,
+      search: { results, ...search },
+      ...rest
+    } = store.getState();
+    const toSave = rest as DeepPartial<RootState>;
+
+    toSave.search = search;
+
     saveState(toSave);
   }, 800)
 );
