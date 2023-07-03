@@ -1,5 +1,10 @@
 import Navbar from "@components/Navbar";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import MarketingPage from "./pages/marketing.page";
 import Footer from "@components/Footer";
 import React, { useEffect } from "react";
@@ -9,6 +14,8 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import { useAppDispatch, useAppSelector } from "./state";
 import { getUserInfo } from "@state/auth";
 import ProtectedRoute from "@components/ProtectedRoute";
+import { addHistory } from "@state/router";
+import UnprotectedRoute from "@components/UnprotectedRoute";
 
 const MainApp = React.lazy(() => import("./pages/app.page"));
 const PrivacyPage = React.lazy(() => import("./pages/privacy.page"));
@@ -34,12 +41,15 @@ function App() {
         <Navbar />
         <AuthModal open={authModalOpen} />
         <Routes>
-          <Route path="/" element={<MarketingPage />} />
+          <Route
+            path="/"
+            element={<UnprotectedRoute render={MarketingPage} />}
+          />
           <Route
             path="/app/*"
             element={
               <React.Suspense fallback={<FullPageLoading />}>
-                <MainApp />
+                <UnprotectedRoute render={MainApp} />
               </React.Suspense>
             }
           />
@@ -47,7 +57,7 @@ function App() {
             path="/privacy"
             element={
               <React.Suspense fallback={<FullPageLoading />}>
-                <PrivacyPage />
+                <UnprotectedRoute render={PrivacyPage} />
               </React.Suspense>
             }
           />
@@ -55,10 +65,7 @@ function App() {
             path="/account/*"
             element={
               <React.Suspense fallback={<FullPageLoading />}>
-                <ProtectedRoute
-                  protectedElement={AccountRoutes}
-                  childProps={{}}
-                />
+                <ProtectedRoute protect={AccountRoutes} />
               </React.Suspense>
             }
           />

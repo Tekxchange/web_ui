@@ -3,6 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { reducer as authReducer } from "./auth";
 import { reducer as searchReducer } from "./search";
 import { reducer as resultsBarReducer } from "./resultsBar";
+import { reducer as routerReducer } from "./router";
 import { loadState } from "./utils";
 
 const store = configureStore({
@@ -10,6 +11,7 @@ const store = configureStore({
     auth: authReducer,
     search: searchReducer,
     resultsBar: resultsBarReducer,
+    router: routerReducer,
   },
   preloadedState: loadState(),
 });
