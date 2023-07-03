@@ -1,7 +1,7 @@
 import { LatLng, LeafletEvent, Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.js";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
@@ -14,30 +14,28 @@ import {
   updateZoom,
 } from "@state/search";
 import { getCurrentPosition } from "../../../utils/mapUtils";
-import { debounce } from "debounce";
 
 export default function Map() {
-  const mapRef = useRef<LeafletMap | null>(null);
+  const [map, setMap] = useState<LeafletMap | null>(null);
   const dispatch = useAppDispatch();
   const {
     gotInitialPosition,
     filter: { latitude, longitude },
   } = useAppSelector((state) => state.search);
+  const zoomHandler = useCallback(() => {
+    if (!map) return;
+    const amount = map.getZoom();
+    amount && dispatch(updateZoom(amount));
+  }, [map]);
 
   async function goToCurrentLocation() {
-    if (!mapRef.current) return;
+    if (!map) return;
     const pos = await getCurrentPosition();
-    mapRef.current.setView(new LatLng(pos.latitude, pos.longitude));
+    map.setView(new LatLng(pos.latitude, pos.longitude));
   }
 
   useEffect(() => {
-    const map = mapRef.current;
     if (!map) return;
-
-    function zoomHandler() {
-      const amount = map?.getZoom();
-      amount && dispatch(updateZoom(amount));
-    }
 
     map.addEventListener("zoomend", zoomHandler);
 
@@ -51,7 +49,7 @@ export default function Map() {
     return () => {
       map.removeEventListener("zoomend", zoomHandler);
     };
-  }, [gotInitialPosition]);
+  }, [gotInitialPosition, zoomHandler]);
 
   return (
     <div className={c`h-full w-full`}>
@@ -67,7 +65,7 @@ export default function Map() {
         boxZoom
         minZoom={5}
         maxZoom={16}
-        ref={mapRef}
+        ref={(r) => setMap(r)}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
