@@ -55,7 +55,7 @@ export function createAuthState(initialState: AuthState) {
 }
 
 const authState = createAuthState({
-  loading: false,
+  loading: true,
   user: none(),
   authModalOpen: false,
 });

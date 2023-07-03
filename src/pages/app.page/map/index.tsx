@@ -1,7 +1,7 @@
-import { LatLng, LeafletEvent, Map as LeafletMap } from "leaflet";
+import { LatLng, Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.js";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
@@ -13,7 +13,7 @@ import {
   updateLocation,
   updateZoom,
 } from "@state/search";
-import { getCurrentPosition } from "../../../utils/mapUtils";
+import { getCurrentPosition } from "@utils/mapUtils";
 
 export default function Map() {
   const [map, setMap] = useState<LeafletMap | null>(null);

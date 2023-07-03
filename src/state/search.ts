@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { LatLong } from "../pages/app";
+import { LatLong } from "../pages/app.page";
 import { Option, none } from "@utils/option";
-import api from "../api";
 
 export interface Filter {
   longitude: number;
