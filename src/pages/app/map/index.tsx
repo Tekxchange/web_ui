@@ -8,7 +8,11 @@ import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import { c } from "@utils";
 import Button, { ButtonColor } from "@components/Button";
 import { useAppDispatch, useAppSelector } from "@state/index";
-import { updateLocation, updateZoom } from "@state/search";
+import {
+  updateGotInitialPosition,
+  updateLocation,
+  updateZoom,
+} from "@state/search";
 import { getCurrentPosition } from "../../../utils/mapUtils";
 import { debounce } from "debounce";
 
@@ -37,15 +41,17 @@ export default function Map() {
 
     map.addEventListener("zoomend", zoomHandler);
 
-    if (gotInitialPosition) return;
-    (async () => {
-      await goToCurrentLocation();
-    })();
+    if (!gotInitialPosition) {
+      (async () => {
+        await goToCurrentLocation();
+        dispatch(updateGotInitialPosition(true));
+      })();
+    }
 
     return () => {
       map.removeEventListener("zoomend", zoomHandler);
     };
-  }, []);
+  }, [gotInitialPosition]);
 
   return (
     <div className={c`h-full w-full`}>

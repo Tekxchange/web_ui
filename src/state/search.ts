@@ -70,6 +70,12 @@ export function createSearchState(initialState: SearchState) {
           query: payload,
         };
       },
+      updateGotInitialPosition: (
+        state,
+        { payload }: PayloadAction<boolean>
+      ) => {
+        state.gotInitialPosition = payload;
+      },
       updatePrice: (
         state,
         { payload }: PayloadAction<Pick<Filter, "priceLow" | "priceHigh">>
@@ -108,5 +114,10 @@ const state = createSearchState({
 });
 
 export const reducer = state.reducer;
-export const { updateLocation, updatePrice, updateQuery, updateZoom } =
-  state.actions;
+export const {
+  updateLocation,
+  updatePrice,
+  updateQuery,
+  updateZoom,
+  updateGotInitialPosition,
+} = state.actions;
