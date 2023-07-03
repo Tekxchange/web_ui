@@ -7,7 +7,6 @@ export function saveState(state: Partial<RootState>) {
     const serialized = JSON.stringify(state);
     localStorage.setItem(STATE_KEY, serialized);
   } catch (e) {
-    console.error(e);
   }
 }
 

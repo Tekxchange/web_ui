@@ -32,7 +32,6 @@ export default function Map() {
 
     function zoomHandler() {
       const amount = map?.getZoom();
-      console.log({ amount });
       amount && dispatch(updateZoom(amount));
     }
 
