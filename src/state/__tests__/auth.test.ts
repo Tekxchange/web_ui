@@ -1,8 +1,9 @@
 import { none, some } from "@utils/option";
-import { authState, reducer as authReducer } from "../auth";
+import { authState, reducer as authReducer, getUserInfo } from "../auth";
 import { configureStore } from "@reduxjs/toolkit";
 import type { UserInfo } from "@api/userApi";
 import api from "@api";
+import { waitFor } from "@testing-library/react";
 
 const createStore = () => {
   return configureStore({
@@ -14,7 +15,8 @@ const createStore = () => {
 describe("src/state/auth.ts", () => {
   describe("State Init", () => {
     it("Loads an initial auth state", () => {
-      expect(authState.getInitialState()).toEqual({
+      const store = createStore();
+      expect(store.getState()).toEqual({
         authModalOpen: false,
         loading: true,
         user: none(),
@@ -57,6 +59,29 @@ describe("src/state/auth.ts", () => {
       dispatch(authState.actions.logout());
       expect(getState().authReducer.user.isSome).toEqual(false);
       expect(logoutSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe("Async Actions", () => {
+    it("Fetches the users' info", async () => {
+      const userInfo: UserInfo = {
+        email: "testing@test.com",
+        id: 1,
+        username: "testing",
+      };
+      const userInfoSpy = jest
+        .spyOn(api.userApi, "getSelfInfo")
+        .mockResolvedValue(userInfo);
+
+      const { dispatch, getState } = createStore();
+      expect(getState().authReducer.user.isSome).toBeFalsy();
+      dispatch(getUserInfo());
+
+      expect(userInfoSpy).toHaveBeenCalledTimes(1);
+
+      await waitFor(() => {
+        expect(getState().authReducer.user.isSome).toBeTruthy();
+        expect(getState().authReducer.loading).toBeFalsy();
+      });
     });
   });
 });

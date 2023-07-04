@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const MAX_HISTORY_SIZE = 5;
 
-type RouteElement = {
+export type RouteElement = {
   pathname: string;
   search: string;
   protected: boolean;
@@ -36,9 +36,9 @@ export function createRouterState(initialState: RouterState) {
   });
 }
 
-const state = createRouterState({
+export const routerState = createRouterState({
   routerHistory: [],
 });
 
-export const reducer = state.reducer;
-export const { addHistory } = state.actions;
+export const reducer = routerState.reducer;
+export const { addHistory } = routerState.actions;

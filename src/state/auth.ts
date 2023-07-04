@@ -1,20 +1,11 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "@api";
 import { UserInfo } from "@api/userApi";
-import { LoginRequest } from "@api/authApi";
 import { Option, none, some } from "@utils/option";
 
 export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
   return await api.userApi.getSelfInfo();
 });
-
-export const login = createAsyncThunk(
-  "auth/login",
-  async (payload: LoginRequest, { dispatch }) => {
-    await api.authApi.login(payload);
-    dispatch(getUserInfo());
-  }
-);
 
 export interface AuthState {
   loading: boolean;
