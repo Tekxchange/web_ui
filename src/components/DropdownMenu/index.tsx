@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import styles from "./dropdownMenu.module.less";
 import { ChevronDoubleDownIcon } from "@heroicons/react/20/solid";
 

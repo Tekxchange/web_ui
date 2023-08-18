@@ -2,11 +2,7 @@ import { c, capitalize } from "@utils";
 import React, { useEffect, useState } from "react";
 import styles from "./input.module.less";
 
-interface IInputProps
-  extends Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    "ref" | "className"
-  > {
+interface IInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "ref" | "className"> {
   label: string;
   id: string;
   errorText?: string;
@@ -26,23 +22,20 @@ const variation: Record<InputVariation, string> = {
 };
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
-  const { label, id, errorText, onChange, fullWidth, ...inputProps } = props;
+  const { label, id, errorText, onChange, fullWidth: _fullWidth, ...inputProps } = props;
 
   const [isFocused, setIsFocused] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
-  const [currentVariation, setCurrentVariation] = useState(
-    InputVariation.Inactive
-  );
+  const [currentVariation, setCurrentVariation] = useState(InputVariation.Inactive);
 
   useEffect(() => {
-    if (Boolean(errorText)) {
+    if (errorText) {
       setCurrentVariation(InputVariation.Error);
     }
 
     if (isFocused) setCurrentVariation(InputVariation.Active);
 
-    if (!isFocused && !Boolean(errorText))
-      setCurrentVariation(InputVariation.Inactive);
+    if (!isFocused && !errorText) setCurrentVariation(InputVariation.Inactive);
   }, [isFocused, errorText]);
 
   return (
@@ -70,7 +63,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
         onChange={(evt) => {
           if (!evt.currentTarget.value) setIsEmpty(true);
           else setIsEmpty(false);
-          props.onChange?.(evt);
+          onChange?.(evt);
         }}
         className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent`}
         {...inputProps}

@@ -5,11 +5,7 @@ import tsConfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    svgr(),
-    tsConfigPaths(),
-  ],
+  plugins: [react(), svgr(), tsConfigPaths()],
   server: {
     open: true,
   },

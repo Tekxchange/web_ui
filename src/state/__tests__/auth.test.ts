@@ -16,7 +16,7 @@ describe("src/state/auth.ts", () => {
   describe("State Init", () => {
     it("Loads an initial auth state", () => {
       const store = createStore();
-      expect(store.getState()).toEqual({
+      expect(store.getState().authReducer).toEqual({
         authModalOpen: false,
         loading: true,
         user: none(),
@@ -49,11 +49,7 @@ describe("src/state/auth.ts", () => {
     it("Logs the user out", () => {
       const logoutSpy = jest.spyOn(api.authApi, "logout").mockReturnValue();
       const { dispatch, getState } = createStore();
-      dispatch(
-        authState.actions.setUser(
-          some({ email: "test", id: 1, username: "test" })
-        )
-      );
+      dispatch(authState.actions.setUser(some({ email: "test", id: 1, username: "test" })));
 
       expect(getState().authReducer.user.isSome).toEqual(true);
       dispatch(authState.actions.logout());
@@ -68,9 +64,7 @@ describe("src/state/auth.ts", () => {
         id: 1,
         username: "testing",
       };
-      const userInfoSpy = jest
-        .spyOn(api.userApi, "getSelfInfo")
-        .mockResolvedValue(userInfo);
+      const userInfoSpy = jest.spyOn(api.userApi, "getSelfInfo").mockResolvedValue(userInfo);
 
       const { dispatch, getState } = createStore();
       expect(getState().authReducer.user.isSome).toBeFalsy();

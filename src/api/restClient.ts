@@ -37,10 +37,7 @@ export class ApiClient {
     });
   }
 
-  async get<T>(
-    url: string,
-    params?: Record<string, unknown>
-  ): Promise<AxiosResponse<T, any>> {
+  async get<T>(url: string, params?: Record<string, unknown>): Promise<AxiosResponse<T, unknown>> {
     if (!params) {
       params = {};
     }
@@ -58,8 +55,8 @@ export class ApiClient {
   async post<T>(
     url: string,
     data: Record<string, unknown> | Record<string, unknown>[],
-    params?: Record<string, unknown>
-  ): Promise<AxiosResponse<T, any>> {
+    params?: Record<string, unknown>,
+  ): Promise<AxiosResponse<T, unknown>> {
     try {
       return await this._axios.post(url, data, { params });
     } catch (e) {

@@ -3,9 +3,7 @@
  * @param strings A list of classes to apply
  * @returns A single string joined with a space and all empty classes removed
  */
-function classes(
-  ...strings: (HTMLElement["className"] | undefined | null | false)[]
-) {
+function classes(...strings: (HTMLElement["className"] | undefined | null | false)[]) {
   return strings
     .map((c) => (c || "").trim().replaceAll(",", ""))
     .filter((c) => Boolean(c))
@@ -17,10 +15,7 @@ function classes(
  * @example c`test test2 test3 test4 ${styles.style} ${state && "style-here"}`
  * @returns The full className split by spaces
  */
-export function c(
-  args: TemplateStringsArray,
-  ...params: (string | undefined | null | false)[]
-): string {
+export function c(args: TemplateStringsArray, ...params: (string | undefined | null | false)[]): string {
   const classArray: string[] = [];
   args.forEach((arg) => {
     arg.split(/,|\s/).forEach((arg) => classArray.push(arg));
@@ -29,11 +24,8 @@ export function c(
   return classes(...classArray);
 }
 
-export function getProperty<T extends object>(
-  obj: T,
-  key: string | number | symbol
-): key is keyof T {
-  return obj.hasOwnProperty(key);
+export function getProperty<T extends object>(obj: T, key: string | number | symbol): key is keyof T {
+  return Object.prototype.hasOwnProperty.call(obj, key);
 }
 
 export function capitalize(item?: string): string | undefined {

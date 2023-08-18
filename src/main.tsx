@@ -14,7 +14,7 @@ store.subscribe(
     // Auth, search results
     const {
       auth: _,
-      search: { results, ...search },
+      search: { results: _results, ...search },
       ...rest
     } = store.getState();
     const toSave = rest as DeepPartial<RootState>;
@@ -22,7 +22,7 @@ store.subscribe(
     toSave.search = search;
 
     saveState(toSave);
-  }, 800)
+  }, 800),
 );
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
@@ -30,5 +30,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

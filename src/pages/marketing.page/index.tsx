@@ -15,19 +15,11 @@ export default function MarketingPage() {
           className={c`bg-clip-text h-fit py-1 lg:py-3 text-transparent bg-gradient-to-br
             from-red-600 to-blue-600`}
         >
-          <h2 className={c`text-4xl sm:text-6xl lg:text-8xl`}>
-            Find what you need
-          </h2>
-          <h3 className={c`text-3xl sm:text-4xl lg:text-6xl mt-2`}>
-            Right around the corner.
-          </h3>
+          <h2 className={c`text-4xl sm:text-6xl lg:text-8xl`}>Find what you need</h2>
+          <h3 className={c`text-3xl sm:text-4xl lg:text-6xl mt-2`}>Right around the corner.</h3>
           <span className={c`w-full flex justify-center items-center mt-16`}>
             <NavLink to={"/app"}>
-              <Button
-                buttonColor={ButtonColor.Gold}
-                buttonText="Start Browsing Now"
-                cta
-              />
+              <Button buttonColor={ButtonColor.Gold} buttonText="Start Browsing Now" cta />
             </NavLink>
           </span>
         </span>
@@ -38,9 +30,7 @@ export default function MarketingPage() {
         className={c`app-height w-full flex flex-col justify-center items-center
           bg-gradient-to-b from-gray-100 to-white`}
       >
-        <div
-          className={c`grid grid-cols-1 gap-5 px-2 md:grid-cols-2 md:gap-10 lg:gap-20`}
-        >
+        <div className={c`grid grid-cols-1 gap-5 px-2 md:grid-cols-2 md:gap-10 lg:gap-20`}>
           <Card
             titleText="Advanced Search Feature:"
             subtitleText="Find exactly what you're looking for with our powerful search tool."

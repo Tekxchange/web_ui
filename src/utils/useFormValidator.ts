@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Schema, ValidationError } from "yup";
 import { ErrorsOf } from "./types";
 
-function valuesToErrors<TValues extends object>(
-  input: TValues
-): ErrorsOf<TValues> {
+function valuesToErrors<TValues extends object>(input: TValues): ErrorsOf<TValues> {
   const toReturn: Record<string | number | symbol, string> = {};
 
   Object.keys(input).forEach((key) => (toReturn[key] = ""));
@@ -15,7 +13,7 @@ function valuesToErrors<TValues extends object>(
 export default function useFormValidator<TValues extends object>(
   formValues: TValues,
   setFormValues: (newValues: TValues) => void,
-  validator: Schema
+  validator: Schema,
 ) {
   const [formErrors, setFormErrors] = useState(valuesToErrors(formValues));
 
@@ -28,9 +26,7 @@ export default function useFormValidator<TValues extends object>(
     validator
       .validateAt(name, newFormValues)
       .then(() => setFormErrors({ ...formErrors, [name]: "" }))
-      .catch((err: ValidationError) =>
-        setFormErrors({ ...formErrors, [name]: err.message })
-      );
+      .catch((err: ValidationError) => setFormErrors({ ...formErrors, [name]: err.message }));
     setFormValues(newFormValues);
   }
 

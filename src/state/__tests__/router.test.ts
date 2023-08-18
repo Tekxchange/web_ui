@@ -29,9 +29,7 @@ describe("src/state/router.ts", () => {
 
         expect(getState().routerReducer.routerHistory.length).toEqual(0);
         dispatch(routerState.actions.addHistory(newHistoryItem));
-        expect(getState().routerReducer.routerHistory[0]).toEqual(
-          newHistoryItem
-        );
+        expect(getState().routerReducer.routerHistory[0]).toEqual(newHistoryItem);
       });
       it("Does not add history to the top of the stack if the top is equal to the new item", () => {
         const historyItem: RouteElement = {
@@ -53,7 +51,7 @@ describe("src/state/router.ts", () => {
               pathname: i.toString(),
               protected: false,
               search: "",
-            })
+            }),
           );
         }
         expect(getState().routerReducer.routerHistory.length).toEqual(5);
@@ -62,14 +60,10 @@ describe("src/state/router.ts", () => {
             pathname: "newItem",
             protected: false,
             search: "",
-          })
+          }),
         );
         expect(getState().routerReducer.routerHistory.length).toEqual(5);
-        expect(
-          getState().routerReducer.routerHistory.find((i) =>
-            i.pathname.includes("0")
-          )
-        ).toBeFalsy();
+        expect(getState().routerReducer.routerHistory.find((i) => i.pathname.includes("0"))).toBeFalsy();
       });
     });
   });

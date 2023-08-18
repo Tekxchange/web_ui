@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Ref } from "react";
 import { c } from "@utils";
 import type { Cog6ToothIcon } from "@heroicons/react/20/solid";
@@ -10,10 +11,7 @@ export enum IconPosition {
 
 interface IButtonProps
   extends Omit<
-    React.DetailedHTMLProps<
-      React.ButtonHTMLAttributes<HTMLButtonElement>,
-      HTMLButtonElement
-    >,
+    React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
     "ref" | "children" | "className"
   > {
   link?: false | undefined;
@@ -22,10 +20,7 @@ interface IButtonProps
 
 interface IAnchorProps
   extends Omit<
-    React.DetailedHTMLProps<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      HTMLAnchorElement
-    >,
+    React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
     "ref" | "children" | "className"
   > {
   link: true;
@@ -39,12 +34,7 @@ export type MenuItemProps = (IButtonProps | IAnchorProps) & {
   link?: boolean;
 };
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  innerRef,
-  link,
-  iconPosition: propsIconPosition,
-  ...props
-}) => {
+const MenuItem: React.FC<MenuItemProps> = ({ innerRef, link, iconPosition: propsIconPosition, ...props }) => {
   const iconPosition = propsIconPosition || IconPosition.Left;
   const { buttonText, icon, ...elementProps } = props;
   const innerMenuItemProps = { buttonText, icon, iconPosition };
@@ -75,18 +65,16 @@ const MenuItem: React.FC<MenuItemProps> = ({
   );
 };
 
-const InnerMenuItems: React.FC<
-  Pick<MenuItemProps, "buttonText" | "iconPosition" | "icon">
-> = ({ buttonText, icon: Icon, iconPosition }) => {
+const InnerMenuItems: React.FC<Pick<MenuItemProps, "buttonText" | "iconPosition" | "icon">> = ({
+  buttonText,
+  icon: Icon,
+  iconPosition,
+}) => {
   return (
     <>
-      {iconPosition === IconPosition.Left && Icon && (
-        <Icon className={c`w-5 h-5 inline mr-5`} />
-      )}
+      {iconPosition === IconPosition.Left && Icon && <Icon className={c`w-5 h-5 inline mr-5`} />}
       {buttonText}
-      {iconPosition === IconPosition.Right && Icon && (
-        <Icon className={c`w-5 h-5 inline ml-5`} />
-      )}
+      {iconPosition === IconPosition.Right && Icon && <Icon className={c`w-5 h-5 inline ml-5`} />}
     </>
   );
 };

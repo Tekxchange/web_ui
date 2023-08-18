@@ -21,32 +21,26 @@ export interface SearchState {
   mapZoomAmount: number;
 }
 
-export const updateSearch = createAsyncThunk(
-  "search/updateSearch",
-  async (filter: Partial<Filter>) => {}
-);
+export const updateSearch = createAsyncThunk("search/updateSearch", async (_filter: Partial<Filter>) => {});
 
-export const gotoCurrentLocation = createAsyncThunk(
-  "search/gotoCurrentLocation",
-  async () => {
-    return new Promise<{ latitude: number; longitude: number }>((res, rej) => {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          res({
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
-          });
-        },
-        () => {
-          alert(
-            "Unable to get current position. Either you have not given the site permissions, or your browser is not compatible."
-          );
-          res({ latitude: 0, longitude: 0 });
-        }
-      );
-    });
-  }
-);
+export const gotoCurrentLocation = createAsyncThunk("search/gotoCurrentLocation", async () => {
+  return new Promise<{ latitude: number; longitude: number }>((res, _) => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        res({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        });
+      },
+      () => {
+        alert(
+          "Unable to get current position. Either you have not given the site permissions, or your browser is not compatible.",
+        );
+        res({ latitude: 0, longitude: 0 });
+      },
+    );
+  });
+});
 
 export function createSearchState(initialState: SearchState) {
   return createSlice({
@@ -69,16 +63,10 @@ export function createSearchState(initialState: SearchState) {
           query: payload,
         };
       },
-      updateGotInitialPosition: (
-        state,
-        { payload }: PayloadAction<boolean>
-      ) => {
+      updateGotInitialPosition: (state, { payload }: PayloadAction<boolean>) => {
         state.gotInitialPosition = payload;
       },
-      updatePrice: (
-        state,
-        { payload }: PayloadAction<Pick<Filter, "priceLow" | "priceHigh">>
-      ) => {
+      updatePrice: (state, { payload }: PayloadAction<Pick<Filter, "priceLow" | "priceHigh">>) => {
         state.filter = {
           ...state.filter,
           priceHigh: payload.priceHigh,
@@ -90,7 +78,7 @@ export function createSearchState(initialState: SearchState) {
       builder.addCase(updateSearch.pending, (state) => {
         state.loading = true;
       });
-      builder.addCase(updateSearch.fulfilled, (state, { payload }) => {
+      builder.addCase(updateSearch.fulfilled, (state) => {
         state.loading = false;
       });
     },
@@ -113,10 +101,4 @@ const state = createSearchState({
 });
 
 export const reducer = state.reducer;
-export const {
-  updateLocation,
-  updatePrice,
-  updateQuery,
-  updateZoom,
-  updateGotInitialPosition,
-} = state.actions;
+export const { updateLocation, updatePrice, updateQuery, updateZoom, updateGotInitialPosition } = state.actions;

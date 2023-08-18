@@ -9,7 +9,7 @@ export async function getCurrentPosition(): Promise<{
       },
       () => {
         res({ latitude: 0, longitude: 0 });
-      }
+      },
     );
   });
 }

@@ -16,8 +16,5 @@ export default yup.object<IRegisterSchema>().shape({
     .string()
     .required(required)
     .oneOf([yup.ref("password"), ""], "You passwords must match"),
-  email: yup
-    .string()
-    .email("Please enter a valid email address")
-    .required(required),
+  email: yup.string().email("Please enter a valid email address").required(required),
 });

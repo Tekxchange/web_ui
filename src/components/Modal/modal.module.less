@@ -1,20 +1,20 @@
 @keyframes enterAnimation {
-    0% {
-        filter: opacity(0);
-        transform: translate3d(calc(100% / 2), calc(100% / 4), 0);
-    }
-    50% {
-        filter: opacity(100);
-        transform: translate3d(calc(100% / 2), calc(100% / 1.875), 0);
-    }
-    100% {
-        filter: opacity(100);
-        transform: translate3d(calc(100% / 2), calc(100% / 2), 0);
-    }
+  0% {
+    filter: opacity(0);
+    transform: translate3d(calc(100% / 2), calc(100% / 4), 0);
+  }
+  50% {
+    filter: opacity(100);
+    transform: translate3d(calc(100% / 2), calc(100% / 1.875), 0);
+  }
+  100% {
+    filter: opacity(100);
+    transform: translate3d(calc(100% / 2), calc(100% / 2), 0);
+  }
 }
 
 .enter {
-    animation: enterAnimation .25s ease-out 0s 1 forwards;
-    -webkit-font-smoothing: subpixel-antialiased;
-    will-change: transform;
+  animation: enterAnimation 0.25s ease-out 0s 1 forwards;
+  -webkit-font-smoothing: subpixel-antialiased;
+  will-change: transform;
 }

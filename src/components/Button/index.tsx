@@ -43,8 +43,7 @@ const buttonColorMap: Record<ButtonColor, string> = {
   `,
 };
 
-interface IButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "ref"> {
+interface IButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "ref"> {
   buttonText?: string;
   buttonColor?: ButtonColor;
   /**
@@ -53,24 +52,15 @@ interface IButtonProps
   cta?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
-  (props, ref) => {
-    const {
-      buttonText,
-      buttonColor,
-      children,
-      cta,
-      disabled,
-      className,
-      ...buttonProps
-    } = props;
+const Button = React.forwardRef<HTMLButtonElement, IButtonProps>((props, ref) => {
+  const { buttonText, buttonColor, children, cta, disabled, className, ...buttonProps } = props;
 
-    return (
-      <button
-        ref={ref}
-        disabled={disabled}
-        {...buttonProps}
-        className={c`
+  return (
+    <button
+      ref={ref}
+      disabled={disabled}
+      {...buttonProps}
+      className={c`
           ${className}
           ${buttonColorMap[buttonColor ?? ButtonColor.None]}
           ${cta && !disabled ? styles.cta : ""}
@@ -93,14 +83,15 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
           overflow-hidden
           max-h-full
         `}
-      >
-        <>
-          {buttonText}
-          {children}
-        </>
-      </button>
-    );
-  }
-);
+    >
+      <>
+        {buttonText}
+        {children}
+      </>
+    </button>
+  );
+});
+
+Button.displayName = "Button";
 
 export default Button;

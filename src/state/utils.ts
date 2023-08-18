@@ -7,7 +7,9 @@ export function saveState(state: DeepPartial<RootState>) {
   try {
     const serialized = JSON.stringify(state);
     localStorage.setItem(STATE_KEY, serialized);
-  } catch (e) {}
+  } catch (e) {
+    /* empty -- do nothing here, not worried about not saving state */
+  }
 }
 
 export function loadState() {

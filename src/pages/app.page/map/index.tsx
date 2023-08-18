@@ -8,11 +8,7 @@ import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import { c } from "@utils";
 import Button, { ButtonColor } from "@components/Button";
 import { useAppDispatch, useAppSelector } from "@state/index";
-import {
-  updateGotInitialPosition,
-  updateLocation,
-  updateZoom,
-} from "@state/search";
+import { updateGotInitialPosition, updateLocation, updateZoom } from "@state/search";
 import { getCurrentPosition } from "@utils/mapUtils";
 
 export default function Map() {
@@ -89,7 +85,7 @@ function MapEventListener() {
           updateLocation({
             latitude: center.lat,
             longitude: center.lng,
-          })
+          }),
         );
       }
     },

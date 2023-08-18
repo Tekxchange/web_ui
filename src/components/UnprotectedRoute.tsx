@@ -12,11 +12,7 @@ type UnprotectedRouteProps<Props extends object> = {
  * Protects a route behind auth, redirecting to either a custom redirect point
  * or the last unprotected route in the router history
  */
-function UnprotectedRoute<P extends object>({
-  redirectTo,
-  render: Render,
-  ...rest
-}: UnprotectedRouteProps<P>) {
+function UnprotectedRoute<P extends object>({ redirectTo: _redirectTo, render: Render, ...rest }: UnprotectedRouteProps<P>) {
   const dispatch = useAppDispatch();
   const { pathname, search } = useLocation();
 

@@ -2,7 +2,7 @@ import { c } from "@utils";
 
 interface AppHeightProps extends React.PropsWithChildren {}
 
-const AppHeight: React.FC<AppHeightProps> = ({ children }) => {
+export default function AppHeight({ children }: AppHeightProps) {
   return (
     <section
       className={c`app-height with-footer flex justify-center items-center
@@ -11,6 +11,4 @@ const AppHeight: React.FC<AppHeightProps> = ({ children }) => {
       {children}
     </section>
   );
-};
-
-export default AppHeight;
+}

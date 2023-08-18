@@ -21,11 +21,7 @@ export default function Register() {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const { onChange, formErrors } = useFormValidator(
-    formValues,
-    setFormValues,
-    registerSchema
-  );
+  const { onChange, formErrors } = useFormValidator(formValues, setFormValues, registerSchema);
 
   async function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -37,9 +33,7 @@ export default function Register() {
       dispatch(setAuthModalState(false));
     } catch (err) {
       if (err instanceof AxiosError) {
-        setServerError(
-          err.response?.data?.error ?? "An unknown error has occurred"
-        );
+        setServerError(err.response?.data?.error ?? "An unknown error has occurred");
       }
     }
   }
@@ -51,20 +45,8 @@ export default function Register() {
           <p>{serverError}</p>
         </div>
       )}
-      <Input
-        id="username"
-        label="Username"
-        name="username"
-        errorText={formErrors.username}
-        onChange={onChange}
-      />
-      <Input
-        id="email"
-        label="Email"
-        name="email"
-        onChange={onChange}
-        errorText={formErrors.email}
-      />
+      <Input id="username" label="Username" name="username" errorText={formErrors.username} onChange={onChange} />
+      <Input id="email" label="Email" name="email" onChange={onChange} errorText={formErrors.email} />
       <Input
         id="password"
         label="Password"

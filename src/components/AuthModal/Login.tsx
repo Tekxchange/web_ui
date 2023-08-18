@@ -19,16 +19,12 @@ export default function Login() {
   const [formValues, setFormValues] = useState<ILoginSchema>(initialFormValues);
   const [serverError, setServerError] = useState("");
 
-  const { formErrors, onChange } = useFormValidator(
-    formValues,
-    setFormValues,
-    loginSchema
-  );
+  const { formErrors, onChange } = useFormValidator(formValues, setFormValues, loginSchema);
 
   const allowSubmit = useMemo(() => {
     for (const key in formErrors) {
       if (!getProperty(formErrors, key)) continue;
-      if (Boolean(formErrors[key])) {
+      if (formErrors[key]) {
         return false;
       }
     }
@@ -46,10 +42,7 @@ export default function Login() {
       dispatch(setAuthModalState(false));
     } catch (err) {
       if (!(err instanceof AxiosError)) return;
-      setServerError(
-        err.response?.data?.error ||
-          "An unknown error has occurred, please try again"
-      );
+      setServerError(err.response?.data?.error || "An unknown error has occurred, please try again");
     }
   }
 
@@ -78,12 +71,7 @@ export default function Login() {
         onChange={onChange}
       />
       <div className={c`self-center mt-2`}>
-        <Button
-          buttonText="Submit"
-          cta
-          buttonColor={ButtonColor.Gold}
-          disabled={!allowSubmit}
-        />
+        <Button buttonText="Submit" cta buttonColor={ButtonColor.Gold} disabled={!allowSubmit} />
       </div>
     </form>
   );

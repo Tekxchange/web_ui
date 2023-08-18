@@ -28,11 +28,7 @@ type ProtectedRouteProps<Props extends object> = {
  * Protects a route behind auth, redirecting to either a custom redirect point
  * or the last unprotected route in the router history
  */
-function ProtectedRoute<P extends object>({
-  redirectTo,
-  protect: Protected,
-  ...rest
-}: ProtectedRouteProps<P>) {
+function ProtectedRoute<P extends object>({ redirectTo, protect: Protected, ...rest }: ProtectedRouteProps<P>) {
   const { user, loading } = useAppSelector((state) => state.auth);
   const { routerHistory } = useAppSelector((state) => state.router);
 

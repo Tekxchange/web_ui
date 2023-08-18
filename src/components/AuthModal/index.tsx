@@ -6,7 +6,7 @@ import { useState } from "react";
 import ForgotPassword from "./Forgot";
 import Login from "./Login";
 import Register from "./Register";
-import { useAppDispatch, useAppSelector } from "@state/index";
+import { useAppDispatch } from "@state/index";
 import { setAuthModalState } from "@state/auth";
 
 export enum AuthForm {
@@ -19,49 +19,31 @@ interface IAuthProps extends Omit<IModalProps, "children" | "onClose"> {}
 
 export default function AuthModal(props: IAuthProps) {
   const dispatch = useAppDispatch();
-  const [currentAuthForm, setCurrentAuthForm] = useState<AuthForm>(
-    AuthForm.Login
-  );
+  const [currentAuthForm, setCurrentAuthForm] = useState<AuthForm>(AuthForm.Login);
 
   const { ...modalProps } = props;
 
   return (
     <Modal {...modalProps} onClose={() => dispatch(setAuthModalState(false))}>
-      <div
-        className={c`min-h-fit p-2 w-full max-w-sm flex items-center flex-col`}
-      >
-        <section
-          className={c`pb-2 w-full border-b-2 ${styles.inlineButtons} flex justify-center overflow-x-auto`}
-        >
+      <div className={c`min-h-fit p-2 w-full max-w-sm flex items-center flex-col`}>
+        <section className={c`pb-2 w-full border-b-2 ${styles.inlineButtons} flex justify-center overflow-x-auto`}>
           <Button
             onClick={() => setCurrentAuthForm(AuthForm.Login)}
-            buttonColor={
-              currentAuthForm === AuthForm.Login
-                ? ButtonColor.None
-                : ButtonColor.Blue
-            }
+            buttonColor={currentAuthForm === AuthForm.Login ? ButtonColor.None : ButtonColor.Blue}
             disabled={currentAuthForm === AuthForm.Login}
           >
             Login
           </Button>
           <Button
             onClick={() => setCurrentAuthForm(AuthForm.Register)}
-            buttonColor={
-              currentAuthForm === AuthForm.Register
-                ? ButtonColor.None
-                : ButtonColor.Blue
-            }
+            buttonColor={currentAuthForm === AuthForm.Register ? ButtonColor.None : ButtonColor.Blue}
             disabled={currentAuthForm === AuthForm.Register}
           >
             Register
           </Button>
           <Button
             onClick={() => setCurrentAuthForm(AuthForm.ForgotPassword)}
-            buttonColor={
-              currentAuthForm === AuthForm.ForgotPassword
-                ? ButtonColor.None
-                : ButtonColor.Blue
-            }
+            buttonColor={currentAuthForm === AuthForm.ForgotPassword ? ButtonColor.None : ButtonColor.Blue}
             disabled={currentAuthForm === AuthForm.ForgotPassword}
           >
             Forgot Password
