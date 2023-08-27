@@ -37,16 +37,20 @@ export class ApiClient {
     });
   }
 
-  async get<T>(url: string, params?: Record<string, unknown>): Promise<AxiosResponse<T, unknown>> {
+  async get<T>(
+    url: string,
+    params?: Record<string, unknown>,
+    options?: Parameters<(typeof axios)["get"]>[1],
+  ): Promise<AxiosResponse<T, unknown>> {
     if (!params) {
       params = {};
     }
     try {
-      return await this._axios.get<T>(url, { params });
+      return await this._axios.get<T>(url, { ...options, params });
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status === 401) {
         await this.refreshToken();
-        return await this._axios.get<T>(url, { params });
+        return await this._axios.get<T>(url, { ...options, params });
       }
       throw e;
     }
@@ -54,15 +58,16 @@ export class ApiClient {
 
   async post<T>(
     url: string,
-    data: Record<string, unknown> | Record<string, unknown>[],
+    data: Record<string, unknown> | Record<string, unknown>[] | FormData,
     params?: Record<string, unknown>,
+    options?: Parameters<(typeof axios)["post"]>[2],
   ): Promise<AxiosResponse<T, unknown>> {
     try {
-      return await this._axios.post(url, data, { params });
+      return await this._axios.post(url, data, { ...options, params });
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status === 401) {
         await this.refreshToken();
-        return await this._axios.post(url, data, { params });
+        return await this._axios.post(url, data, { ...options, params });
       }
       throw e;
     }
