@@ -23,7 +23,6 @@ export class ApiClient {
 
   refreshInstance() {
     this._jwt = localStorage.getItem("jwt");
-    this._refreshToken = localStorage.getItem("refresh");
     this._axios = this.buildAxios();
   }
 
@@ -32,7 +31,6 @@ export class ApiClient {
       baseURL: this._baseURL,
       headers: {
         ...(this._jwt ? { auth: this._jwt } : {}),
-        ...(this._refreshToken ? { refresh: this._refreshToken } : {}),
       },
     });
   }
@@ -74,8 +72,11 @@ export class ApiClient {
   }
 
   private async refreshToken() {
-    const res = await this._axios.get<string>("/api/auth/refresh");
-    this._jwt = res.data;
+    type Response = {
+      jwt: string;
+    }
+    const res = await this._axios.get<Response>("/api/auth/refresh", { withCredentials: true });
+    this._jwt = res.data.jwt;
     localStorage.setItem("jwt", this._jwt);
     this.refreshInstance();
   }

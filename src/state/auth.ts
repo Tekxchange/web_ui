@@ -25,8 +25,8 @@ export function createAuthState(initialState: AuthState) {
         state.authModalOpen = payload;
       },
       logout: (state) => {
-        state.user = none();
         api.authApi.logout();
+        state.user = none();
       },
     },
     extraReducers: (builder) => {

@@ -1,7 +1,6 @@
-import { lazy } from "react";
 import ResultsBar from "./resultsBar";
+import Map from "./map";
 import AppHeight from "@components/AppHeight";
-import LazyComponent from "@components/LazyComponent";
 
 export interface LatLong {
   latitude: number;
@@ -11,7 +10,7 @@ export interface LatLong {
 export default function MainApp() {
   return (
     <AppHeight>
-      <LazyComponent component={lazy(() => import("./map"))} />
+      <Map />
       <ResultsBar />
     </AppHeight>
   );

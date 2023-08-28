@@ -16,12 +16,9 @@ export default class AuthApi extends RestClient {
   async login(request: LoginRequest) {
     type Response = {
       jwt: string;
-      refreshToken: string;
     };
-
-    const res = await this.client.post<Response>("/api/auth/login", request);
+    const res = await this.client.post<Response>("/api/auth/login", request, undefined, { withCredentials: true });
     localStorage.setItem("jwt", res.data.jwt);
-    localStorage.setItem("refresh", res.data.refreshToken);
     this.client.refreshInstance();
   }
 
@@ -29,9 +26,9 @@ export default class AuthApi extends RestClient {
     await this.client.post("/api/auth/register", request);
   }
 
-  logout() {
+  async logout() {
+    await this.client.get("/api/auth/revoke_token", undefined, { withCredentials: true });
     localStorage.removeItem("jwt");
-    localStorage.removeItem("refresh");
     this.client.refreshInstance();
   }
 }
