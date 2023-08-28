@@ -47,7 +47,7 @@ describe("src/state/auth.ts", () => {
       expect(getState().authReducer.authModalOpen).toEqual(true);
     });
     it("Logs the user out", () => {
-      const logoutSpy = jest.spyOn(api.authApi, "logout").mockReturnValue();
+      const logoutSpy = jest.spyOn(api.authApi, "logout").mockResolvedValue();
       const { dispatch, getState } = createStore();
       dispatch(authState.actions.setUser(some({ email: "test", id: 1, username: "test" })));
 
