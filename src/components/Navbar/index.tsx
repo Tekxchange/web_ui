@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { c } from "@utils";
 import DropdownMenu from "@components/DropdownMenu";
 import MenuItem, { IconPosition } from "@components/DropdownMenu/MenuItem";
@@ -12,6 +12,8 @@ import { setAuthModalState, logout as stateLogout } from "@state/auth";
 export default function Navbar() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const location = useLocation();
+
   const [atTop, setAtTop] = useState(true);
 
   const onScroll = useCallback(() => {
@@ -21,6 +23,15 @@ export default function Navbar() {
 
   async function logout() {
     dispatch(stateLogout());
+  }
+
+  function getHomeUrl(currentPath: string): string {
+    const appPaths = ["/app", "/account"];
+
+    if (appPaths.some((path) => currentPath.toLowerCase().includes(path.toLowerCase()))) {
+      return "/app";
+    }
+    return "/";
   }
 
   useEffect(() => {
@@ -35,7 +46,7 @@ export default function Navbar() {
         transition-all justify-between md:px-40 lg:px-80 sticky top-0
         ${styles.navbar} ${!atTop && styles.stuck}`}
     >
-      <NavLink to="/" className={c`self-center text-2xl`}>
+      <NavLink to={getHomeUrl(location.pathname)} className={c`self-center text-2xl`}>
         <h1>Tekxchange</h1>
       </NavLink>
       <div className={c`self-center`}>
