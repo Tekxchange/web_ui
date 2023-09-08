@@ -13,7 +13,7 @@ export default function MarketingPage() {
       >
         <span
           className={c`bg-clip-text h-fit py-1 lg:py-3 text-transparent bg-gradient-to-br
-            from-red-600 to-blue-600`}
+            from-red-600 to-blue-600 dark:from-red-400 dark:to-blue-400`}
         >
           <h2 className={c`text-4xl sm:text-6xl lg:text-8xl`}>Find what you need</h2>
           <h3 className={c`text-3xl sm:text-4xl lg:text-6xl mt-2`}>Right around the corner.</h3>
@@ -28,7 +28,7 @@ export default function MarketingPage() {
       <section
         id="details"
         className={c`app-height w-full flex flex-col justify-center items-center
-          bg-gradient-to-b from-gray-100 to-white`}
+          bg-gradient-to-b from-gray-100 to-white dark:from-slate-900 dark:to-slate-900`}
       >
         <div className={c`grid grid-cols-1 gap-5 px-2 md:grid-cols-2 md:gap-10 lg:gap-20`}>
           <Card

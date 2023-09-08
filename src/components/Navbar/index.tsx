@@ -1,17 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { c } from "@utils";
 import DropdownMenu from "@components/DropdownMenu";
 import MenuItem, { IconPosition } from "@components/DropdownMenu/MenuItem";
 import styles from "./navbar.module.less";
 import Button, { ButtonColor } from "@components/Button";
-import { Cog6ToothIcon, ArrowLeftOnRectangleIcon, InboxIcon, UserCircleIcon } from "@heroicons/react/20/solid";
+import { Cog6ToothIcon, ArrowLeftOnRectangleIcon, InboxIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "@state/index";
 import { setAuthModalState, logout as stateLogout } from "@state/auth";
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const location = useLocation();
+
   const [atTop, setAtTop] = useState(true);
 
   const onScroll = useCallback(() => {
@@ -23,6 +25,15 @@ export default function Navbar() {
     dispatch(stateLogout());
   }
 
+  function getHomeUrl(currentPath: string): string {
+    const appPaths = ["/app", "/account"];
+
+    if (appPaths.some((path) => currentPath.toLowerCase().includes(path.toLowerCase()))) {
+      return "/app";
+    }
+    return "/";
+  }
+
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
 
@@ -31,11 +42,11 @@ export default function Navbar() {
 
   return (
     <div
-      className={c`h-16 flex px-5 z-50 bg-[rgba(255,255,255,.75)] w-full
+      className={c`h-16 flex px-5 z-50 bg-transparent w-full
         transition-all justify-between md:px-40 lg:px-80 sticky top-0
         ${styles.navbar} ${!atTop && styles.stuck}`}
     >
-      <NavLink to="/" className={c`self-center text-2xl`}>
+      <NavLink to={getHomeUrl(location.pathname)} className={c`self-center text-2xl text-black dark:text-slate-300`}>
         <h1>Tekxchange</h1>
       </NavLink>
       <div className={c`self-center`}>
