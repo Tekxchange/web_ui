@@ -37,8 +37,8 @@ export default function Login() {
     try {
       setLoading(true);
       await api.authApi.login({
-        password: formValues.password,
-        username: formValues.username,
+        password: formValues.password.trim(),
+        username: formValues.username.trim(),
       });
       dispatch(getUserInfo());
       dispatch(setAuthModalState(false));

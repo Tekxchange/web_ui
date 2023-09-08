@@ -26,11 +26,19 @@ export default function Register() {
 
   async function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
+    const toSubmit: typeof formValues = {
+      confirmPassword: formValues.confirmPassword.trim(),
+      email: formValues.email.trim(),
+      password: formValues.password.trim(),
+      username: formValues.username.trim(),
+    };
 
     try {
       setLoading(true);
-      await api.authApi.register(formValues);
-      await api.authApi.login(formValues);
+      const { confirmPassword: _confirmPassword, ...registerData } = toSubmit;
+      await api.authApi.register(registerData);
+      const { email: _email, ...loginData } = registerData;
+      await api.authApi.login(loginData);
       dispatch(getUserInfo());
       dispatch(setAuthModalState(false));
     } catch (err) {
