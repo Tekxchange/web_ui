@@ -16,8 +16,8 @@ enum InputVariation {
 }
 
 const variation: Record<InputVariation, string> = {
-  [InputVariation.Active]: c`border-blue-400`,
-  [InputVariation.Inactive]: c``,
+  [InputVariation.Active]: c`border-blue-400 dark:border-cyan-500`,
+  [InputVariation.Inactive]: c`border-slate-300`,
   [InputVariation.Error]: c`border-red-400`,
 };
 
@@ -65,7 +65,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
           else setIsEmpty(false);
           onChange?.(evt);
         }}
-        className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent`}
+        className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent dark:bg-slate-800`}
         {...inputProps}
       />
     </div>

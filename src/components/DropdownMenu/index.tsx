@@ -51,9 +51,11 @@ export default function DropdownMenu(props: IDropdownProps) {
           absolute
           py-2
           transition-all
-          bg-white
+          bg-slate-100
+          dark:bg-slate-800
           rounded
           text-black
+          dark:text-slate-300
           translate-x-1/2
           right-1/2
           ${styles.dropdownMenu}

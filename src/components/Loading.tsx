@@ -6,5 +6,5 @@ type Props = {
 };
 
 export default function Loading(props: Props) {
-  return <Spinner className={props.className ?? c`h-24 w-24`} />;
+  return <Spinner className={c`${props.className} h-24 w-24 dark:invert dark:contrast-200`} />;
 }

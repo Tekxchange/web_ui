@@ -21,7 +21,8 @@ export default function Modal(props: IModalProps) {
   return (
     <div className={c`fixed top-0 z-50 w-screen h-screen bg-black bg-opacity-50`} onClick={onClose}>
       <section
-        className={c`absolute w-max bottom-1/2 right-1/2 rounded-md bg-white ${styles.enter} max-h-full`}
+        className={c`absolute w-max bottom-1/2 right-1/2 rounded-md bg-white 
+        dark:bg-slate-800 ${styles.enter} max-h-full`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

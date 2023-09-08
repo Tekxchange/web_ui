@@ -53,7 +53,7 @@ export default function Login() {
   return (
     <form className={c`flex flex-col w-full`} onSubmit={onSubmit}>
       {serverError && (
-        <div className={c`w-full text-center bg-red-400 mt-2 px-1`}>
+        <div className={c`w-full text-center bg-red-400 dark:text-slate-800 mt-2 px-1`}>
           <p>{serverError}</p>
         </div>
       )}

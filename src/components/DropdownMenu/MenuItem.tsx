@@ -45,7 +45,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ innerRef, link, iconPosition: props
         <NavLink
           ref={innerRef}
           to={(elementProps as any).href}
-          className={c`hover:bg-gray-100 min-w-full h-full px-2 py-1
+          className={c`hover:bg-slate-800 dark:hover:bg-slate-600 min-w-full h-full px-2 py-1
+            hover:text-white
             active:shadow-lg-inner active:shadow-gray-400 transition-colors w-max flex justify-between items-center`}
           {...(elementProps as any)}
         >
@@ -54,7 +55,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ innerRef, link, iconPosition: props
       ) : (
         <button
           ref={innerRef}
-          className={c`hover:bg-gray-100 min-w-full h-full px-2 py-1
+          className={c`hover:bg-slate-800 dark:hover:bg-slate-600 min-w-full h-full px-2 py-1
+            hover:text-white
             active:shadow-lg-inner active:shadow-gray-400 transition-colors w-max flex justify-between items-center`}
           {...(elementProps as any)}
         >

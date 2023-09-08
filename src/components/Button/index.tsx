@@ -14,8 +14,10 @@ export enum ButtonColor {
 const buttonColorMap: Record<ButtonColor, string> = {
   [ButtonColor.None]: c`
     bg-transparent
-    hover:bg-gray-100
+    hover:bg-slate-100
+    dark:hover:bg-slate-800
     text-blue-700
+    dark:text-cyan-400
     hover:shadow-none
   `,
   [ButtonColor.Red]: c`
@@ -26,21 +28,33 @@ const buttonColorMap: Record<ButtonColor, string> = {
   `,
   [ButtonColor.Green]: c`
     bg-green-400
+    dark:bg-lime-600
     hover:bg-green-300
+    dark:hover:bg-lime-400
     text-black
+    dark:text-slate-900
     hover:shadow-black
+    dark:hover:shadow-slate-600
   `,
   [ButtonColor.Blue]: c`
     bg-blue-300
+    dark:bg-cyan-700
     hover:bg-blue-200
+    dark:hover:bg-cyan-500
     text-black
+    dark:text-slate-200
     hover:shadow-black
+    dark:hover:shadow-slate-600
   `,
   [ButtonColor.Gold]: c`
     bg-yellow-400
+    dark:bg-yellow-600
     hover:bg-yellow-300
+    dark:hover:bg-yellow-400
     text-black
+    dark:text-slate-900
     hover:shadow-black
+    dark:hover:shadow-slate-600
   `,
 };
 
@@ -73,6 +87,7 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>((props, propsRe
           border-transparent
           hover:shadow-sm
           active:shadow-black
+          dark:active:shadow-slate-500
           transition-colors
           box-border
           border
@@ -80,7 +95,9 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>((props, propsRe
           md:text-lg
           active:shadow-lg-inner
           disabled:bg-slate-300
+          dark:disabled:bg-slate-500
           disabled:text-slate-100
+          dark:disabled:text-slate-300
           disabled:hover:shadow-none
           disabled:cursor-not-allowed
           overflow-hidden
