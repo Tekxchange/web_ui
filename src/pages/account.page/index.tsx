@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import LazyComponent from "@components/LazyComponent";
 import { lazy } from "react";
 import NotFound from "../NotFound";
+import Sidebar from "./components/Sidebar";
 
 const AccountRoutes: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const AccountRoutes: React.FC = () => {
         <Route path="/new_listing" element={<LazyComponent component={lazy(() => import("./listProduct.page"))} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Sidebar />
     </AppHeight>
   );
 };
