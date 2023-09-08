@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export class ApiClient {
   private _axios: AxiosInstance;
@@ -50,6 +51,9 @@ export class ApiClient {
         await this.refreshToken();
         return await this._axios.get<T>(url, { ...options, params });
       }
+      const error = e as AxiosError<{ error?: string }>;
+
+      toast.error(error.response?.data?.error || "An error occurred with your request. Please try again");
       throw e;
     }
   }
@@ -67,6 +71,9 @@ export class ApiClient {
         await this.refreshToken();
         return await this._axios.post(url, data, { ...options, params });
       }
+      const error = e as AxiosError<{ error?: string }>;
+
+      toast.error(error.response?.data?.error || "An error occurred with your request. Please try again");
       throw e;
     }
   }
@@ -74,7 +81,7 @@ export class ApiClient {
   private async refreshToken() {
     type Response = {
       jwt: string;
-    }
+    };
     const res = await this._axios.get<Response>("/api/auth/refresh", { withCredentials: true });
     this._jwt = res.data.jwt;
     localStorage.setItem("jwt", this._jwt);

@@ -32,6 +32,9 @@ export function createRouterState(initialState: RouterState) {
           state.routerHistory.pop();
         }
       },
+      deleteHistory: (state, { payload }: PayloadAction<string>) => {
+        state.routerHistory = state.routerHistory.filter((history) => history.pathname !== payload);
+      },
     },
   });
 }
@@ -41,4 +44,4 @@ export const routerState = createRouterState({
 });
 
 export const reducer = routerState.reducer;
-export const { addHistory } = routerState.actions;
+export const { addHistory, deleteHistory } = routerState.actions;

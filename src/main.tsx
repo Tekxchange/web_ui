@@ -1,10 +1,10 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import store, { RootState } from "./state";
 import App from "./App";
 import { debounce } from "debounce";
 import "./index.less";
+import "react-toastify/dist/ReactToastify.css";
 import { saveState } from "@state/utils";
 import { DeepPartial } from "@reduxjs/toolkit";
 
@@ -26,9 +26,7 @@ store.subscribe(
 );
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
 );

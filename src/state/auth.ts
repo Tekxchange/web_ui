@@ -2,9 +2,16 @@ import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "@api";
 import { UserInfo } from "@api/userApi";
 import { Option, none, some } from "@utils/option";
+import { toast } from "react-toastify";
 
 export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
-  return await api.userApi.getSelfInfo();
+  return await toast.promise(api.userApi.getSelfInfo(), {
+    error: "Unable to fetch user info",
+    pending: "Fetching user info",
+    success: {
+      render: (data) => `Welcome back, ${data.data?.username}!`,
+    },
+  });
 });
 
 export interface AuthState {

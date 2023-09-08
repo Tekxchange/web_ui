@@ -3,8 +3,7 @@ import ProductApi from "./productApi";
 import { ApiClient } from "./restClient";
 import UserApi from "./userApi";
 
-const BASE_URL = "https://backend.tekxchange.net" as const;
-// const BASE_URL = "http://localhost:8000" as const;
+const BASE_URL = import.meta.env.DEV ? "http://localhost:8000" : "https://backend.tekxchange.net";
 
 const apiClient = new ApiClient(BASE_URL);
 

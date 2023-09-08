@@ -18,6 +18,7 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const [formValues, setFormValues] = useState<ILoginSchema>(initialFormValues);
   const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { formErrors, onChange } = useFormValidator(formValues, setFormValues, loginSchema);
 
@@ -34,6 +35,7 @@ export default function Login() {
   async function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     try {
+      setLoading(true);
       await api.authApi.login({
         password: formValues.password,
         username: formValues.username,
@@ -43,6 +45,8 @@ export default function Login() {
     } catch (err) {
       if (!(err instanceof AxiosError)) return;
       setServerError(err.response?.data?.error || "An unknown error has occurred, please try again");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -71,7 +75,7 @@ export default function Login() {
         onChange={onChange}
       />
       <div className={c`self-center mt-2`}>
-        <Button buttonText="Submit" cta buttonColor={ButtonColor.Gold} disabled={!allowSubmit} />
+        <Button buttonText="Submit" cta buttonColor={ButtonColor.Gold} disabled={!allowSubmit} loading={loading} />
       </div>
     </form>
   );

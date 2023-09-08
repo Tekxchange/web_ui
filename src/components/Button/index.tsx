@@ -1,6 +1,7 @@
 import React from "react";
 import { c } from "@utils";
 import styles from "./button.module.less";
+import Loading from "@components/Loading";
 
 export enum ButtonColor {
   Red,
@@ -50,14 +51,16 @@ interface IButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement
    * Call to action? (Adds extra animations on the button)
    */
   cta?: boolean;
+  loading?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, IButtonProps>((props, ref) => {
-  const { buttonText, buttonColor, children, cta, disabled, className, ...buttonProps } = props;
+const Button = React.forwardRef<HTMLButtonElement, IButtonProps>((props, propsRef) => {
+  const { buttonText, buttonColor, children, cta, disabled: propsDisabled, className, loading, ...buttonProps } = props;
+  const disabled = propsDisabled || loading;
 
   return (
     <button
-      ref={ref}
+      ref={propsRef}
       disabled={disabled}
       {...buttonProps}
       className={c`
@@ -82,11 +85,20 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>((props, ref) =>
           disabled:cursor-not-allowed
           overflow-hidden
           max-h-full
+          relative
         `}
     >
       <>
-        {buttonText}
-        {children}
+        <section className={loading ? c`opacity-0` : c`opacity-100`}>
+          {buttonText}
+          {children}
+        </section>
+
+        {loading && (
+          <div className={c`absolute w-full h-full top-0 left-0`}>
+            <Loading className={c`w-full h-full`} />
+          </div>
+        )}
       </>
     </button>
   );

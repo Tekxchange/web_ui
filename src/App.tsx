@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from "./state";
 import { getUserInfo } from "@state/auth";
 import ProtectedRoute from "@components/ProtectedRoute";
 import UnprotectedRoute from "@components/UnprotectedRoute";
+import NotFound from "./pages/NotFound";
+import { ToastContainer } from "react-toastify";
 
 const MainApp = React.lazy(() => import("./pages/app.page"));
 const PrivacyPage = React.lazy(() => import("./pages/privacy.page"));
@@ -20,7 +22,7 @@ function App() {
   const { authModalOpen } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(getUserInfo());
+    if (localStorage.getItem("jwt")) dispatch(getUserInfo());
   }, []);
 
   return (
@@ -55,8 +57,17 @@ function App() {
               </React.Suspense>
             }
           />
+          <Route
+            path="*"
+            element={
+              <React.Suspense fallback={<FullPageLoading />}>
+                <NotFound />
+              </React.Suspense>
+            }
+          />
         </Routes>
         <Footer />
+        <ToastContainer position="bottom-center" pauseOnHover autoClose={1500} limit={2} />
       </Router>
     </>
   );

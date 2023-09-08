@@ -20,6 +20,7 @@ export default function Register() {
   const dispatch = useAppDispatch();
   const [formValues, setFormValues] = useState(initialFormValues);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const { onChange, formErrors } = useFormValidator(formValues, setFormValues, registerSchema);
 
@@ -27,6 +28,7 @@ export default function Register() {
     evt.preventDefault();
 
     try {
+      setLoading(true);
       await api.authApi.register(formValues);
       await api.authApi.login(formValues);
       dispatch(getUserInfo());
@@ -35,6 +37,8 @@ export default function Register() {
       if (err instanceof AxiosError) {
         setServerError(err.response?.data?.error ?? "An unknown error has occurred");
       }
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -64,7 +68,7 @@ export default function Register() {
         onChange={onChange}
       />
       <div className={c`self-center mt-2`}>
-        <Button buttonText="Submit" buttonColor={ButtonColor.Gold} cta />
+        <Button buttonText="Submit" buttonColor={ButtonColor.Gold} cta loading={loading} />
       </div>
     </form>
   );
