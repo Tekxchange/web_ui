@@ -67,7 +67,7 @@ function App() {
           />
         </Routes>
         <Footer />
-        <ToastContainer position="bottom-center" pauseOnHover autoClose={1500} limit={2} />
+        <ToastContainer position="bottom-center" pauseOnHover autoClose={1500} limit={2} theme="dark" />
       </Router>
     </>
   );

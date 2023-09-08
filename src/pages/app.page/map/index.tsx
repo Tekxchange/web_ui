@@ -54,7 +54,7 @@ export default function Map() {
         center={[latitude, longitude]}
         zoom={13}
         scrollWheelZoom
-        className={c`h-full w-full z-0`}
+        className={c`h-full w-full z-0 dark:invert dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180`}
         zoomAnimation
         touchZoom
         bounceAtZoomLimits

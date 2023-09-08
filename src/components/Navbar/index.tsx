@@ -42,11 +42,11 @@ export default function Navbar() {
 
   return (
     <div
-      className={c`h-16 flex px-5 z-50 bg-[rgba(255,255,255,.75)] w-full
+      className={c`h-16 flex px-5 z-50 bg-transparent w-full
         transition-all justify-between md:px-40 lg:px-80 sticky top-0
         ${styles.navbar} ${!atTop && styles.stuck}`}
     >
-      <NavLink to={getHomeUrl(location.pathname)} className={c`self-center text-2xl`}>
+      <NavLink to={getHomeUrl(location.pathname)} className={c`self-center text-2xl text-black dark:text-slate-300`}>
         <h1>Tekxchange</h1>
       </NavLink>
       <div className={c`self-center`}>
