@@ -14,6 +14,7 @@ const store = configureStore({
     router: routerReducer,
   },
   preloadedState: loadState(),
+  devTools: import.meta.env.DEV,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
