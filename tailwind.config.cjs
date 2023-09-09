@@ -16,6 +16,9 @@ module.exports = {
       animation: {
         enter: "descendEnter .5s ease-out",
       },
+      transitionProperty: {
+        'width-margin': 'max-width,margin'
+      }
     },
   },
   plugins: [],

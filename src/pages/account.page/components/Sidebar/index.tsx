@@ -5,23 +5,25 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
-  const [_expanded, _setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <div
-      className={c`w-48 border-r-2 dark:border-slate-600 h-full
-        flex flex-col overflow-y-auto py-2 overflow-x-hidden transition-all`}
+      className={c`w-auto border-r-2 dark:border-slate-600 h-full
+        overflow-y-auto py-2 overflow-x-hidden transition-all flex flex-col`}
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => setExpanded(false)}
     >
       <NavLink to={"/account/sales"}>
-        <SidebarItem icon={BanknotesIcon} text="My Sales" />
+        <SidebarItem icon={BanknotesIcon} text="My Sales" expanded={expanded} />
       </NavLink>
       <NavLink to={"/account/purchases"}>
-        <SidebarItem icon={CurrencyDollarIcon} text="My Purchases" />
+        <SidebarItem icon={CurrencyDollarIcon} text="My Purchases" expanded={expanded} />
       </NavLink>
       <NavLink to="/account/messenger">
-        <SidebarItem icon={InboxIcon} text="Messenger" />
+        <SidebarItem icon={InboxIcon} text="Messenger" expanded={expanded} />
       </NavLink>
-      <SidebarItem icon={Cog6ToothIcon} text="Settings" />
+      <SidebarItem icon={Cog6ToothIcon} text="Settings" expanded={expanded} />
     </div>
   );
 }
