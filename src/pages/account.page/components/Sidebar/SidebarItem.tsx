@@ -6,15 +6,18 @@ type Props = {
   text?: string;
   onClick?: () => void;
   expanded?: boolean;
+  noFocus?: boolean;
 };
 
 export default function SidebarItem(props: Props) {
-  const { icon: Icon, text, onClick, expanded } = props;
+  const { icon: Icon, text, onClick, expanded, noFocus } = props;
   return (
     <button
       className={c`bg-transparent hover:bg-slate-800 dark:hover:bg-slate-600 hover:text-white dark:hover:text-slate-100 transition-all h-10 max-h-fit
         flex items-center py-2 pl-4 hover:cursor-pointer dark:text-slate-300 w-full relative`}
       onClick={onClick}
+      tabIndex={noFocus ? -1 : undefined}
+      aria-description={text}
     >
       <section className={c`h-full w-max flex items-center`}>
         {Icon && <Icon className={c`h-full mr-4 shrink-0`} />}

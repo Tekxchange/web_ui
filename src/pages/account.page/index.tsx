@@ -15,6 +15,7 @@ const AccountRoutes: React.FC = () => {
           <Route path="/" element={<LazyComponent component={lazy(() => import("./account"))} />} />
           <Route path="/messenger" element={<LazyComponent component={lazy(() => import("./messenger.page"))} />} />
           <Route path="/settings" element={<LazyComponent component={lazy(() => import("./settings.page"))} />} />
+          <Route path="/sales" element={<h1>My Sales</h1>} />
           <Route path="/new_listing" element={<LazyComponent component={lazy(() => import("./listProduct.page"))} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

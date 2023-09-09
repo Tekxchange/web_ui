@@ -10,7 +10,7 @@ export default function Footer() {
     >
       <p className={c`text-sm md:text-lg`}>&copy; 2022-{new Date().getFullYear()} texchange.net</p>
       <NavLink to={"/privacy"} target="_blank">
-        <Button>Privacy Policy</Button>
+        <Button tabIndex={-1}>Privacy Policy</Button>
       </NavLink>
     </footer>
   );

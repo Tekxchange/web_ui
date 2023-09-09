@@ -53,7 +53,7 @@ export function createAuthState(initialState: AuthState) {
 }
 
 export const authState = createAuthState({
-  loading: true,
+  loading: Boolean(localStorage.getItem("jwt")),
   user: none(),
   authModalOpen: false,
 });

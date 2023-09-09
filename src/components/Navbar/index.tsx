@@ -5,7 +5,7 @@ import DropdownMenu from "@components/DropdownMenu";
 import MenuItem, { IconPosition } from "@components/DropdownMenu/MenuItem";
 import styles from "./navbar.module.less";
 import Button, { ButtonColor } from "@components/Button";
-import { Cog6ToothIcon, ArrowLeftOnRectangleIcon, InboxIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { Cog6ToothIcon, ArrowLeftOnRectangleIcon, UserCircleIcon, ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "@state/index";
 import { setAuthModalState, logout as stateLogout } from "@state/auth";
 
@@ -61,7 +61,7 @@ export default function Navbar() {
             />
             <MenuItem
               buttonText="Messenger"
-              icon={InboxIcon}
+              icon={ChatBubbleLeftRightIcon}
               iconPosition={IconPosition.Right}
               link
               href="/account/messenger"

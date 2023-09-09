@@ -1,6 +1,12 @@
 import { c } from "@utils";
 import SidebarItem from "./SidebarItem";
-import { CurrencyDollarIcon, InboxIcon, Cog6ToothIcon, BanknotesIcon } from "@heroicons/react/24/outline";
+import {
+  Cog6ToothIcon,
+  BanknotesIcon,
+  UserCircleIcon,
+  BuildingStorefrontIcon,
+  ChatBubbleLeftRightIcon,
+} from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -14,14 +20,17 @@ export default function Sidebar() {
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
+      <NavLink to={"/account"}>
+        <SidebarItem icon={UserCircleIcon} text="Account" expanded={expanded} noFocus />
+      </NavLink>
       <NavLink to={"/account/sales"}>
-        <SidebarItem icon={BanknotesIcon} text="My Sales" expanded={expanded} />
+        <SidebarItem icon={BuildingStorefrontIcon} text="Sales" expanded={expanded} noFocus />
       </NavLink>
       <NavLink to={"/account/purchases"}>
-        <SidebarItem icon={CurrencyDollarIcon} text="My Purchases" expanded={expanded} />
+        <SidebarItem icon={BanknotesIcon} text="Purchases" expanded={expanded} noFocus />
       </NavLink>
       <NavLink to="/account/messenger">
-        <SidebarItem icon={InboxIcon} text="Messenger" expanded={expanded} />
+        <SidebarItem icon={ChatBubbleLeftRightIcon} text="Messenger" expanded={expanded} noFocus />
       </NavLink>
       <SidebarItem icon={Cog6ToothIcon} text="Settings" expanded={expanded} />
     </div>
