@@ -20,12 +20,12 @@ const AccountRoutes = React.lazy(() => import("./pages/account.page"));
 
 function App() {
   const dispatch = useAppDispatch();
-  const { authModalOpen } = useAppSelector((state) => state.auth);
+  const { authModalOpen, wasLoggedIn } = useAppSelector((state) => state.auth);
 
   const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   useEffect(() => {
-    if (localStorage.getItem("jwt")) dispatch(getUserInfo());
+    if (wasLoggedIn) dispatch(getUserInfo());
   }, []);
 
   return (

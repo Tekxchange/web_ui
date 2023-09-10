@@ -18,6 +18,7 @@ export interface AuthState {
   loading: boolean;
   user: Option<UserInfo>;
   authModalOpen: boolean;
+  wasLoggedIn: boolean;
 }
 
 export function createAuthState(initialState: AuthState) {
@@ -34,6 +35,9 @@ export function createAuthState(initialState: AuthState) {
       logout: (state) => {
         api.authApi.logout();
         state.user = none();
+      },
+      setWasLoggedIn: (state, { payload }: PayloadAction<boolean>) => {
+        state.wasLoggedIn = payload;
       },
     },
     extraReducers: (builder) => {
@@ -56,7 +60,8 @@ export const authState = createAuthState({
   loading: Boolean(localStorage.getItem("jwt")),
   user: none(),
   authModalOpen: false,
+  wasLoggedIn: false,
 });
 
 export const reducer = authState.reducer;
-export const { logout, setUser, setAuthModalState } = authState.actions;
+export const { logout, setUser, setAuthModalState, setWasLoggedIn } = authState.actions;

@@ -3,14 +3,12 @@ import { toast } from "react-toastify";
 
 export class ApiClient {
   private _axios: AxiosInstance;
-  private _refreshToken: string | null;
   private _jwt: string | null;
   private _baseURL: string;
 
   constructor(baseURL: string) {
     this._baseURL = baseURL;
-    this._jwt = localStorage.getItem("jwt");
-    this._refreshToken = localStorage.getItem("refresh");
+    this._jwt = null;
     this._axios = this.buildAxios();
   }
 
@@ -18,12 +16,11 @@ export class ApiClient {
     return this._jwt;
   }
 
-  get refresh(): string | null {
-    return this._refreshToken;
+  set jwt(toSet: string | null) {
+    this._jwt = toSet;
   }
 
   refreshInstance() {
-    this._jwt = localStorage.getItem("jwt");
     this._axios = this.buildAxios();
   }
 
@@ -31,7 +28,7 @@ export class ApiClient {
     return axios.create({
       baseURL: this._baseURL,
       headers: {
-        ...(this._jwt ? { auth: this._jwt } : {}),
+        ...(this._jwt ? { authorization: this._jwt } : {}),
       },
     });
   }
@@ -84,7 +81,6 @@ export class ApiClient {
     };
     const res = await this._axios.get<Response>("/api/auth/refresh", { withCredentials: true });
     this._jwt = res.data.jwt;
-    localStorage.setItem("jwt", this._jwt);
     this.refreshInstance();
   }
 }

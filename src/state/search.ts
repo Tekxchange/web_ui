@@ -85,7 +85,7 @@ export function createSearchState(initialState: SearchState) {
   });
 }
 
-const state = createSearchState({
+export const searchState = createSearchState({
   filter: {
     latitude: 0,
     longitude: 0,
@@ -100,5 +100,5 @@ const state = createSearchState({
   mapZoomAmount: 13,
 });
 
-export const reducer = state.reducer;
-export const { updateLocation, updatePrice, updateQuery, updateZoom, updateGotInitialPosition } = state.actions;
+export const reducer = searchState.reducer;
+export const { updateLocation, updatePrice, updateQuery, updateZoom, updateGotInitialPosition } = searchState.actions;

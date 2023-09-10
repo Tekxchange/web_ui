@@ -16,7 +16,7 @@ export function createResultsBarState(initialState: ResultsBarState) {
   });
 }
 
-const resultsBarState = createResultsBarState({ opened: false });
+export const resultsBarState = createResultsBarState({ opened: false });
 
 export const reducer = resultsBarState.reducer;
 export const { setBarStatus } = resultsBarState.actions;

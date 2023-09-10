@@ -1,4 +1,6 @@
 import { RestClient } from "./restClient";
+import state from "../state";
+import { setWasLoggedIn } from "../state/auth";
 
 export type LoginRequest = {
   username?: string;
@@ -18,8 +20,9 @@ export default class AuthApi extends RestClient {
       jwt: string;
     };
     const res = await this.client.post<Response>("/api/auth/login", request, undefined, { withCredentials: true });
-    localStorage.setItem("jwt", res.data.jwt);
+    this.client.jwt = res.data.jwt;
     this.client.refreshInstance();
+    state.dispatch(setWasLoggedIn(true));
   }
 
   async register(request: RegisterRequest) {
@@ -28,7 +31,8 @@ export default class AuthApi extends RestClient {
 
   async logout() {
     await this.client.get("/api/auth/revoke_token", undefined, { withCredentials: true });
-    localStorage.removeItem("jwt");
+    this.client.jwt = null;
     this.client.refreshInstance();
+    state.dispatch(setWasLoggedIn(false));
   }
 }

@@ -13,13 +13,14 @@ store.subscribe(
     // Not serializing:
     // Auth, search results
     const {
-      auth: _,
+      auth: { wasLoggedIn, ..._rest },
       search: { results: _results, ...search },
       ...rest
     } = store.getState();
     const toSave = rest as DeepPartial<RootState>;
 
     toSave.search = search;
+    toSave.auth = { wasLoggedIn };
 
     saveState(toSave);
   }, 800),
