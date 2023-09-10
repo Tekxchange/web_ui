@@ -6,6 +6,7 @@ import {
   UserCircleIcon,
   BuildingStorefrontIcon,
   ChatBubbleLeftRightIcon,
+  DocumentPlusIcon
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -28,6 +29,9 @@ export default function Sidebar() {
       </NavLink>
       <NavLink to={"/account/purchases"}>
         <SidebarItem icon={BanknotesIcon} text="Purchases" expanded={expanded} noFocus />
+      </NavLink>
+      <NavLink to={"/account/new_listing"}>
+        <SidebarItem icon={DocumentPlusIcon} text="New Listing" expanded={expanded} noFocus />
       </NavLink>
       <NavLink to="/account/messenger">
         <SidebarItem icon={ChatBubbleLeftRightIcon} text="Messenger" expanded={expanded} noFocus />

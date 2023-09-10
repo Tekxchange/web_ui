@@ -53,6 +53,7 @@ export default function DropdownMenu(props: IDropdownProps) {
           transition-all
           bg-slate-100
           dark:bg-slate-800
+          border
           rounded
           text-black
           dark:text-slate-300

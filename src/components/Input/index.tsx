@@ -6,7 +6,7 @@ interface IInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 
   label: string;
   id: string;
   errorText?: string;
-  fullWidth?: boolean;
+  textArea?: boolean;
 }
 
 enum InputVariation {
@@ -22,7 +22,7 @@ const variation: Record<InputVariation, string> = {
 };
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
-  const { label, id, errorText, onChange, fullWidth: _fullWidth, ...inputProps } = props;
+  const { label, id, errorText, onChange, textArea, ...inputProps } = props;
 
   const [isFocused, setIsFocused] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -40,7 +40,9 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
 
   return (
     <div
-      className={c`relative my-2 border-2 rounded-md px-2 py-2 ${variation[currentVariation]} transition-colors`}
+      className={c`relative ${textArea ? "h-40" : undefined} my-2 border-2 rounded-md px-2 py-2 ${
+        variation[currentVariation]
+      } transition-colors`}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       data-tooltip-id="tooltip"
@@ -57,17 +59,33 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
       >
         {label}
       </label>
-      <input
-        ref={ref}
-        id={id}
-        onChange={(evt) => {
-          if (!evt.currentTarget.value) setIsEmpty(true);
-          else setIsEmpty(false);
-          onChange?.(evt);
-        }}
-        className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent dark:bg-slate-800`}
-        {...inputProps}
-      />
+      {textArea ? (
+        <textarea
+          ref={ref as React.ForwardedRef<HTMLTextAreaElement>}
+          id={id}
+          onChange={(evt) => {
+            if (!evt.currentTarget.value) setIsEmpty(true);
+            else setIsEmpty(false);
+            onChange?.(evt as unknown as React.ChangeEvent<HTMLInputElement>);
+          }}
+          className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent dark:bg-slate-800
+        autofill:text-black dark:autofill:!text-slate-700 resize-none`}
+          {...(inputProps as React.InputHTMLAttributes<HTMLTextAreaElement>)}
+        />
+      ) : (
+        <input
+          ref={ref}
+          id={id}
+          onChange={(evt) => {
+            if (!evt.currentTarget.value) setIsEmpty(true);
+            else setIsEmpty(false);
+            onChange?.(evt);
+          }}
+          className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent dark:bg-slate-800
+          autofill:text-black dark:autofill:!text-slate-700`}
+          {...inputProps}
+        />
+      )}
     </div>
   );
 });

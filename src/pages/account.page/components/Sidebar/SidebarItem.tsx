@@ -24,7 +24,7 @@ export default function SidebarItem(props: Props) {
         {text && (
           <h3
             className={c`text-lg transition-width-margin w-auto ${
-              expanded ? "max-w-7xl mr-4" : "max-w-0"
+              expanded ? "max-w-7xl mr-8" : "max-w-0 mr-0"
             } whitespace-nowrap`}
           >
             {text}
