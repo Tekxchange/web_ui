@@ -63,7 +63,6 @@ export default function ListProduct() {
               label="Price"
               id="price"
               name="price"
-              min={0}
               fullWidth
               onChange={onChange}
               value={formValues.price}

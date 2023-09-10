@@ -1,6 +1,7 @@
 import { c, capitalize } from "@utils";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./input.module.less";
+import { useMediaQuery } from "usehooks-ts";
 
 interface IInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "ref" | "className"> {
   label: string;
@@ -24,6 +25,8 @@ const variation: Record<InputVariation, string> = {
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
   const { label, id, errorText, onChange, textArea, fullWidth, ...inputProps } = props;
+
+  const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const [isFocused, setIsFocused] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -109,7 +112,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
             onChange?.(evt);
           }}
           className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent bg-transparent
-          autofill:text-black dark:autofill:!text-slate-700 file:hidden file:placeholder:hidden`}
+           file:hidden ${props.type === "file" && "cursor-pointer"} text-current ${isDarkMode && styles.autofillDark}`}
           {...inputProps}
         />
       )}

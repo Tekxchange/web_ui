@@ -1,3 +1,5 @@
+import autoprefixer from "autoprefixer";
+
 /** @type {import('tailwindcss').Config} */
 // eslint-disable-next-line no-undef
 module.exports = {
@@ -7,7 +9,6 @@ module.exports = {
       boxShadow: {
         "lg-inner": "0 0 .125rem 0 inset",
       },
-      
       keyframes: {
         descendEnter: {
           "0%": { transform: "translate(0, -30px)", opacity: 0 },
@@ -18,9 +19,9 @@ module.exports = {
         enter: "descendEnter .5s ease-out",
       },
       transitionProperty: {
-        'width-margin': 'max-width,margin'
-      }
+        "width-margin": "max-width,margin",
+      },
     },
   },
-  plugins: [],
+  plugins: [autoprefixer],
 };
