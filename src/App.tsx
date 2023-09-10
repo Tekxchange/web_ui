@@ -35,7 +35,8 @@ function App() {
           id="tooltip"
           delayShow={1000}
           positionStrategy="fixed"
-          style={{ zIndex: 1000, background: isDarkMode ? "rgb(30 41 59)" : undefined }}
+          variant={isDarkMode ? "dark" : "light"}
+          style={{ zIndex: 1000 }}
         />
         <Navbar />
         <AuthModal open={authModalOpen} />

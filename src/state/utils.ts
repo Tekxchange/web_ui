@@ -1,7 +1,7 @@
-import { authState } from "./auth";
-import { searchState } from "./search";
-import { resultsBarState } from "./resultsBar";
-import { routerState } from "./router";
+import { preloadAuthState } from "./auth";
+import { preloadSearchState } from "./search";
+import { preloadResultsState } from "./resultsBar";
+import { preloadRouterState } from "./router";
 
 const STATE_KEY = "SAVED_LOCAL_STATE";
 
@@ -22,10 +22,10 @@ export function loadState() {
     const un = JSON.parse(serialized);
 
     const state = {
-      auth: { ...authState.getInitialState(), ...un.auth },
-      search: { ...searchState.getInitialState(), ...un.search },
-      resultsBar: { ...resultsBarState.getInitialState(), ...un.resultsBar },
-      router: { ...routerState.getInitialState(), ...un.router },
+      auth: { ...preloadAuthState(un.auth) },
+      search: { ...preloadSearchState(un.search) },
+      resultsBar: { ...preloadResultsState(un.resultsBar) },
+      router: { ...preloadRouterState(un.router) },
     };
 
     return state;

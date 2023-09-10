@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, createAsyncThunk, DeepPartial } from "@reduxjs/toolkit";
 import api from "@api";
 import { UserInfo } from "@api/userApi";
 import { Option, none, some } from "@utils/option";
@@ -56,8 +56,17 @@ export function createAuthState(initialState: AuthState) {
   });
 }
 
+export function preloadAuthState(preloadedState: DeepPartial<AuthState>): AuthState {
+  if (preloadedState.wasLoggedIn) {
+    preloadedState.loading = true;
+  }
+
+  const toReturn = { ...authState.getInitialState(), ...preloadedState } as AuthState;
+  return toReturn;
+}
+
 export const authState = createAuthState({
-  loading: Boolean(localStorage.getItem("jwt")),
+  loading: false,
   user: none(),
   authModalOpen: false,
   wasLoggedIn: false,

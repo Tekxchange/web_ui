@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, createAsyncThunk, DeepPartial } from "@reduxjs/toolkit";
 import { LatLong } from "../pages/app.page";
 import { Option, none } from "@utils/option";
 
@@ -83,6 +83,11 @@ export function createSearchState(initialState: SearchState) {
       });
     },
   });
+}
+
+export function preloadSearchState(preloaded: DeepPartial<SearchState>): SearchState {
+  const toReturn = { ...preloaded, ...searchState.getInitialState() } as SearchState;
+  return toReturn;
 }
 
 export const searchState = createSearchState({
