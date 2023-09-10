@@ -1,5 +1,5 @@
 import { c, capitalize } from "@utils";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./input.module.less";
 
 interface IInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "ref" | "className"> {
@@ -28,6 +28,27 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
   const [isEmpty, setIsEmpty] = useState(true);
   const [currentVariation, setCurrentVariation] = useState(InputVariation.Inactive);
 
+  const labelRef = useRef<HTMLLabelElement>(null);
+
+  useEffect(() => {
+    if (!labelRef.current) return;
+    let parentElement: HTMLElement | null = labelRef.current.parentElement;
+    let found = false;
+
+    while (!found) {
+      if (!parentElement) return;
+      const background = window.getComputedStyle(parentElement).backgroundColor;
+      if (background !== "rgba(0, 0, 0, 0)") {
+        found = true;
+        break;
+      }
+      parentElement = parentElement.parentElement;
+    }
+    if (!parentElement) return;
+    const parentColor = window.getComputedStyle(parentElement).backgroundColor;
+    labelRef.current.style.setProperty("--after-background", parentColor);
+  }, [isFocused]);
+
   useEffect(() => {
     if (errorText) {
       setCurrentVariation(InputVariation.Error);
@@ -51,13 +72,13 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
       data-tooltip-float
       data-tooltip-delay-show={0}
     >
-      <label
-        htmlFor={id}
-        className={c`absolute ${
-          isFocused || !isEmpty ? styles.focused : styles.lostFocus
-        } transition-all will-change-transform pointer-events-none`}
-      >
-        {label}
+      <label ref={labelRef} htmlFor={id} className={c`absolute top-0 left-0 h-full w-full pointer-events-none px-2`}>
+        <p
+          className={c`relative px-2 ${isFocused || !isEmpty ? styles.focused : styles.lostFocus}
+          w-fit`}
+        >
+          {label}
+        </p>
       </label>
       {textArea ? (
         <textarea
@@ -68,7 +89,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
             else setIsEmpty(false);
             onChange?.(evt as unknown as React.ChangeEvent<HTMLInputElement>);
           }}
-          className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent dark:bg-slate-800
+          className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent bg-transparent
         autofill:text-black dark:autofill:!text-slate-700 resize-none`}
           {...(inputProps as React.InputHTMLAttributes<HTMLTextAreaElement>)}
         />
@@ -81,7 +102,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
             else setIsEmpty(false);
             onChange?.(evt);
           }}
-          className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent dark:bg-slate-800
+          className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent bg-transparent
           autofill:text-black dark:autofill:!text-slate-700`}
           {...inputProps}
         />

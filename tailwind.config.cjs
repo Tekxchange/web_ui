@@ -7,6 +7,7 @@ module.exports = {
       boxShadow: {
         "lg-inner": "0 0 .125rem 0 inset",
       },
+      
       keyframes: {
         descendEnter: {
           "0%": { transform: "translate(0, -30px)", opacity: 0 },
