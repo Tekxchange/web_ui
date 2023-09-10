@@ -7,6 +7,7 @@ interface IInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 
   id: string;
   errorText?: string;
   textArea?: boolean;
+  fullWidth?: boolean;
 }
 
 enum InputVariation {
@@ -22,13 +23,18 @@ const variation: Record<InputVariation, string> = {
 };
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
-  const { label, id, errorText, onChange, textArea, ...inputProps } = props;
+  const { label, id, errorText, onChange, textArea, fullWidth, ...inputProps } = props;
 
   const [isFocused, setIsFocused] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
   const [currentVariation, setCurrentVariation] = useState(InputVariation.Inactive);
 
   const labelRef = useRef<HTMLLabelElement>(null);
+
+  useEffect(() => {
+    const empty = props.value === undefined || props.value === null || props.value === ''
+    setIsEmpty(empty);
+  }, [])
 
   useEffect(() => {
     if (!labelRef.current) return;
@@ -63,7 +69,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
     <div
       className={c`relative ${textArea ? "h-40" : undefined} my-2 border-2 rounded-md px-2 py-2 ${
         variation[currentVariation]
-      } transition-colors`}
+      } transition-colors ${fullWidth && "w-full"}`}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       data-tooltip-id="tooltip"
