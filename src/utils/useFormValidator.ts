@@ -18,7 +18,7 @@ export default function useFormValidator<TValues extends object>(
   const [formErrors, setFormErrors] = useState(valuesToErrors(formValues));
 
   function onChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    evt.preventDefault();
+    evt.preventDefault?.();
 
     const { name, value } = evt.target;
     const newFormValues = { ...formValues, [name]: value };

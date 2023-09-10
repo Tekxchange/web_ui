@@ -1,16 +1,29 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CarouselItem from "./CarouselItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Input from "@components/Input";
+import { useIsFirstRender } from "usehooks-ts";
 
-export default function PicturePicker() {
+type Props = {
+  onChange?: (files: File[]) => void;
+};
+
+export default function PicturePicker(props: Props) {
   const [pictures, setPictures] = useState<{ file: File; url: string }[]>([]);
+  const isFirstRender = useIsFirstRender();
 
   function deletePicture(pic: File) {
     return () => {
       setPictures((pics) => pics.filter((p) => p.file !== pic));
     };
   }
+
+  useEffect(() => {
+    if (isFirstRender) return;
+
+    props.onChange?.(pictures.map((p) => p.file));
+  }, [pictures]);
 
   return (
     <div>
@@ -20,8 +33,11 @@ export default function PicturePicker() {
         ))}
       </Carousel>
 
-      <input
+      <Input
+        id="fileInput"
+        label="Select File"
         type="file"
+        title="Select your file"
         multiple
         accept=".png,.jpg,.jpeg"
         onChange={(evt) => {

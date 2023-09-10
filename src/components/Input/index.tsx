@@ -32,9 +32,9 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
   const labelRef = useRef<HTMLLabelElement>(null);
 
   useEffect(() => {
-    const empty = props.value === undefined || props.value === null || props.value === ''
-    setIsEmpty(empty);
-  }, [])
+    const empty = props.value === undefined || props.value === null || props.value === "";
+    setIsEmpty(empty && props.type !== "file");
+  }, []);
 
   useEffect(() => {
     if (!labelRef.current) return;
@@ -109,7 +109,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
             onChange?.(evt);
           }}
           className={c`w-full h-full active:outline-none focus:outline-none autofill:bg-transparent bg-transparent
-          autofill:text-black dark:autofill:!text-slate-700`}
+          autofill:text-black dark:autofill:!text-slate-700 file:hidden file:placeholder:hidden`}
           {...inputProps}
         />
       )}
