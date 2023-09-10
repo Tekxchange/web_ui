@@ -1,7 +1,7 @@
 .navbar {
   will-change: transform;
-  backdrop-filter: blur(0.5rem);
+  @apply bg-white dark:bg-slate-900;
   &.stuck {
-    @apply shadow-md shadow-gray-300 dark:shadow-slate-500;
+    @apply shadow-md;
   }
 }

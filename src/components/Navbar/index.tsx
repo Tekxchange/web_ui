@@ -42,7 +42,7 @@ export default function Navbar() {
 
   return (
     <div
-      className={c`h-16 flex px-5 z-50 bg-transparent w-full
+      className={c`h-16 flex px-5 z-50 w-full
         transition-all justify-between md:px-40 lg:px-80 sticky top-0
         ${styles.navbar} ${!atTop && styles.stuck}`}
     >
