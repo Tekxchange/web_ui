@@ -1,4 +1,5 @@
 import AuthApi from "./authApi";
+import geolocateClient from "./geolocateClient";
 import ProductApi from "./productApi";
 import { ApiClient } from "./restClient";
 import UserApi from "./userApi";
@@ -11,4 +12,5 @@ export default {
   authApi: new AuthApi(apiClient),
   userApi: new UserApi(apiClient),
   productApi: new ProductApi(apiClient),
+  geolocationApi: geolocateClient,
 } as const;

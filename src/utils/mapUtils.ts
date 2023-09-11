@@ -1,3 +1,5 @@
+import type { LatLong } from "src/pages/app.page";
+
 export async function getCurrentPosition(): Promise<{
   latitude: number;
   longitude: number;
@@ -12,4 +14,15 @@ export async function getCurrentPosition(): Promise<{
       },
     );
   });
+}
+
+export function inBoundingBox(latLong: LatLong, boundingBox: [number, number, number, number]): boolean {
+  const north = boundingBox[1];
+  const south = boundingBox[0];
+  const east = boundingBox[3];
+  const west = boundingBox[2];
+
+  return (
+    latLong.latitude >= south && latLong.latitude <= north && latLong.longitude <= east && latLong.longitude >= west
+  );
 }

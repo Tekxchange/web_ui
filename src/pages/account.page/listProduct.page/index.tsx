@@ -5,6 +5,8 @@ import { c } from "@utils";
 import useFormValidator from "@utils/useFormValidator";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import listProductSchema from "./listProduct.schema";
+import api from "@api";
+import { getCurrentPosition, inBoundingBox } from "@utils/mapUtils";
 
 type FormValues = {
   title: string;
@@ -29,19 +31,56 @@ const initialFormValues: FormValues = {
 };
 
 export default function ListProduct() {
-  const [loading, _setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState(initialFormValues);
-
   const { formErrors, onChange } = useFormValidator(formValues, setFormValues, listProductSchema);
 
   async function onSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
+
+    setLoading(true);
+    let location: Awaited<ReturnType<typeof getCurrentPosition>> | null;
+    try {
+      location = await getCurrentPosition();
+    } catch (_) {
+      location = null;
+    }
+
+    try {
+      const { boundingBox, ...latLong } = await api.geolocationApi.latLongFromCityState(
+        formValues.city,
+        formValues.state,
+        formValues.country,
+        formValues.zip,
+      );
+      if (!location) location = latLong;
+      else {
+        if (!inBoundingBox(location, boundingBox)) {
+          location = latLong;
+        }
+      }
+    } catch (_) {
+      // do nothing. We can try to get the location later on the backend
+    }
+
+    const { pictures: _pictures, ...toSubmit } = formValues;
+
+    try {
+      const createdId = await api.productApi.createProduct({
+        ...toSubmit,
+        latitude: location?.latitude,
+        longitude: location?.longitude,
+      });
+      console.log({ createdId });
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
   }
 
   useEffect(() => {
-    document.title = "Tekxchange - New Listing"
-  }, [])
+    document.title = "Tekxchange - New Listing";
+  }, []);
 
   const allowSubmit = useMemo(() => {
     let validInput: boolean;

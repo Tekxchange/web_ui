@@ -1,12 +1,30 @@
 import { Filter } from "@state/search";
 import { RestClient } from "./restClient";
 
+type ProductCreateRequest = {
+  description: string;
+  title: string;
+  price: number;
+  country: string;
+  state: string;
+  city: string;
+  zip: string;
+  latitude?: number;
+  longitude?: number;
+};
+
 export default class ProductApi extends RestClient {
   async search(_filter: Filter) {}
 
-  async uploadFile(productId: number, file: File, uploadCallback?: (progress: number) => void) {
+  async uploadFile(productId: number, file: File | File[], uploadCallback?: (progress: number) => void) {
     const formData = new FormData();
-    formData.append("data", file);
+    if (Array.isArray(file)) {
+      for (const f of file) {
+        formData.append("data", f);
+      }
+    } else {
+      formData.append("data", file);
+    }
 
     await this.client.post(
       "/api/files/upload",
@@ -20,5 +38,9 @@ export default class ProductApi extends RestClient {
           : undefined,
       },
     );
+  }
+
+  async createProduct(productDetails: ProductCreateRequest): Promise<number> {
+    return (await this.client.post<{ id: number }>("/api/products/create", productDetails)).data.id;
   }
 }
