@@ -1,5 +1,5 @@
 import { c, capitalize } from "@utils";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./input.module.less";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -15,12 +15,14 @@ enum InputVariation {
   Error,
   Active,
   Inactive,
+  Success,
 }
 
 const variation: Record<InputVariation, string> = {
   [InputVariation.Active]: c`border-blue-400 dark:border-cyan-500`,
   [InputVariation.Inactive]: c`border-slate-300`,
   [InputVariation.Error]: c`border-red-400`,
+  [InputVariation.Success]: c`border-green-400`,
 };
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
@@ -58,6 +60,10 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
     labelRef.current.style.setProperty("--after-background", parentColor);
   }, [isFocused]);
 
+  const isSuccess = useMemo(() => {
+    return !isEmpty && !props.errorText;
+  }, [isEmpty, props.errorText]);
+
   useEffect(() => {
     if (errorText) {
       setCurrentVariation(InputVariation.Error);
@@ -66,6 +72,8 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
     if (isFocused) setCurrentVariation(InputVariation.Active);
 
     if (!isFocused && !errorText) setCurrentVariation(InputVariation.Inactive);
+
+    if (!isFocused && !errorText && isSuccess) setCurrentVariation(InputVariation.Success);
   }, [isFocused, errorText]);
 
   return (
@@ -107,7 +115,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
           ref={ref}
           id={id}
           onChange={(evt) => {
-            if (!evt.currentTarget.value) setIsEmpty(true);
+            if (!evt.currentTarget.value && props.type !== "file") setIsEmpty(true);
             else setIsEmpty(false);
             onChange?.(evt);
           }}

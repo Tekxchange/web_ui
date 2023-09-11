@@ -5,13 +5,7 @@ import { Option, none, some } from "@utils/option";
 import { toast } from "react-toastify";
 
 export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
-  return await toast.promise(api.userApi.getSelfInfo(), {
-    error: "Unable to fetch user info",
-    pending: "Fetching user info",
-    success: {
-      render: (data) => `Welcome back, ${data.data?.username}!`,
-    },
-  });
+  return await api.userApi.getSelfInfo();
 });
 
 export interface AuthState {
@@ -28,6 +22,10 @@ export function createAuthState(initialState: AuthState) {
     reducers: {
       setUser: (state, { payload }: PayloadAction<Option<UserInfo>>) => {
         state.user = payload;
+        if (!sessionStorage.getItem("welcome") && payload.isSome) {
+          toast.info(`Welcome back, ${payload.value.username}!`);
+          sessionStorage.setItem("welcome", "true");
+        }
       },
       setAuthModalState: (state, { payload }: PayloadAction<boolean>) => {
         state.authModalOpen = payload;
@@ -35,6 +33,7 @@ export function createAuthState(initialState: AuthState) {
       logout: (state) => {
         api.authApi.logout();
         state.user = none();
+        sessionStorage.removeItem("welcome");
       },
       setWasLoggedIn: (state, { payload }: PayloadAction<boolean>) => {
         state.wasLoggedIn = payload;
@@ -47,6 +46,10 @@ export function createAuthState(initialState: AuthState) {
       builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.user = some(payload);
+        if (!sessionStorage.getItem("welcome")) {
+          toast.success(`Welcome back, ${payload.username}!`);
+          sessionStorage.setItem("welcome", "true");
+        }
       });
       builder.addCase(getUserInfo.rejected, (state) => {
         state.loading = false;

@@ -21,6 +21,7 @@ export default class AuthApi extends RestClient {
     };
     const res = await this.client.post<Response>("/api/auth/login", request, undefined, { withCredentials: true });
     this.client.jwt = res.data.jwt;
+    sessionStorage.setItem("token", this.client.jwt);
     this.client.refreshInstance();
     state.dispatch(setWasLoggedIn(true));
   }
@@ -32,6 +33,7 @@ export default class AuthApi extends RestClient {
   async logout() {
     await this.client.get("/api/auth/revoke_token", undefined, { withCredentials: true });
     this.client.jwt = null;
+    sessionStorage.removeItem("token");
     this.client.refreshInstance();
     state.dispatch(setWasLoggedIn(false));
   }

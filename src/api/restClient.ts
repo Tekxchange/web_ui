@@ -8,7 +8,7 @@ export class ApiClient {
 
   constructor(baseURL: string) {
     this._baseURL = baseURL;
-    this._jwt = null;
+    this._jwt = sessionStorage.getItem("token");
     this._axios = this.buildAxios();
   }
 
