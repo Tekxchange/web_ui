@@ -19,17 +19,16 @@ export default {
   latLongFromCityState: async function (
     city: string,
     state: string,
-    country: string,
+    _country: string,
     zip: string,
   ): Promise<{
     latitude: number;
     longitude: number;
     boundingBox: [number, number, number, number];
   }> {
-    const encodedAddress = encodeURIComponent(`${city}, ${state}, ${country}, ${zip}`);
-    const result = await axios.get<CityStateResponse[]>(`https://geocode.maps.co/search?q=${encodedAddress}`);
+    const result = await axios.get<CityStateResponse[]>(`https://geocode.maps.co/search?q=${city},${state},${zip}`);
 
-    const data = result.data.sort((a, b) => a.importance - b.importance);
+    const data = result.data.sort((a, b) => b.importance - a.importance);
     if (data.length < 1) throw new Error("Data not found");
     return {
       latitude: Number(data[0].lat),
