@@ -3,13 +3,17 @@ import Input from "@components/Input";
 import PicturePicker from "@components/PicturePicker";
 import { c } from "@utils";
 import useFormValidator from "@utils/useFormValidator";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import listProductSchema from "./listProduct.schema";
 
 type FormValues = {
   title: string;
   price: number;
   description: string;
+  country: string;
+  city: string;
+  state: string;
+  zip: string;
   pictures: File[];
 };
 
@@ -17,6 +21,10 @@ const initialFormValues: FormValues = {
   description: "",
   price: 0,
   title: "",
+  city: "",
+  country: "",
+  state: "",
+  zip: "",
   pictures: [],
 };
 
@@ -30,6 +38,10 @@ export default function ListProduct() {
   async function onSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
   }
+
+  useEffect(() => {
+    document.title = "Tekxchange - New Listing"
+  }, [])
 
   const allowSubmit = useMemo(() => {
     let validInput: boolean;
@@ -80,6 +92,49 @@ export default function ListProduct() {
             value={formValues.description}
             errorText={formErrors.description}
           />
+
+          <section className={c`w-full flex flex-col md:flex-row md:justify-evenly md:space-x-4`}>
+            <Input
+              label="Country"
+              id="country"
+              name="country"
+              fullWidth
+              value={formValues.country}
+              errorText={formErrors.country}
+              onChange={onChange}
+            />
+            <Input
+              label="City"
+              id="city"
+              name="city"
+              fullWidth
+              value={formValues.city}
+              errorText={formErrors.city}
+              onChange={onChange}
+            />
+          </section>
+
+          <section className={c`w-full flex flex-col md:flex-row md:justify-evenly md:space-x-4`}>
+            <Input
+              label="State"
+              id="state"
+              name="state"
+              fullWidth
+              value={formValues.state}
+              errorText={formErrors.state}
+              onChange={onChange}
+            />
+            <Input
+              label="Zip"
+              id="zip"
+              name="zip"
+              fullWidth
+              value={formValues.zip}
+              errorText={formErrors.zip}
+              onChange={onChange}
+            />
+          </section>
+
           <PicturePicker
             onChange={(pics) => {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
