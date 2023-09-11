@@ -7,6 +7,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import listProductSchema from "./listProduct.schema";
 import api from "@api";
 import { getCurrentPosition, inBoundingBox } from "@utils/mapUtils";
+import { toast } from "react-toastify";
 
 type FormValues = {
   title: string;
@@ -66,12 +67,14 @@ export default function ListProduct() {
     const { pictures: _pictures, ...toSubmit } = formValues;
 
     try {
-      const createdId = await api.productApi.createProduct({
+      await api.productApi.createProduct({
         ...toSubmit,
         latitude: location?.latitude,
         longitude: location?.longitude,
       });
-      console.log({ createdId });
+
+      toast.success("New product created successfully");
+      setFormValues(initialFormValues);
     } catch (err) {
       console.error(err);
     }
