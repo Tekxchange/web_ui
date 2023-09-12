@@ -81,6 +81,7 @@ export class ApiClient {
     };
     const res = await this._axios.get<Response>("/api/auth/refresh", { withCredentials: true });
     this._jwt = res.data.jwt;
+    sessionStorage.setItem("token", this._jwt);
     this.refreshInstance();
   }
 }
