@@ -7,6 +7,7 @@ import "./index.less";
 import "react-toastify/dist/ReactToastify.css";
 import { saveState } from "@state/utils";
 import { DeepPartial } from "@reduxjs/toolkit";
+import React from "react";
 
 store.subscribe(
   debounce(() => {
@@ -27,7 +28,9 @@ store.subscribe(
 );
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
 );
