@@ -34,31 +34,38 @@ export default class ProductApi extends RestClient {
   async search(_filter: Filter) {}
 
   async uploadFile(productId: number, file: File | File[], uploadCallback?: (progress: number) => void) {
-    const formData = new FormData();
-    if (Array.isArray(file)) {
-      for (const f of file) {
-        formData.append("data", f);
-      }
-    } else {
-      formData.append("data", file);
-    }
+    const toUpload = Array.isArray(file) ? file : [file];
 
-    await this.client.post(
-      "/api/files/upload",
-      formData,
-      { product_id: productId },
-      {
-        onUploadProgress: uploadCallback
-          ? (evt) => {
-              uploadCallback(evt.progress ?? 0);
-            }
-          : undefined,
-      },
-    );
+    const promises = toUpload.map((fileToUpload) => {
+      const formData = new FormData();
+      formData.append("data", fileToUpload);
+
+      return this.client.post(
+        "/api/files/upload",
+        formData,
+        { product_id: productId },
+        {
+          headers: {
+            "Content-Type": fileToUpload.type,
+          },
+          onUploadProgress: uploadCallback
+            ? (evt) => {
+                uploadCallback(evt.progress ?? 0);
+              }
+            : undefined,
+        },
+      );
+    });
+
+    return await Promise.all(promises);
   }
 
   async createProduct(productDetails: ProductCreateRequest): Promise<number> {
     return (await this.client.post<{ id: number }>("/api/products/create", productDetails)).data.id;
+  }
+
+  getPictureUrl(pictureId: number): string {
+    return `${this.client.baseUrl}/api/files/get_file?id=${pictureId}`;
   }
 
   async getProductsByUserId(userId: number, limit?: number, lowerLimit?: number): Promise<ProductReturnNoUser[]> {

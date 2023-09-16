@@ -32,7 +32,7 @@ const routes = [
 const AccountRoutes: React.FC = () => {
   return (
     <AppHeight>
-      <div className={c`h-full w-full flex border-t-2 dark:border-slate-600`}>
+      <div className={c`h-full w-full flex border-t-2 dark:border-zinc-600`}>
         <Sidebar />
         <Routes>
           {routes.map((route) => (

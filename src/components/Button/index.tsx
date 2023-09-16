@@ -15,7 +15,7 @@ const buttonColorMap: Record<ButtonColor, string> = {
   [ButtonColor.None]: c`
     bg-transparent
     hover:bg-slate-100
-    dark:hover:bg-slate-800
+    dark:hover:bg-zinc-800
     text-blue-700
     dark:text-cyan-400
     hover:shadow-none
@@ -45,6 +45,7 @@ const buttonColorMap: Record<ButtonColor, string> = {
     dark:text-slate-200
     hover:shadow-black
     dark:hover:shadow-slate-600
+    dark:hover:text-slate-800
   `,
   [ButtonColor.Gold]: c`
     bg-yellow-400

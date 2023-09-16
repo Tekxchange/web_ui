@@ -52,7 +52,7 @@ export default function DropdownMenu(props: IDropdownProps) {
           py-2
           transition-all
           bg-slate-100
-          dark:bg-slate-800
+          dark:bg-zinc-800
           border
           rounded
           text-black

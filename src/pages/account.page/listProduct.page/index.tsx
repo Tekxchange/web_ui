@@ -8,6 +8,7 @@ import listProductSchema from "./listProduct.schema";
 import api from "@api";
 import { getCurrentPosition, inBoundingBox } from "@utils/mapUtils";
 import { toast } from "react-toastify";
+import Elevate from "@components/lib/Elevate";
 
 type FormValues = {
   title: string;
@@ -67,18 +68,31 @@ export default function ListProduct() {
     const { pictures: _pictures, ...toSubmit } = formValues;
 
     try {
-      await api.productApi.createProduct({
+      const productId = await api.productApi.createProduct({
         ...toSubmit,
         latitude: location?.latitude,
         longitude: location?.longitude,
       });
 
       toast.success("New product created successfully");
+
+      if (formValues.pictures.length > 0) {
+        await toast.promise(uploadPictures(productId), {
+          pending: "Uploading Pictures...",
+          error: "Pictures have failed to upload",
+          success: "Pictures uploaded successfully",
+        });
+      }
+
       setFormValues(initialFormValues);
     } catch (err) {
       console.error(err);
     }
     setLoading(false);
+  }
+
+  async function uploadPictures(productId: number) {
+    return await api.productApi.uploadFile(productId, formValues.pictures);
   }
 
   useEffect(() => {
@@ -97,103 +111,105 @@ export default function ListProduct() {
   }, [loading, formValues]);
 
   return (
-    <section className={c`dark:bg-slate-800 w-full h-full flex flex-col items-center overflow-y-auto px-2`}>
-      <form className={c`p-8 my-auto rounded-md border-slate-700 border w-full max-w-2xl`} onSubmit={onSubmit}>
-        <h2 className={c`text-lg text-center`}>New Product</h2>
-        <hr className={c`mb-2`} />
-        <section className={c`space-y-4 w-full`}>
-          <section className={c`w-full flex flex-col md:flex-row md:justify-evenly md:space-x-4`}>
+    <section className={c`dark:bg-zinc-800 w-full h-full flex flex-col items-center overflow-y-auto px-2`}>
+      <Elevate>
+        <form className={c`p-8 my-auto rounded-md border-zinc-600 border w-full max-w-2xl`} onSubmit={onSubmit}>
+          <h2 className={c`text-lg text-center`}>New Product</h2>
+          <hr className={c`mb-2`} />
+          <section className={c`space-y-4 w-full`}>
+            <section className={c`w-full flex flex-col md:flex-row md:justify-evenly md:space-x-4`}>
+              <Input
+                label="Title"
+                id="title"
+                name="title"
+                fullWidth
+                onChange={onChange}
+                errorText={formErrors.title}
+                value={formValues.title}
+              />
+              <Input
+                type="number"
+                label="Price"
+                id="price"
+                name="price"
+                fullWidth
+                onChange={onChange}
+                value={formValues.price}
+                errorText={formErrors.price}
+              />
+            </section>
+
             <Input
-              label="Title"
-              id="title"
-              name="title"
-              fullWidth
+              type="text"
+              label="Description"
+              id="description"
+              name="description"
+              textArea
               onChange={onChange}
-              errorText={formErrors.title}
-              value={formValues.title}
+              value={formValues.description}
+              errorText={formErrors.description}
             />
-            <Input
-              type="number"
-              label="Price"
-              id="price"
-              name="price"
-              fullWidth
-              onChange={onChange}
-              value={formValues.price}
-              errorText={formErrors.price}
+
+            <section className={c`w-full flex flex-col md:flex-row md:justify-evenly md:space-x-4`}>
+              <Input
+                label="Country"
+                id="country"
+                name="country"
+                fullWidth
+                value={formValues.country}
+                errorText={formErrors.country}
+                onChange={onChange}
+              />
+              <Input
+                label="City"
+                id="city"
+                name="city"
+                fullWidth
+                value={formValues.city}
+                errorText={formErrors.city}
+                onChange={onChange}
+              />
+            </section>
+
+            <section className={c`w-full flex flex-col md:flex-row md:justify-evenly md:space-x-4`}>
+              <Input
+                label="State"
+                id="state"
+                name="state"
+                fullWidth
+                value={formValues.state}
+                errorText={formErrors.state}
+                onChange={onChange}
+              />
+              <Input
+                label="Zip"
+                id="zip"
+                name="zip"
+                fullWidth
+                value={formValues.zip}
+                errorText={formErrors.zip}
+                onChange={onChange}
+              />
+            </section>
+
+            <PicturePicker
+              onChange={(pics) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange({ target: { name: "pictures", value: pics as any } } as any);
+              }}
             />
           </section>
-
-          <Input
-            type="text"
-            label="Description"
-            id="description"
-            name="description"
-            textArea
-            onChange={onChange}
-            value={formValues.description}
-            errorText={formErrors.description}
-          />
-
-          <section className={c`w-full flex flex-col md:flex-row md:justify-evenly md:space-x-4`}>
-            <Input
-              label="Country"
-              id="country"
-              name="country"
-              fullWidth
-              value={formValues.country}
-              errorText={formErrors.country}
-              onChange={onChange}
+          <div className={c`mt-2 float-right`}>
+            <Button
+              disabled={!allowSubmit}
+              loading={loading}
+              type="submit"
+              buttonText="Submit"
+              buttonColor={ButtonColor.Gold}
             />
-            <Input
-              label="City"
-              id="city"
-              name="city"
-              fullWidth
-              value={formValues.city}
-              errorText={formErrors.city}
-              onChange={onChange}
-            />
-          </section>
-
-          <section className={c`w-full flex flex-col md:flex-row md:justify-evenly md:space-x-4`}>
-            <Input
-              label="State"
-              id="state"
-              name="state"
-              fullWidth
-              value={formValues.state}
-              errorText={formErrors.state}
-              onChange={onChange}
-            />
-            <Input
-              label="Zip"
-              id="zip"
-              name="zip"
-              fullWidth
-              value={formValues.zip}
-              errorText={formErrors.zip}
-              onChange={onChange}
-            />
-          </section>
-
-          <PicturePicker
-            onChange={(pics) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              onChange({ target: { name: "pictures", value: pics as any } } as any);
-            }}
-          />
-        </section>
-        <div className={c`mt-2 float-right`}>
-          <Button
-            disabled={!allowSubmit}
-            loading={loading}
-            type="submit"
-            buttonText="Submit"
-            buttonColor={ButtonColor.Gold}
-          />
-        </div>
-      </form>
+          </div>
+        </form>
+      </Elevate>
     </section>
   );
 }

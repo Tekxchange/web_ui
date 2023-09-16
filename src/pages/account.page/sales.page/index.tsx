@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import SaleItem from "@components/SaleItem";
 import { useParams } from "react-router-dom";
 import classes from "./sales.module.less";
+import Elevate, { Elevation } from "@components/lib/Elevate";
 
 export default function SalesPage() {
   const user = useProtectedAuth();
@@ -27,30 +28,14 @@ export default function SalesPage() {
   }, []);
 
   return (
-    <div className={c`dark:bg-slate-800 h-full w-full overflow-y-scroll flex items-center flex-col p-4`}>
+    <div className={c`dark:bg-zinc-800 h-full w-full overflow-y-scroll flex items-center flex-col p-4`}>
       <h1 className={c`text-xl dark:font-semibold text-center mb-4`}>My Sales</h1>
       <hr className={c`max-w-md w-full`} />
       <div className={c`mt-4 w-full ${classes.salesContainer}`}>
         {products.map((product) => (
-          <SaleItem item={product} key={product.title} />
-        ))}
-        {products.map((product) => (
-          <SaleItem item={product} key={product.title} />
-        ))}
-        {products.map((product) => (
-          <SaleItem item={product} key={product.title} />
-        ))}
-        {products.map((product) => (
-          <SaleItem item={product} key={product.title} />
-        ))}
-        {products.map((product) => (
-          <SaleItem item={product} key={product.title} />
-        ))}
-        {products.map((product) => (
-          <SaleItem item={product} key={product.title} />
-        ))}
-        {products.map((product) => (
-          <SaleItem item={product} key={product.title} />
+          <Elevate key={product.id} elevation={Elevation.Default}>
+            <SaleItem item={product} />
+          </Elevate>
         ))}
       </div>
     </div>

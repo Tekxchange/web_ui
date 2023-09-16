@@ -16,7 +16,7 @@ export default function Sidebar() {
 
   return (
     <div
-      className={c`w-auto border-r-2 dark:border-slate-600 h-full
+      className={c`w-auto border-r-2 dark:border-zinc-600 h-full
         overflow-y-auto py-2 overflow-x-hidden transition-all flex flex-col shrink-0`}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}

@@ -33,6 +33,10 @@ export class ApiClient {
     });
   }
 
+  get baseUrl() {
+    return this._baseURL;
+  }
+
   async get<T>(
     url: string,
     params?: Record<string, unknown>,
