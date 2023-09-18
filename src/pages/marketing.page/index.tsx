@@ -28,7 +28,7 @@ export default function MarketingPage() {
       <section
         id="details"
         className={c`app-height w-full flex flex-col justify-center items-center
-          bg-gradient-to-b from-gray-100 to-white dark:from-zinc-900 dark:to-zinc-900`}
+          bg-gradient-to-b from-slate-50 to-white dark:from-zinc-900 dark:to-zinc-800`}
       >
         <div className={c`grid grid-cols-1 gap-5 px-2 md:grid-cols-2 md:gap-10 lg:gap-20`}>
           <Card

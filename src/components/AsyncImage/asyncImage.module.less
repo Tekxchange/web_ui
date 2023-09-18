@@ -1,0 +1,18 @@
+.fixBroken {
+    position: relative;
+
+    &::before {
+        content: 'Sorry, this image is not available';
+        @apply border-none bg-slate-50 dark:bg-zinc-900 h-full w-full text-center text-sm;
+    }
+
+    &::after {
+        content: ' ';
+        @apply border-none absolute w-full h-full;
+    }
+
+    &:not([src]) {
+        content: ' ';
+        @apply bg-white hidden;
+    }
+}

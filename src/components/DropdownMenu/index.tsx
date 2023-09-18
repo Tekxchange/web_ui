@@ -2,9 +2,10 @@
 import styles from "./dropdownMenu.module.less";
 import { ChevronDoubleDownIcon } from "@heroicons/react/20/solid";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Button from "@components/Button";
 import { c } from "@utils";
+import { useOnClickOutside } from "usehooks-ts";
 
 interface IDropdownProps extends React.PropsWithChildren {
   buttonText: string;
@@ -12,8 +13,10 @@ interface IDropdownProps extends React.PropsWithChildren {
 
 export default function DropdownMenu(props: IDropdownProps) {
   const { buttonText, children: oldChildren } = props;
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
+  useOnClickOutside(containerRef, () => setIsOpen(false));
 
   const children = React.Children.map(oldChildren, (child) => {
     if (React.isValidElement(child)) {
@@ -29,7 +32,7 @@ export default function DropdownMenu(props: IDropdownProps) {
   });
 
   return (
-    <div className={c`relative box-border`}>
+    <div ref={containerRef} className={c`relative box-border`}>
       <Button onClick={() => setIsOpen(!isOpen)}>
         <span className={c`flex box-border`}>
           <p>{buttonText}</p>

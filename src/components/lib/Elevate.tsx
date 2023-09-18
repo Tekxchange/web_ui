@@ -9,10 +9,10 @@ export enum Elevation {
 }
 
 const elevationToClassname: Record<Elevation, string> = {
-  [Elevation.Default]: c`dark:bg-zinc-900`,
-  [Elevation.High]: c`dark:bg-zinc-800`,
-  [Elevation.Higher]: c`dark:bg-zinc-700`,
-  [Elevation.Highest]: c`dark:bg-zinc-600`,
+  [Elevation.Default]: c`dark:bg-zinc-900 bg-slate-100`,
+  [Elevation.High]: c`dark:bg-zinc-800 bg-slate-200`,
+  [Elevation.Higher]: c`dark:bg-zinc-700 bg-slate-300`,
+  [Elevation.Highest]: c`dark:bg-zinc-600 bg-slate-400`,
 };
 
 type Props = React.PropsWithChildren<{
