@@ -27,7 +27,6 @@ export default function Elevate(props: Props) {
       if (React.isValidElement(child)) {
         let className = (child.props["className"] as string) ?? "";
         className = c`${className} ${elevationToClassname[elevation]}`;
-        console.log(className);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return React.cloneElement<any>(child, { className });
       }
