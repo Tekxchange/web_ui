@@ -68,6 +68,7 @@ export default function DropdownMenu(props: IDropdownProps) {
           max-w-none
           min-w-full
           md:text-lg
+          z-50
         `}
       >
         {children}
