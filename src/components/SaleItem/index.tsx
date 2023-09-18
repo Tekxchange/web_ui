@@ -2,16 +2,19 @@ import api from "@api";
 import type { ProductReturnNoUser } from "@api/productApi";
 import AsyncImage from "@components/AsyncImage";
 import DropdownMenu from "@components/DropdownMenu";
+import type Button from "@components/Button";
 import MenuItem, { IconPosition } from "@components/DropdownMenu/MenuItem";
 import { c } from "@utils";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon, TrashIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
 type Props = {
   item: ProductReturnNoUser;
   className?: string;
+  onDelete: React.ComponentProps<typeof Button>["onClick"];
+  ownItem?: boolean;
 };
 
-export default function SaleItem({ item, className }: Props) {
+export default function SaleItem({ item, className, onDelete, ownItem }: Props) {
   return (
     <section className={c`rounded-md min-w-min w-80 flex flex-col justify-between max-h-96 h-96 ${className}`}>
       <div className={c`h-full overflow-hidden`}>
@@ -33,16 +36,24 @@ export default function SaleItem({ item, className }: Props) {
       </div>
 
       <div className={c`w-full flex justify-around mb-2`}>
-        <DropdownMenu buttonText="Options">
-          <MenuItem
-            buttonText="Edit"
-            icon={PencilSquareIcon}
-            iconPosition={IconPosition.Right}
-            link
-            href={`/account/sales/${item.id}`}
-          />
-          <MenuItem buttonText="Delete" icon={TrashIcon} iconPosition={IconPosition.Right} />
-        </DropdownMenu>
+        {ownItem && (
+          <DropdownMenu buttonText="Options">
+            <MenuItem buttonText="Mark as Sold" icon={CurrencyDollarIcon} iconPosition={IconPosition.Right} />
+            <MenuItem
+              buttonText="Edit"
+              icon={PencilSquareIcon}
+              iconPosition={IconPosition.Right}
+              link
+              href={`/account/sales/${item.id}`}
+            />
+            <MenuItem
+              buttonText="Delete"
+              icon={TrashIcon}
+              iconPosition={IconPosition.Right}
+              onClick={onDelete}
+            />
+          </DropdownMenu>
+        )}
       </div>
     </section>
   );

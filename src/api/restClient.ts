@@ -59,6 +59,28 @@ export class ApiClient {
     }
   }
 
+  async delete<T>(
+    url: string,
+    params?: Record<string, unknown>,
+    options?: Parameters<(typeof axios)["delete"]>[1],
+  ): Promise<AxiosResponse<T, unknown>> {
+    if (!params) {
+      params = {};
+    }
+    try {
+      return await this._axios.delete<T>(url, { ...options, params });
+    } catch (e) {
+      if (e instanceof AxiosError && e.response?.status === 401) {
+        await this.refreshToken();
+        return await this._axios.delete<T>(url, { ...options, params });
+      }
+      const error = e as AxiosError<{ error?: string }>;
+
+      toast.error(error.response?.data?.error || "An error occurred with your request. Please try again");
+      throw e;
+    }
+  }
+
   async post<T>(
     url: string,
     data: Record<string, unknown> | Record<string, unknown>[] | FormData,

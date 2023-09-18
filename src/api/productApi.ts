@@ -64,6 +64,10 @@ export default class ProductApi extends RestClient {
     return (await this.client.post<{ id: number }>("/api/products/create", productDetails)).data.id;
   }
 
+  async deleteProduct(id: number): Promise<void> {
+    await this.client.delete("/api/products/product", { id });
+  }
+
   getPictureUrl(pictureId: number): string {
     return `${this.client.baseUrl}/api/files/get_file?id=${pictureId}`;
   }
