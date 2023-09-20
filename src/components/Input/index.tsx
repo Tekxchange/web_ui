@@ -90,12 +90,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
       data-tooltip-delay-show={0}
     >
       <label ref={labelRef} htmlFor={id} className={c`absolute top-0 left-0 h-full w-full pointer-events-none px-2`}>
-        <p
-          className={c`relative px-2 ${isFocused || !isEmpty ? styles.focused : styles.lostFocus}
-          w-fit`}
-        >
-          {label}
-        </p>
+        <p className={c`relative w-fit px-2 ${isFocused || !isEmpty ? styles.focused : styles.lostFocus}`}>{label}</p>
       </label>
       {textArea ? (
         <textarea

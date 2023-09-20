@@ -1,6 +1,15 @@
-import { PayloadAction, createSlice, createAsyncThunk, DeepPartial } from "@reduxjs/toolkit";
-import { LatLong } from "../pages/app.page";
-import { Option, none } from "@utils/option";
+import { createAsyncThunk, createSlice, DeepPartial, PayloadAction } from "@reduxjs/toolkit";
+import { none, Option } from "@utils/option";
+import { ProductLocationReturn } from "@api/productApi";
+import { debounce } from "debounce";
+import api from "@api";
+
+export enum DistanceUnit {
+  Miles = "Miles",
+  NauticalMiles = "NauticalMiles",
+  Kilometers = "Kilometers",
+  Meters = "Meters",
+}
 
 export interface Filter {
   longitude: number;
@@ -9,19 +18,34 @@ export interface Filter {
   query: Option<string>;
   priceLow: Option<number>;
   priceHigh: Option<number>;
+  radiusUnit: DistanceUnit;
 }
 
-type Results = void;
+type Results = ProductLocationReturn[];
 
 export interface SearchState {
   filter: Filter;
-  results: Option<Results>;
+  results: Results;
   loading: boolean;
   gotInitialPosition: boolean;
   mapZoomAmount: number;
 }
 
-export const updateSearch = createAsyncThunk("search/updateSearch", async (_filter: Partial<Filter>) => {});
+const performSearch = createAsyncThunk(
+  "search/performSearch",
+  debounce(async (filter: Filter) => {
+    return api.productApi.search(filter);
+  }, 1000),
+);
+
+export const updateSearchResults = createAsyncThunk(
+  "search/updateSearch",
+  (filter: Partial<Filter>, { dispatch, getState }) => {
+    const updatedSearch: Filter = { ...((getState() as any).search as SearchState).filter, ...filter };
+    dispatch(updateFilter(filter));
+    dispatch(performSearch(updatedSearch));
+  },
+);
 
 export const gotoCurrentLocation = createAsyncThunk("search/gotoCurrentLocation", async () => {
   return new Promise<{ latitude: number; longitude: number }>((res, _) => {
@@ -47,47 +71,33 @@ export function createSearchState(initialState: SearchState) {
     name: "searchSlice",
     initialState: initialState,
     reducers: {
-      updateLocation: (state, { payload }: PayloadAction<LatLong>) => {
-        state.filter = {
-          ...state.filter,
-          latitude: payload.latitude,
-          longitude: payload.longitude,
-        };
+      updateFilter: (state, { payload }: PayloadAction<Partial<Filter>>) => {
+        state.filter = { ...state.filter, ...payload };
       },
       updateZoom: (state, { payload }: PayloadAction<number>) => {
         state.mapZoomAmount = payload;
       },
-      updateQuery: (state, { payload }: PayloadAction<Option<string>>) => {
-        state.filter = {
-          ...state.filter,
-          query: payload,
-        };
-      },
       updateGotInitialPosition: (state, { payload }: PayloadAction<boolean>) => {
         state.gotInitialPosition = payload;
       },
-      updatePrice: (state, { payload }: PayloadAction<Pick<Filter, "priceLow" | "priceHigh">>) => {
-        state.filter = {
-          ...state.filter,
-          priceHigh: payload.priceHigh,
-          priceLow: payload.priceLow,
-        };
+      updateResults: (state, { payload }: PayloadAction<ProductLocationReturn[]>) => {
+        state.results = payload;
       },
     },
     extraReducers: (builder) => {
-      builder.addCase(updateSearch.pending, (state) => {
+      builder.addCase(performSearch.pending, (state) => {
         state.loading = true;
       });
-      builder.addCase(updateSearch.fulfilled, (state) => {
+      builder.addCase(performSearch.fulfilled, (state, { payload }) => {
         state.loading = false;
+        state.results = payload;
       });
     },
   });
 }
 
 export function preloadSearchState(preloaded: DeepPartial<SearchState>): SearchState {
-  const toReturn = { ...preloaded, ...searchState.getInitialState() } as SearchState;
-  return toReturn;
+  return { ...searchState.getInitialState(), ...preloaded } as SearchState;
 }
 
 export const searchState = createSearchState({
@@ -97,13 +107,14 @@ export const searchState = createSearchState({
     priceHigh: none(),
     priceLow: none(),
     query: none(),
-    radius: 10,
+    radius: 2,
+    radiusUnit: DistanceUnit.Miles,
   },
   loading: false,
-  results: none(),
+  results: [],
   gotInitialPosition: false,
   mapZoomAmount: 13,
 });
 
 export const reducer = searchState.reducer;
-export const { updateLocation, updatePrice, updateQuery, updateZoom, updateGotInitialPosition } = searchState.actions;
+export const { updateFilter, updateZoom, updateGotInitialPosition } = searchState.actions;

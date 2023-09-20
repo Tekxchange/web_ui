@@ -20,13 +20,16 @@ export default function useFormValidator<TValues extends object>(
   function onChange(evt: React.ChangeEvent<HTMLInputElement>) {
     evt.preventDefault?.();
 
-    const { name, value } = evt.target;
-    const newFormValues = { ...formValues, [name]: value };
+    const { name, value, type, valueAsNumber } = evt.target;
+    const newFormValues = { ...formValues, [name]: type === "number" ? valueAsNumber : value };
 
-    validator
-      .validateAt(name, newFormValues)
-      .then(() => setFormErrors({ ...formErrors, [name]: "" }))
-      .catch((err: ValidationError) => setFormErrors({ ...formErrors, [name]: err.message }));
+    try {
+      validator.validateSyncAt(name, newFormValues);
+      setFormErrors({ ...formErrors, [name]: "" });
+    } catch (err) {
+      const error = err as ValidationError;
+      setFormErrors({ ...formErrors, [name]: error.message });
+    }
     setFormValues(newFormValues);
   }
 

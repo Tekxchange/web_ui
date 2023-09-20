@@ -1,3 +1,4 @@
+import { DistanceUnit } from "@state/search";
 import type { LatLong } from "src/pages/app.page";
 
 export async function getCurrentPosition(): Promise<{
@@ -14,6 +15,26 @@ export async function getCurrentPosition(): Promise<{
       },
     );
   });
+}
+
+export function distanceUnitToMeters(distance: number, unit: DistanceUnit): number {
+  switch (unit) {
+    case DistanceUnit.Meters: {
+      return distance;
+    }
+    case DistanceUnit.Kilometers: {
+      return distance * 1000;
+    }
+    case DistanceUnit.Miles: {
+      return distance * 1609;
+    }
+    case DistanceUnit.NauticalMiles: {
+      return distance * 1852;
+    }
+    default: {
+      return distance;
+    }
+  }
 }
 
 export function inBoundingBox(latLong: LatLong, boundingBox: [number, number, number, number]): boolean {

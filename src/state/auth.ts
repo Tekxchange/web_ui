@@ -1,7 +1,7 @@
-import { PayloadAction, createSlice, createAsyncThunk, DeepPartial } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, DeepPartial, PayloadAction } from "@reduxjs/toolkit";
 import api from "@api";
 import { UserInfo } from "@api/userApi";
-import { Option, none, some } from "@utils/option";
+import { none, Option, some } from "@utils/option";
 import { toast } from "react-toastify";
 
 export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
@@ -9,9 +9,9 @@ export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
 });
 
 export interface AuthState {
+  authModalOpen: boolean;
   loading: boolean;
   user: Option<UserInfo>;
-  authModalOpen: boolean;
   wasLoggedIn: boolean;
 }
 
@@ -20,20 +20,20 @@ export function createAuthState(initialState: AuthState) {
     name: "authSlice",
     initialState: initialState,
     reducers: {
+      logout: (state) => {
+        void api.authApi.logout();
+        state.user = none();
+        sessionStorage.removeItem("welcome");
+      },
+      setAuthModalState: (state, { payload }: PayloadAction<boolean>) => {
+        state.authModalOpen = payload;
+      },
       setUser: (state, { payload }: PayloadAction<Option<UserInfo>>) => {
         state.user = payload;
         if (!sessionStorage.getItem("welcome") && payload.isSome) {
           toast.info(`Welcome back, ${payload.value.username}!`);
           sessionStorage.setItem("welcome", "true");
         }
-      },
-      setAuthModalState: (state, { payload }: PayloadAction<boolean>) => {
-        state.authModalOpen = payload;
-      },
-      logout: (state) => {
-        api.authApi.logout();
-        state.user = none();
-        sessionStorage.removeItem("welcome");
       },
       setWasLoggedIn: (state, { payload }: PayloadAction<boolean>) => {
         state.wasLoggedIn = payload;
@@ -64,8 +64,7 @@ export function preloadAuthState(preloadedState: DeepPartial<AuthState>): AuthSt
     preloadedState.loading = true;
   }
 
-  const toReturn = { ...authState.getInitialState(), ...preloadedState } as AuthState;
-  return toReturn;
+  return { ...authState.getInitialState(), ...preloadedState } as AuthState;
 }
 
 export const authState = createAuthState({

@@ -1,11 +1,11 @@
-import { DeepPartial, PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, DeepPartial, PayloadAction } from "@reduxjs/toolkit";
 
 const MAX_HISTORY_SIZE = 5;
 
 export type RouteElement = {
   pathname: string;
-  search: string;
   protected: boolean;
+  search: string;
 };
 
 export interface RouterState {
@@ -40,8 +40,7 @@ export function createRouterState(initialState: RouterState) {
 }
 
 export function preloadRouterState(preloaded: DeepPartial<RouterState>): RouterState {
-  const toReturn = { ...preloaded, ...routerState.getInitialState() } as RouterState;
-  return toReturn;
+  return { ...routerState.getInitialState(), ...preloaded } as RouterState;
 }
 
 export const routerState = createRouterState({

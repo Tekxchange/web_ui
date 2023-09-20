@@ -3,21 +3,22 @@ import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.js";
 import { useCallback, useEffect, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
-
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import { Circle, LayerGroup, MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { c } from "@utils";
 import Button, { ButtonColor } from "@components/Button";
 import { useAppDispatch, useAppSelector } from "@state/index";
-import { updateGotInitialPosition, updateLocation, updateZoom } from "@state/search";
-import { getCurrentPosition } from "@utils/mapUtils";
+import { DistanceUnit, updateGotInitialPosition, updateSearchResults, updateZoom } from "@state/search";
+import { distanceUnitToMeters, getCurrentPosition } from "@utils/mapUtils";
+import { ProductLocationReturn } from "@api/productApi";
+import { LatLong } from "../index";
 
 export default function Map() {
   const [map, setMap] = useState<LeafletMap | null>(null);
   const dispatch = useAppDispatch();
-  const {
-    gotInitialPosition,
-    filter: { latitude, longitude },
-  } = useAppSelector((state) => state.search);
+
+  const { gotInitialPosition, results } = useAppSelector((state) => state.search);
+  const { latitude, longitude, radiusUnit, radius } = useAppSelector((state) => state.search.filter);
+
   const zoomHandler = useCallback(() => {
     if (!map) return;
     const amount = map.getZoom();
@@ -63,6 +64,12 @@ export default function Map() {
         maxZoom={16}
         ref={(r) => setMap(r)}
       >
+        <MyCustomLayerGroup
+          results={results}
+          centerLatLng={{ latitude, longitude }}
+          radius={radius}
+          unit={radiusUnit}
+        />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://maps.tekxchange.net/tile/{z}/{x}/{y}.png"
@@ -70,6 +77,27 @@ export default function Map() {
         <MapEventListener />
       </MapContainer>
     </div>
+  );
+}
+
+type CustomLayerProps = {
+  results: ProductLocationReturn[];
+  centerLatLng: LatLong;
+  radius: number;
+  unit: DistanceUnit;
+};
+
+function MyCustomLayerGroup({ centerLatLng, unit, radius, results }: CustomLayerProps) {
+  return (
+    <LayerGroup>
+      <Circle
+        center={new LatLng(centerLatLng.latitude, centerLatLng.longitude)}
+        radius={distanceUnitToMeters(radius, unit)}
+      />
+      {results?.map((result) => {
+        return <Marker position={new LatLng(result.latitude, result.longitude)} key={result.id} />;
+      })}
+    </LayerGroup>
   );
 }
 
@@ -81,12 +109,7 @@ function MapEventListener() {
       const center: LatLng | undefined = e.target.getCenter?.();
 
       if (center) {
-        dispatch(
-          updateLocation({
-            latitude: center.lat,
-            longitude: center.lng,
-          }),
-        );
+        dispatch(updateSearchResults({ latitude: center.lat, longitude: center.lng }));
       }
     },
   });

@@ -1,5 +1,24 @@
-import { Filter } from "@state/search";
+import { DistanceUnit, Filter } from "@state/search";
 import { RestClient } from "./restClient";
+import { LatLong } from "src/pages/app.page";
+
+export type ProductLocationReturn = {
+  id: number;
+  longitude: number;
+  latitude: number;
+};
+
+type ProductFilter = {
+  coordinate: LatLong;
+  radius: number;
+  units?: DistanceUnit;
+  query?: string;
+  priceLow?: number;
+  priceHigh?: number;
+  city?: string;
+  zip?: string;
+  productIdLower?: number;
+};
 
 type ProductCreateRequest = {
   description: string;
@@ -31,7 +50,18 @@ export type ProductReturnNoUser = {
 };
 
 export default class ProductApi extends RestClient {
-  async search(_filter: Filter) {}
+  async search(filter: Filter): Promise<ProductLocationReturn[]> {
+    const query: ProductFilter = {
+      coordinate: { latitude: filter.latitude, longitude: filter.longitude },
+      radius: filter.radius,
+      priceHigh: filter.priceHigh.raw,
+      priceLow: filter.priceLow.raw,
+      units: filter.radiusUnit,
+      query: filter.query.raw,
+    };
+
+    return (await this.client.post<ProductLocationReturn[]>("/api/products/search", query)).data;
+  }
 
   async uploadFile(productId: number, file: File | File[], uploadCallback?: (progress: number) => void) {
     const toUpload = Array.isArray(file) ? file : [file];

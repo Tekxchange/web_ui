@@ -9,9 +9,9 @@ import { loadState } from "./utils";
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    search: searchReducer,
     resultsBar: resultsBarReducer,
     router: routerReducer,
+    search: searchReducer,
   },
   preloadedState: loadState(),
   devTools: import.meta.env.DEV,
