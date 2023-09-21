@@ -5,12 +5,26 @@ import { useCallback, useEffect, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { Circle, LayerGroup, MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { c } from "@utils";
+import L from 'leaflet';
 import Button, { ButtonColor } from "@components/Button";
 import { useAppDispatch, useAppSelector } from "@state/index";
 import { DistanceUnit, updateGotInitialPosition, updateSearchResults, updateZoom } from "@state/search";
 import { distanceUnitToMeters, getCurrentPosition } from "@utils/mapUtils";
 import { ProductLocationReturn } from "@api/productApi";
 import { LatLong } from "../index";
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png?url';
+import iconUrl from 'leaflet/dist/images/marker-icon.png?url';
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png?url';
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl
+});
+
+
 
 export default function Map() {
   const [map, setMap] = useState<LeafletMap | null>(null);
