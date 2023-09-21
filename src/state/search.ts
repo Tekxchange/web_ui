@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, DeepPartial, PayloadAction } from "@reduxjs/toolkit";
 import { none, Option } from "@utils/option";
 import { ProductLocationReturn } from "@api/productApi";
-import { debounce } from "debounce";
 import api from "@api";
+import {debounce} from "debounce";
 
 export enum DistanceUnit {
   Miles = "Miles",
@@ -31,11 +31,13 @@ export interface SearchState {
   mapZoomAmount: number;
 }
 
+
 const performSearch = createAsyncThunk(
   "search/performSearch",
-  debounce(async (filter: Filter) => {
-    return api.productApi.search(filter);
-  }, 1000),
+  debounce(async (filter: Filter, { dispatch }) => {
+    const results = await api.productApi.search(filter);
+    dispatch(updateResults(results));
+  }, 750),
 );
 
 export const updateSearchResults = createAsyncThunk(
@@ -46,25 +48,6 @@ export const updateSearchResults = createAsyncThunk(
     dispatch(performSearch(updatedSearch));
   },
 );
-
-export const gotoCurrentLocation = createAsyncThunk("search/gotoCurrentLocation", async () => {
-  return new Promise<{ latitude: number; longitude: number }>((res, _) => {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        res({
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-        });
-      },
-      () => {
-        alert(
-          "Unable to get current position. Either you have not given the site permissions, or your browser is not compatible.",
-        );
-        res({ latitude: 0, longitude: 0 });
-      },
-    );
-  });
-});
 
 export function createSearchState(initialState: SearchState) {
   return createSlice({
@@ -83,16 +66,7 @@ export function createSearchState(initialState: SearchState) {
       updateResults: (state, { payload }: PayloadAction<ProductLocationReturn[]>) => {
         state.results = payload;
       },
-    },
-    extraReducers: (builder) => {
-      builder.addCase(performSearch.pending, (state) => {
-        state.loading = true;
-      });
-      builder.addCase(performSearch.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.results = payload;
-      });
-    },
+    }
   });
 }
 
@@ -117,4 +91,6 @@ export const searchState = createSearchState({
 });
 
 export const reducer = searchState.reducer;
+
+const {updateResults} = searchState.actions;
 export const { updateFilter, updateZoom, updateGotInitialPosition } = searchState.actions;

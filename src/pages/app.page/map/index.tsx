@@ -107,7 +107,6 @@ function MapEventListener() {
   useMapEvents({
     moveend: (e) => {
       const center: LatLng | undefined = e.target.getCenter?.();
-
       if (center) {
         dispatch(updateSearchResults({ latitude: center.lat, longitude: center.lng }));
       }
