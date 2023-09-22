@@ -33,8 +33,8 @@ export default function Results({ results }: Props) {
   }, [results]);
 
   return (
-    <div className="w-full md:px-10 mt-2 h-full overflow-y-auto">
-      <SalesContainer>
+    <div className="w-full md:px-10 mt-2 h-full flex justify-center overflow-y-auto">
+      <SalesContainer className="">
         {fetchedResults.map((product) => {
           return (
             <Elevate key={product.id} elevation={Elevation.Default}>
