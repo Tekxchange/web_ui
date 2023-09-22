@@ -1,5 +1,5 @@
 import api from "@api";
-import type { ProductReturnNoUser } from "@api/productApi";
+import type { ProductReturn } from "@api/productApi";
 import AsyncImage from "@components/AsyncImage";
 import DropdownMenu from "@components/DropdownMenu";
 import type Button from "@components/Button";
@@ -7,14 +7,24 @@ import MenuItem, { IconPosition } from "@components/DropdownMenu/MenuItem";
 import { c } from "@utils";
 import { PencilSquareIcon, TrashIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
-type Props = {
-  item: ProductReturnNoUser;
+type BaseProps = {
+  item: ProductReturn;
   className?: string;
-  onDelete: React.ComponentProps<typeof Button>["onClick"];
   ownItem?: boolean;
 };
 
-export default function SaleItem({ item, className, onDelete, ownItem }: Props) {
+type NonOwned = BaseProps & {
+  ownItem: false | undefined;
+};
+
+type Owned = BaseProps & {
+  ownItem: true;
+  onDelete: React.ComponentProps<typeof Button>["onClick"];
+};
+
+type Props = NonOwned | Owned;
+
+export default function SaleItem({ item, className, ...props }: Props) {
   return (
     <section className={c`rounded-md min-w-min w-80 flex flex-col justify-between max-h-96 h-96 ${className}`}>
       <div className={c`h-full overflow-hidden`}>
@@ -36,7 +46,7 @@ export default function SaleItem({ item, className, onDelete, ownItem }: Props) 
       </div>
 
       <div className={c`w-full flex justify-around mb-2`}>
-        {ownItem && (
+        {props.ownItem && (
           <DropdownMenu buttonText="Options">
             <MenuItem buttonText="Mark as Sold" icon={CurrencyDollarIcon} iconPosition={IconPosition.Right} />
             <MenuItem
@@ -46,12 +56,7 @@ export default function SaleItem({ item, className, onDelete, ownItem }: Props) 
               link
               href={`/account/sales/${item.id}`}
             />
-            <MenuItem
-              buttonText="Delete"
-              icon={TrashIcon}
-              iconPosition={IconPosition.Right}
-              onClick={onDelete}
-            />
+            <MenuItem buttonText="Delete" icon={TrashIcon} iconPosition={IconPosition.Right} onClick={props.onDelete} />
           </DropdownMenu>
         )}
       </div>

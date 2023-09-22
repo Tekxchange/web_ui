@@ -38,7 +38,7 @@ export default function Results({ results }: Props) {
         {fetchedResults.map((product) => {
           return (
             <Elevate key={product.id} elevation={Elevation.Default}>
-              <SaleItem item={product} key={product.id} />
+              <SaleItem item={product} key={product.id} ownItem={false} />
             </Elevate>
           );
         })}

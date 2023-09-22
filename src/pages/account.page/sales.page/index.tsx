@@ -57,7 +57,7 @@ export default function SalesPage() {
       <div className={c`mt-4 w-full ${classes.salesContainer}`}>
         {products.map((product) => (
           <Elevate key={product.id} elevation={Elevation.Default}>
-            <SaleItem item={product} onDelete={deleteItem(product.id)} ownItem />
+            <SaleItem item={{ ...product, createdBy: user }} onDelete={deleteItem(product.id)} ownItem />
           </Elevate>
         ))}
       </div>
