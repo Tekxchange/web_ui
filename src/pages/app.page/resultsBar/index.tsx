@@ -19,7 +19,7 @@ export default function ResultsBar() {
         dark:bg-opacity-70 dark:bg-zinc-600 -right-1/2 z-10 transition-transform will-change-transform
         ${opened ? styles.open : styles.closed} flex justify-center`}
       >
-        <div className={c`w-full flex flex-col items-center`}>
+        <div className={c`w-full flex flex-col items-center overflow-hidden`}>
           <Filter />
           <Results results={results} />
         </div>
