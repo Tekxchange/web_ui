@@ -1,4 +1,5 @@
 import { createSlice, DeepPartial, PayloadAction } from "@reduxjs/toolkit";
+import { assign } from "lodash";
 
 export interface ResultsBarState {
   opened: boolean;
@@ -17,7 +18,7 @@ export function createResultsBarState(initialState: ResultsBarState) {
 }
 
 export function preloadResultsState(preloaded: DeepPartial<ResultsBarState>): ResultsBarState {
-  return { ...resultsBarState.getInitialState(), ...preloaded } as ResultsBarState;
+  return assign({}, resultsBarState.getInitialState(), preloaded);
 }
 
 export const resultsBarState = createResultsBarState({ opened: false });

@@ -1,7 +1,7 @@
-import {preloadAuthState} from "./auth";
-import {preloadSearchState} from "./search";
-import {preloadResultsState} from "./resultsBar";
-import {preloadRouterState} from "./router";
+import { preloadAuthState } from "./auth";
+import { preloadSearchState } from "./search";
+import { preloadResultsState } from "./resultsBar";
+import { preloadRouterState } from "./router";
 
 const STATE_KEY = "SAVED_LOCAL_STATE";
 
@@ -19,13 +19,20 @@ export function loadState() {
     const serialized = localStorage.getItem(STATE_KEY);
     if (!serialized) return;
 
-    const un = JSON.parse(serialized);
+    let un = JSON.parse(serialized);
+
+    const serializedVersion = un.appVersion as string | undefined;
+
+    if (!serializedVersion || serializedVersion !== __APP_VERSION__) {
+      localStorage.removeItem(STATE_KEY);
+      un = { auth: { ...(un.auth || {}) } };
+    }
 
     return {
-      auth: {...preloadAuthState(un.auth)},
-      search: {...preloadSearchState(un.search)},
-      resultsBar: {...preloadResultsState(un.resultsBar)},
-      router: {...preloadRouterState(un.router)},
+      auth: preloadAuthState(un.auth),
+      search: preloadSearchState(un.search),
+      resultsBar: preloadResultsState(un.resultsBar),
+      router: preloadRouterState(un.router),
     };
   } catch (err) {
     localStorage.removeItem(STATE_KEY);

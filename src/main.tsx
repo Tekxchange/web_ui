@@ -18,10 +18,11 @@ store.subscribe(
       search: { results: _results, ...search },
       ...rest
     } = store.getState();
-    const toSave = rest as DeepPartial<RootState>;
+    const toSave = rest as DeepPartial<RootState> & { appVersion: string };
 
     toSave.search = search;
     toSave.auth = { wasLoggedIn };
+    toSave.appVersion = __APP_VERSION__;
 
     saveState(toSave);
   }, 800),

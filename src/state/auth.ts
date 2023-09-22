@@ -3,6 +3,7 @@ import api from "@api";
 import { UserInfo } from "@api/userApi";
 import { none, Option, some } from "@utils/option";
 import { toast } from "react-toastify";
+import { assign } from "lodash";
 
 export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
   return await api.userApi.getSelfInfo();
@@ -64,7 +65,7 @@ export function preloadAuthState(preloadedState: DeepPartial<AuthState>): AuthSt
     preloadedState.loading = true;
   }
 
-  return { ...authState.getInitialState(), ...preloadedState } as AuthState;
+  return assign({}, authState.getInitialState(), preloadedState);
 }
 
 export const authState = createAuthState({

@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice, DeepPartial, PayloadAction } from "@redu
 import { none, Option } from "@utils/option";
 import { ProductLocationReturn } from "@api/productApi";
 import api from "@api";
-import {debounce} from "debounce";
+import { debounce } from "debounce";
+import { assign } from "lodash";
 
 export enum DistanceUnit {
   Miles = "Miles",
@@ -31,7 +32,6 @@ export interface SearchState {
   mapZoomAmount: number;
 }
 
-
 const performSearch = createAsyncThunk(
   "search/performSearch",
   debounce(async (filter: Filter, { dispatch }) => {
@@ -43,6 +43,7 @@ const performSearch = createAsyncThunk(
 export const updateSearchResults = createAsyncThunk(
   "search/updateSearch",
   (filter: Partial<Filter>, { dispatch, getState }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updatedSearch: Filter = { ...((getState() as any).search as SearchState).filter, ...filter };
     dispatch(updateFilter(filter));
     dispatch(performSearch(updatedSearch));
@@ -66,12 +67,12 @@ export function createSearchState(initialState: SearchState) {
       updateResults: (state, { payload }: PayloadAction<ProductLocationReturn[]>) => {
         state.results = payload;
       },
-    }
+    },
   });
 }
 
 export function preloadSearchState(preloaded: DeepPartial<SearchState>): SearchState {
-  return { ...searchState.getInitialState(), ...preloaded } as SearchState;
+  return assign({}, searchState.getInitialState(), preloaded);
 }
 
 export const searchState = createSearchState({
@@ -92,5 +93,5 @@ export const searchState = createSearchState({
 
 export const reducer = searchState.reducer;
 
-const {updateResults} = searchState.actions;
+const { updateResults } = searchState.actions;
 export const { updateFilter, updateZoom, updateGotInitialPosition } = searchState.actions;

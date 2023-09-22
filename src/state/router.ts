@@ -1,4 +1,5 @@
 import { createSlice, DeepPartial, PayloadAction } from "@reduxjs/toolkit";
+import { assign } from "lodash";
 
 const MAX_HISTORY_SIZE = 5;
 
@@ -40,7 +41,7 @@ export function createRouterState(initialState: RouterState) {
 }
 
 export function preloadRouterState(preloaded: DeepPartial<RouterState>): RouterState {
-  return { ...routerState.getInitialState(), ...preloaded } as RouterState;
+  return assign({}, routerState.getInitialState(), preloaded);
 }
 
 export const routerState = createRouterState({

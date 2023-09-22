@@ -5,32 +5,31 @@ import { useCallback, useEffect, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { Circle, LayerGroup, MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { c } from "@utils";
-import L from 'leaflet';
+import L from "leaflet";
 import Button, { ButtonColor } from "@components/Button";
 import { useAppDispatch, useAppSelector } from "@state/index";
 import { DistanceUnit, updateGotInitialPosition, updateSearchResults, updateZoom } from "@state/search";
 import { distanceUnitToMeters, getCurrentPosition } from "@utils/mapUtils";
 import { ProductLocationReturn } from "@api/productApi";
 import { LatLong } from "../index";
-import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png?url';
-import iconUrl from 'leaflet/dist/images/marker-icon.png?url';
-import shadowUrl from 'leaflet/dist/images/marker-shadow.png?url';
+import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png?url";
+import iconUrl from "leaflet/dist/images/marker-icon.png?url";
+import shadowUrl from "leaflet/dist/images/marker-shadow.png?url";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl,
   iconUrl,
-  shadowUrl
+  shadowUrl,
 });
-
-
 
 export default function Map() {
   const [map, setMap] = useState<LeafletMap | null>(null);
   const dispatch = useAppDispatch();
 
-  const { gotInitialPosition, results } = useAppSelector((state) => state.search);
+  const { gotInitialPosition, results, mapZoomAmount } = useAppSelector((state) => state.search);
   const { latitude, longitude, radiusUnit, radius } = useAppSelector((state) => state.search.filter);
 
   const zoomHandler = useCallback(() => {
@@ -67,7 +66,7 @@ export default function Map() {
       <MapButtons onCurrentLocationClicked={goToCurrentLocation} />
       <MapContainer
         center={[latitude, longitude]}
-        zoom={13}
+        zoom={mapZoomAmount}
         scrollWheelZoom
         className={c`h-full w-full z-0 dark:invert dark:brightness-95 dark:contrast-[90%]`}
         zoomAnimation
