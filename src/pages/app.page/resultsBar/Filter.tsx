@@ -13,7 +13,7 @@ export default function Filter() {
 
   return (
     <Elevate elevation={Elevation.High}>
-      <div className={"flex items-center px-2 md:px-10 gap-2 md:gap-5"}>
+      <div className={"flex items-center px-2 md:px-10 gap-2 md:gap-5 w-fit"}>
         <PriceFilter onSubmit={onPriceUpdated} />
         <Input label={"Search Text"} id={"searchText"} name={"query"} />
         <Input

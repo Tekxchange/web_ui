@@ -1,12 +1,13 @@
 import { DistanceUnit, Filter } from "@state/search";
-import {ApiClient, RestClient} from "./restClient";
+import { RestClient } from "./restClient";
 import { LatLong } from "src/pages/app.page";
-import {debounce} from "debounce";
+import { MinUserReturn } from "./userApi";
 
 export type ProductLocationReturn = {
   id: number;
   longitude: number;
   latitude: number;
+  price: number;
 };
 
 type ProductFilter = {
@@ -47,6 +48,17 @@ export type ProductReturnNoUser = {
   /**
    * An array containing the ids of the pictures associated with this product
    */
+  pictures: number[];
+};
+
+export type ProductReturn = {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  createdBy: MinUserReturn;
+  latitude?: number;
+  longitude?: number;
   pictures: number[];
 };
 
@@ -93,6 +105,10 @@ export default class ProductApi extends RestClient {
 
   async createProduct(productDetails: ProductCreateRequest): Promise<number> {
     return (await this.client.post<{ id: number }>("/api/products/create", productDetails)).data.id;
+  }
+
+  async getProductById(id: number): Promise<ProductReturn> {
+    return (await this.client.get<ProductReturn>("/api/products/product", { id })).data;
   }
 
   async deleteProduct(id: number): Promise<void> {

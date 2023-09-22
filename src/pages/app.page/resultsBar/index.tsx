@@ -9,6 +9,7 @@ import Filter from "./Filter";
 
 export default function ResultsBar() {
   const { opened } = useAppSelector((state) => state.resultsBar);
+  const { results } = useAppSelector((state) => state.search);
   const dispatch = useAppDispatch();
 
   return (
@@ -18,9 +19,9 @@ export default function ResultsBar() {
         dark:bg-opacity-70 dark:bg-zinc-600 -right-1/2 z-10 transition-transform will-change-transform
         ${opened ? styles.open : styles.closed} flex justify-center`}
       >
-        <div className={c`w-fit`}>
+        <div className={c`w-full flex flex-col items-center`}>
           <Filter />
-          <Results />
+          <Results results={results} />
         </div>
       </div>
       <span

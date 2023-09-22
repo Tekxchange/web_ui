@@ -106,9 +106,14 @@ function MyCustomLayerGroup({ centerLatLng, unit, radius, results }: CustomLayer
       <Circle
         center={new LatLng(centerLatLng.latitude, centerLatLng.longitude)}
         radius={distanceUnitToMeters(radius, unit)}
+        className="pointer-events-none"
       />
       {results?.map((result) => {
-        return <Marker position={new LatLng(result.latitude, result.longitude)} key={result.id} />;
+        return (
+          <Marker position={new LatLng(result.latitude, result.longitude)} key={result.id}>
+            <h1>Hello World</h1>
+          </Marker>
+        );
       })}
     </LayerGroup>
   );
