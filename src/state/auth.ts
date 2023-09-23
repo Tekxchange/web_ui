@@ -5,7 +5,9 @@ import { none, Option, some } from "@utils/option";
 import { toast } from "react-toastify";
 import { assign } from "lodash";
 
-export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
+const asyncAuthThunk = createAsyncThunk.withTypes<{ state: { auth: AuthState } }>();
+
+export const getUserInfo = asyncAuthThunk("auth/getUserInfo", async () => {
   return await api.userApi.getSelfInfo();
 });
 

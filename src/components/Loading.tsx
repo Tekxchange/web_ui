@@ -1,4 +1,4 @@
-import { ReactComponent as Spinner } from "@assets/spinner.svg";
+import Spinner from "@assets/spinner.svg?react";
 import { c } from "@utils";
 
 type Props = {

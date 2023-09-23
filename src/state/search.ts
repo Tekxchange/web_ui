@@ -5,6 +5,8 @@ import api from "@api";
 import { debounce } from "debounce";
 import { assign } from "lodash";
 
+const asyncSearchThunk = createAsyncThunk.withTypes<{ state: { search: SearchState } }>();
+
 export enum DistanceUnit {
   Miles = "Miles",
   NauticalMiles = "NauticalMiles",
@@ -32,19 +34,18 @@ export interface SearchState {
   mapZoomAmount: number;
 }
 
-const performSearch = createAsyncThunk(
+const performSearch = asyncSearchThunk(
   "search/performSearch",
   debounce(async (filter: Filter, { dispatch }) => {
-    const results = await api.productApi.search(filter);
-    dispatch(updateResults(results));
+    dispatch(updateResults(await api.productApi.search(filter)));
   }, 750),
 );
 
-export const updateSearchResults = createAsyncThunk(
+export const updateSearchResults = asyncSearchThunk<void, Partial<Filter>>(
   "search/updateSearch",
-  (filter: Partial<Filter>, { dispatch, getState }) => {
+  (filter, { dispatch, getState }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const updatedSearch: Filter = { ...((getState() as any).search as SearchState).filter, ...filter };
+    const updatedSearch = { ...getState().search.filter, ...filter };
     dispatch(updateFilter(filter));
     dispatch(performSearch(updatedSearch));
   },
