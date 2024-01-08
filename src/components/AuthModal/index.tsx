@@ -25,7 +25,7 @@ export default function AuthModal(props: IAuthProps) {
 
   return (
     <Modal {...modalProps} onClose={() => dispatch(setAuthModalState(false))}>
-      <div className={c`min-h-fit p-2 w-full max-w-sm flex items-center flex-col`}>
+      <div className={c`min-h-fit p-2 w-full max-w-sm flex items-center flex-col border-white border rounded`}>
         <section className={c`pb-2 w-full border-b-2 ${styles.inlineButtons} flex justify-center overflow-x-auto`}>
           <Button
             onClick={() => setCurrentAuthForm(AuthForm.Login)}
