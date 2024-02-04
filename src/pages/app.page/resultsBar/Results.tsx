@@ -34,7 +34,7 @@ export default function Results({ results }: Props) {
 
   return (
     <div className="w-full md:px-10 mt-2 h-full flex justify-center overflow-y-auto">
-      <SalesContainer className="">
+      <SalesContainer className="w-full">
         {fetchedResults.map((product) => {
           return (
             <Elevate key={product.id} elevation={Elevation.Default}>
