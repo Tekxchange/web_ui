@@ -1,6 +1,6 @@
 import { none, some } from "@utils/option";
 import { authState, reducer as authReducer, getUserInfo } from "../auth";
-import { configureStore } from "@reduxjs/toolkit";
+import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import type { UserInfo } from "@api/userApi";
 import api from "@api";
 import { waitFor } from "@testing-library/react";
@@ -68,7 +68,7 @@ describe("src/state/auth.ts", () => {
 
       const { dispatch, getState } = createStore();
       expect(getState().authReducer.user.isSome).toBeFalsy();
-      dispatch(getUserInfo());
+      dispatch(getUserInfo() as ThunkAction<unknown, unknown, unknown, Action>);
 
       expect(userInfoSpy).toHaveBeenCalledTimes(1);
 
